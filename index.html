@@ -59,10 +59,15 @@
                 </div>
             </div>
             
-            <button onclick="openMatchModal()" class="bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs shadow-lg shadow-lime-500/20 active:scale-95 transition">
-                <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                <span>+ Match (30s)</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button onclick="openResetModal()" title="Réinitialiser les données" class="w-8 h-8 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-rose-400 flex items-center justify-center border border-slate-700/60 transition active:scale-95">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </button>
+                <button onclick="openMatchModal()" class="bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs shadow-lg shadow-lime-500/20 active:scale-95 transition">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span>+ Match (30s)</span>
+                </button>
+            </div>
         </header>
 
         <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-24" id="main-content">
@@ -210,14 +215,14 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <span class="text-[9px] font-bold text-lime-400 uppercase tracking-wider bg-lime-500/10 px-2 py-0.5 rounded border border-lime-500/20">Raquette Principale</span>
-                                    <p class="font-extrabold text-xs text-slate-100 mt-1" id="main-racket-name">Babolat Counter Viper 2024</p>
+                                    <p class="font-extrabold text-xs text-slate-100 mt-1" id="main-racket-name">Aucune raquette enregistrée</p>
                                 </div>
-                                <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="main-racket-date">15/01/2024</span>
+                                <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="main-racket-date">-</span>
                             </div>
                             <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1.5 border-t border-slate-800/80">
-                                <span>Poids : 365g</span>
+                                <span>Matériel actif</span>
                                 <span class="text-emerald-400 font-medium flex items-center gap-1">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Bonne tension
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> En service
                                 </span>
                             </div>
                         </div>
@@ -227,11 +232,10 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Raquette Test</span>
-                                    <p class="font-bold text-xs text-slate-200 mt-1" id="test-racket-name">Bullpadel Hack 03 2024</p>
+                                    <p class="font-bold text-xs text-slate-200 mt-1" id="test-racket-name">Aucune raquette test</p>
                                 </div>
-                                <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="test-racket-date">01/09/2024</span>
+                                <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="test-racket-date">-</span>
                             </div>
-                            <p class="text-[10px] text-slate-400 italic mt-1">"Très puissante au smash, contrôle plus exigeant."</p>
                         </div>
 
                         <!-- Historique des Raquettes -->
@@ -261,11 +265,11 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-[9px] text-slate-400 font-semibold uppercase block">Surgrip Actuel</span>
-                                <p class="font-bold text-slate-100 text-xs mt-0.5" id="current-surgrip-name">Bullpadel Hesacore Tour</p>
+                                <p class="font-bold text-slate-100 text-xs mt-0.5" id="current-surgrip-name">Aucun surgrip enregistré</p>
                             </div>
-                            <span class="text-[10px] text-lime-400 font-bold bg-lime-500/10 px-2 py-0.5 rounded-md border border-lime-500/20" id="current-surgrip-matches">4 matchs joués</span>
+                            <span class="text-[10px] text-lime-400 font-bold bg-lime-500/10 px-2 py-0.5 rounded-md border border-lime-500/20" id="current-surgrip-matches">0 match joué</span>
                         </div>
-                        <p class="text-[10px] text-slate-400">Posé le <span id="current-surgrip-date">05/09/2024</span></p>
+                        <p class="text-[10px] text-slate-400">Posé le <span id="current-surgrip-date">-</span></p>
                     </div>
 
                     <!-- Historique des Surgrips -->
@@ -584,37 +588,25 @@
 
         <!-- MODAL AJOUT COURS PRIVÉ -->
         <div id="modal-lesson" class="absolute inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
-            <div class="bg-slate-900 w-full max-w-[340px] rounded-3xl border border-slate-800 p-4 space-y-3 shadow-2xl relative my-auto shrink-0">
-                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                    <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
-                        <i data-lucide="graduation-cap" class="w-4 h-4 text-lime-400"></i>
-                        Ajouter un Cours Privé
-                    </h3>
-                    <button onclick="closeLessonModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
+            <!-- ... existing content ... -->
+        </div>
+
+        <!-- MODAL DE CONFIRMATION DE RÉINITIALISATION -->
+        <div id="modal-reset" class="absolute inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
+            <div class="bg-slate-900 w-full max-w-[320px] rounded-3xl border border-rose-500/30 p-4 space-y-3 shadow-2xl relative my-auto shrink-0 text-center">
+                <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center mx-auto">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
                 </div>
-                <div class="space-y-2 text-left">
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Coach</label>
-                        <input type="text" id="lesson-input-coach" placeholder="Ex: Coach Nicolas" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Lieu du cours / Club</label>
-                        <input type="text" id="lesson-input-location" placeholder="Ex: Padel Club Charleroi" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date</label>
-                        <input type="text" id="lesson-input-date" placeholder="Ex: Aujourd'hui" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Thème du cours</label>
-                        <input type="text" id="lesson-input-theme" placeholder="Ex: Attaque après le verre & Bajada" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Points clés (1 par ligne)</label>
-                        <textarea id="lesson-input-notes" rows="2" placeholder="Armer la raquette haut&#10;Garder 50cm du verre" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 resize-none"></textarea>
-                    </div>
-                    <button type="button" onclick="submitLesson()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-1">
-                        Enregistrer le cours
+                <div>
+                    <h3 class="font-extrabold text-sm text-slate-100">Réinitialiser l'application ?</h3>
+                    <p class="text-[11px] text-slate-400 mt-1 leading-snug">Cette action effacera tous les matchs enregistrés, les cours et le matériel pour repartir d'un carnet vierge.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button type="button" onclick="closeResetModal()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2 rounded-xl text-xs transition">
+                        Annuler
+                    </button>
+                    <button type="button" onclick="confirmResetData()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-2 rounded-xl text-xs transition shadow-lg shadow-rose-500/20">
+                        Tout effacer
                     </button>
                 </div>
             </div>
@@ -623,120 +615,86 @@
     </div>
 
     <script>
-        // Database des joueurs avec classements belges AFT / Padel WB
-        let playersDatabase = JSON.parse(localStorage.getItem('padelpulse_players')) || {
-            'Alexandre L.': { rank: 'P300', gender: 'M' },
-            'Marc D.': { rank: 'P200', gender: 'M' },
-            'Thomas B.': { rank: 'P400', gender: 'M' },
-            'Julien M.': { rank: 'P100', gender: 'M' },
-            'Antoine': { rank: 'P300', gender: 'M' },
-            'David': { rank: 'P200', gender: 'M' },
-            'Lucas': { rank: 'P100', gender: 'M' },
-            'Sophie M.': { rank: 'P200D', gender: 'F' },
-            'Julie V.': { rank: 'P100D', gender: 'F' }
-        };
+        let playersDatabase = JSON.parse(localStorage.getItem('padelpulse_players')) || {};
 
-        // App State avec Persistence LocalStorage
         let currentMatchType = 'amical';
         let currentFormat = '6sets';
         let visibleSetsCount = 1;
-        let currentSurgripMatchCount = parseInt(localStorage.getItem('padelpulse_surgrip_count')) || 4;
+        let currentSurgripMatchCount = parseInt(localStorage.getItem('padelpulse_surgrip_count')) || 0;
         let showAllRecentMatches = false;
         let showAllLessons = false;
         let showAllPlayers = false;
         let playerFilterType = 'all';
 
-        let matches = JSON.parse(localStorage.getItem('padelpulse_matches')) || [
-            {
-                id: 1,
-                date: '14 Sept 2026',
-                type: 'competition',
-                partner: 'Alexandre L.',
-                opponents: 'Antoine & David',
-                location: 'Padel Club Charleroi',
-                format: 'Sets en 6 jeux',
-                score: '6/4 4/6 6/3',
-                result: 'VICTOIRE',
-                feeling: '⚡ En forme',
-                rating: 4,
-                tags: ['🎾 Bons lobs', '🔥 Volée solide']
-            },
-            {
-                id: 2,
-                date: '08 Sept 2026',
-                type: 'amical',
-                partner: 'Marc D.',
-                opponents: 'Lucas & Thomas',
-                location: 'Planet Padel',
-                format: 'Sets en 6 jeux',
-                score: '4/6 5/7',
-                result: 'DÉFAITE',
-                feeling: '🔋 Fatigué',
-                rating: 3,
-                tags: ['⚠️ Mauvais lobs', '🛡️ Trop au fond']
-            },
-            {
-                id: 3,
-                date: '02 Sept 2026',
-                type: 'competition',
-                partner: 'Sophie M.',
-                opponents: 'Julie V. & Marc D.',
-                location: 'Padel Club Charleroi',
-                format: 'Sets en 6 jeux',
-                score: '6/3 6/2',
-                result: 'VICTOIRE',
-                feeling: '⚡ En forme',
-                rating: 5,
-                tags: ['🔥 Volée solide', '⚡ Présence au filet']
-            }
-        ];
-
-        let lessons = JSON.parse(localStorage.getItem('padelpulse_lessons')) || [
-            {
-                id: 101,
-                coach: 'Coach Nicolas',
-                location: 'Padel Club Charleroi',
-                date: '10 Sept 2026',
-                theme: 'Bajada & Attaque après le verre',
-                notes: [
-                    'Bien armer la raquette haut au-dessus de l\'épaule',
-                    'Frapper le ballon en phase descendante',
-                    'Rester à 50cm du verre arrière avant l\'impact'
-                ]
-            }
-        ];
-
-        let racketsHistory = JSON.parse(localStorage.getItem('padelpulse_rackets')) || [
-            { name: 'Head Speed Pro 2023', dates: 'Juin 2023 → Jan. 2024' },
-            { name: 'Nox AT10 Genius 18K', dates: 'Jan. 2023 → Mai 2023' }
-        ];
-
-        let surgripsHistory = JSON.parse(localStorage.getItem('padelpulse_surgrips')) || [
-            { name: 'Wilson Pro Overgrip Blanc', date: 'Posé le 12/08/2026', matches: '8 matchs' }
-        ];
+        let matches = JSON.parse(localStorage.getItem('padelpulse_matches')) || [];
+        let lessons = JSON.parse(localStorage.getItem('padelpulse_lessons')) || [];
+        let racketsHistory = JSON.parse(localStorage.getItem('padelpulse_rackets')) || [];
+        let surgripsHistory = JSON.parse(localStorage.getItem('padelpulse_surgrips')) || [];
+        let mainRacket = JSON.parse(localStorage.getItem('padelpulse_main_racket')) || { name: 'Aucune raquette enregistrée', date: '-' };
+        let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-' };
+        let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
 
         let weeklySchedule = JSON.parse(localStorage.getItem('padelpulse_weekly')) || [
-            { day: 'L', type: 'lesson', label: 'Cours', icon: '🎾' },
+            { day: 'L', type: 'rest', label: 'Repos', icon: '💤' },
             { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
-            { day: 'M', type: 'physio', label: 'Physio', icon: '💪' },
-            { day: 'J', type: 'match', label: 'Match', icon: '🎾' },
-            { day: 'V', type: 'mobility', label: 'Mobilité', icon: '🧘' },
-            { day: 'S', type: 'match', label: 'Match', icon: '🎾' },
+            { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
+            { day: 'J', type: 'rest', label: 'Repos', icon: '💤' },
+            { day: 'V', type: 'rest', label: 'Repos', icon: '💤' },
+            { day: 'S', type: 'rest', label: 'Repos', icon: '💤' },
             { day: 'D', type: 'rest', label: 'Repos', icon: '💤' }
         ];
 
         function saveAllData() {
-            try {
-                localStorage.setItem('padelpulse_matches', JSON.stringify(matches));
-                localStorage.setItem('padelpulse_lessons', JSON.stringify(lessons));
-                localStorage.setItem('padelpulse_rackets', JSON.stringify(racketsHistory));
-                localStorage.setItem('padelpulse_surgrips', JSON.stringify(surgripsHistory));
-                localStorage.setItem('padelpulse_weekly', JSON.stringify(weeklySchedule));
-                localStorage.setItem('padelpulse_players', JSON.stringify(playersDatabase));
-                localStorage.setItem('padelpulse_surgrip_count', currentSurgripMatchCount.toString());
-            } catch (e) {
-                console.warn('LocalStorage non disponible');
-            }
+            localStorage.setItem('padelpulse_matches', JSON.stringify(matches));
+            localStorage.setItem('padelpulse_lessons', JSON.stringify(lessons));
+            localStorage.setItem('padelpulse_rackets', JSON.stringify(racketsHistory));
+            localStorage.setItem('padelpulse_surgrips', JSON.stringify(surgripsHistory));
+            localStorage.setItem('padelpulse_players', JSON.stringify(playersDatabase));
+            localStorage.setItem('padelpulse_weekly', JSON.stringify(weeklySchedule));
+            localStorage.setItem('padelpulse_surgrip_count', currentSurgripMatchCount.toString());
+            localStorage.setItem('padelpulse_main_racket', JSON.stringify(mainRacket));
+            localStorage.setItem('padelpulse_test_racket', JSON.stringify(testRacket));
+            localStorage.setItem('padelpulse_current_surgrip', JSON.stringify(currentSurgrip));
+        }
+
+        function openResetModal() {
+            document.getElementById('modal-reset').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('modal-reset').classList.add('hidden');
+        }
+
+        function confirmResetData() {
+            localStorage.clear();
+            matches = [];
+            lessons = [];
+            racketsHistory = [];
+            surgripsHistory = [];
+            playersDatabase = {};
+            currentSurgripMatchCount = 0;
+            mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
+            testRacket = { name: 'Aucune raquette test', date: '-' };
+            currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
+            weeklySchedule = [
+                { day: 'L', type: 'rest', label: 'Repos', icon: '💤' },
+                { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
+                { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
+                { day: 'J', type: 'rest', label: 'Repos', icon: '💤' },
+                { day: 'V', type: 'rest', label: 'Repos', icon: '💤' },
+                { day: 'S', type: 'rest', label: 'Repos', icon: '💤' },
+                { day: 'D', type: 'rest', label: 'Repos', icon: '💤' }
+            ];
+            
+            saveAllData();
+            renderWeeklySchedule();
+            renderMatches();
+            renderLessons();
+            renderRackets();
+            renderSurgrips();
+            updateStats();
+            renderStatsSummary();
+            closeResetModal();
         }
 
         function switchTab(tabId) {
@@ -1321,32 +1279,48 @@
         function closeRacketModal() { document.getElementById('modal-racket').classList.add('hidden'); }
 
         function submitRacket() {
-            const name = document.getElementById('racket-input-name').value;
+            const name = document.getElementById('racket-input-name').value.trim();
             const status = document.getElementById('racket-input-status').value;
-            const date = document.getElementById('racket-input-date').value || 'Récemment';
+            const date = document.getElementById('racket-input-date').value.trim() || 'Récemment';
 
             if (!name) return;
 
             if (status === 'main') {
-                document.getElementById('main-racket-name').innerText = name;
-                document.getElementById('main-racket-date').innerText = date;
+                mainRacket = { name: name, date: date };
             } else if (status === 'test') {
-                document.getElementById('test-racket-name').innerText = name;
-                document.getElementById('test-racket-date').innerText = date;
+                testRacket = { name: name, date: date };
             } else {
                 racketsHistory.unshift({ name: name, dates: date });
             }
 
             saveAllData();
-            renderRacketsHistory();
+            renderRackets();
             closeRacketModal();
             document.getElementById('racket-input-name').value = '';
             document.getElementById('racket-input-date').value = '';
         }
 
+        function renderRackets() {
+            const mainNameEl = document.getElementById('main-racket-name');
+            const mainDateEl = document.getElementById('main-racket-date');
+            const testNameEl = document.getElementById('test-racket-name');
+            const testDateEl = document.getElementById('test-racket-date');
+
+            if (mainNameEl) mainNameEl.innerText = mainRacket.name;
+            if (mainDateEl) mainDateEl.innerText = mainRacket.date;
+            if (testNameEl) testNameEl.innerText = testRacket.name;
+            if (testDateEl) testDateEl.innerText = testRacket.date;
+
+            renderRacketsHistory();
+        }
+
         function renderRacketsHistory() {
             const container = document.getElementById('rackets-history-container');
             if (!container) return;
+            if (racketsHistory.length === 0) {
+                container.innerHTML = `<p class="text-[10px] text-slate-500 text-center py-2">Aucune raquette archivée</p>`;
+                return;
+            }
             container.innerHTML = racketsHistory.map(r => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
@@ -1362,33 +1336,46 @@
         function closeSurgripModal() { document.getElementById('modal-surgrip').classList.add('hidden'); }
 
         function submitSurgrip() {
-            const name = document.getElementById('surgrip-input-name').value;
-            const date = document.getElementById('surgrip-input-date').value || 'Aujourd\'hui';
+            const name = document.getElementById('surgrip-input-name').value.trim();
+            const date = document.getElementById('surgrip-input-date').value.trim() || 'Aujourd\'hui';
             if (!name) return;
 
-            const currentName = document.getElementById('current-surgrip-name').innerText;
-            const currentDate = document.getElementById('current-surgrip-date').innerText;
-            surgripsHistory.unshift({
-                name: currentName,
-                date: 'Posé le ' + currentDate,
-                matches: currentSurgripMatchCount + ' matchs'
-            });
+            if (currentSurgrip.name && currentSurgrip.name !== 'Aucun surgrip enregistré') {
+                surgripsHistory.unshift({
+                    name: currentSurgrip.name,
+                    date: 'Posé le ' + currentSurgrip.date,
+                    matches: currentSurgripMatchCount + ' matchs'
+                });
+            }
 
-            document.getElementById('current-surgrip-name').innerText = name;
-            document.getElementById('current-surgrip-date').innerText = date;
+            currentSurgrip = { name: name, date: date };
             currentSurgripMatchCount = 0;
 
             saveAllData();
             renderMatches();
-            renderSurgripsHistory();
+            renderSurgrips();
             closeSurgripModal();
             document.getElementById('surgrip-input-name').value = '';
             document.getElementById('surgrip-input-date').value = '';
         }
 
+        function renderSurgrips() {
+            const surgripNameEl = document.getElementById('current-surgrip-name');
+            const surgripDateEl = document.getElementById('current-surgrip-date');
+
+            if (surgripNameEl) surgripNameEl.innerText = currentSurgrip.name;
+            if (surgripDateEl) surgripDateEl.innerText = currentSurgrip.date;
+
+            renderSurgripsHistory();
+        }
+
         function renderSurgripsHistory() {
             const container = document.getElementById('surgrip-history-container');
             if (!container) return;
+            if (surgripsHistory.length === 0) {
+                container.innerHTML = `<p class="text-[10px] text-slate-500 text-center py-2">Aucun historique de surgrip</p>`;
+                return;
+            }
             container.innerHTML = surgripsHistory.map(s => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
@@ -1498,8 +1485,8 @@
             renderWeeklySchedule();
             renderMatches();
             renderLessons();
-            renderRacketsHistory();
-            renderSurgripsHistory();
+            renderRackets();
+            renderSurgrips();
             updateStats();
             renderStatsSummary();
             if (window.lucide) lucide.createIcons();
