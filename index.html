@@ -763,16 +763,8 @@
         let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-' };
         let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
 
-        // Weekly Activity Schedule (Seulement 3 options : Match, Cours, Repos)
-        let weeklySchedule = JSON.parse(localStorage.getItem('padelpulse_weekly')) || [
-            { day: 'L', type: 'rest', label: 'Repos', icon: '💤' },
-            { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
-            { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
-            { day: 'J', type: 'rest', label: 'Repos', icon: '💤' },
-            { day: 'V', type: 'rest', label: 'Repos', icon: '💤' },
-            { day: 'S', type: 'rest', label: 'Repos', icon: '💤' },
-            { day: 'D', type: 'rest', label: 'Repos', icon: '💤' }
-        ];
+        // Surcharges manuelles pour les jours de la semaine (clé : dateStr "JJ/MM/AAAA")
+        let weeklyOverrides = JSON.parse(localStorage.getItem('padelpulse_weekly_overrides')) || {};
 
         function saveAllData() {
             localStorage.setItem('padelpulse_matches', JSON.stringify(matches));
@@ -780,7 +772,7 @@
             localStorage.setItem('padelpulse_rackets', JSON.stringify(racketsHistory));
             localStorage.setItem('padelpulse_surgrips', JSON.stringify(surgripsHistory));
             localStorage.setItem('padelpulse_players', JSON.stringify(playersDatabase));
-            localStorage.setItem('padelpulse_weekly', JSON.stringify(weeklySchedule));
+            localStorage.setItem('padelpulse_weekly_overrides', JSON.stringify(weeklyOverrides));
             localStorage.setItem('padelpulse_surgrip_count', currentSurgripMatchCount.toString());
             localStorage.setItem('padelpulse_main_racket', JSON.stringify(mainRacket));
             localStorage.setItem('padelpulse_test_racket', JSON.stringify(testRacket));
@@ -797,19 +789,11 @@
             racketsHistory = [];
             surgripsHistory = [];
             playersDatabase = {};
+            weeklyOverrides = {};
             currentSurgripMatchCount = 0;
             mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
             testRacket = { name: 'Aucune raquette test', date: '-' };
             currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
-            weeklySchedule = [
-                { day: 'L', type: 'rest', label: 'Repos', icon: '💤' },
-                { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
-                { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
-                { day: 'J', type: 'rest', label: 'Repos', icon: '💤' },
-                { day: 'V', type: 'rest', label: 'Repos', icon: '💤' },
-                { day: 'S', type: 'rest', label: 'Repos', icon: '💤' },
-                { day: 'D', type: 'rest', label: 'Repos', icon: '💤' }
-            ];
             
             saveAllData();
             renderWeeklySchedule();
@@ -842,19 +826,57 @@
             });
         }
 
-        // Cycle Weekly Schedule - 3 Options (Match, Cours, Repos)
-        function cycleDayActivity(idx) {
-            const types = ['match', 'lesson', 'rest'];
-            const labels = ['Match', 'Cours', 'Repos'];
-            const icons = ['🎾', '🎓', '💤'];
+        // Calcul automatique des dates de la semaine en cours (du Lundi au Dimanche)
+        function getCurrentWeekDays() {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const distToMon = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+            
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + distToMon);
+            monday.setHours(0,0,0,0);
 
-            const currentTypeIdx = types.indexOf(weeklySchedule[idx].type);
-            const nextIdx = (currentTypeIdx + 1) % types.length;
+            const days = [];
+            const dayLetters = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+            
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                const dateStr = d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                days.push({
+                    letter: dayLetters[i],
+                    dateNum: d.getDate(),
+                    dateStr: dateStr,
+                    isToday: d.toDateString() === now.toDateString()
+                });
+            }
+            return days;
+        }
 
-            weeklySchedule[idx].type = types[nextIdx];
-            weeklySchedule[idx].label = labels[nextIdx];
-            weeklySchedule[idx].icon = icons[nextIdx];
+        function getDayStatus(dateStr) {
+            if (weeklyOverrides[dateStr]) {
+                const type = weeklyOverrides[dateStr];
+                if (type === 'match') return { type: 'match', label: 'Match', icon: '🎾' };
+                if (type === 'lesson') return { type: 'lesson', label: 'Cours', icon: '🎓' };
+                return { type: 'rest', label: 'Repos', icon: '💤' };
+            }
 
+            // Détection automatique basée sur les matchs et cours enregistrés à cette date
+            const hasMatch = matches.some(m => m.date === dateStr || (m.timestamp && new Date(m.timestamp).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }) === dateStr));
+            if (hasMatch) return { type: 'match', label: 'Match', icon: '🎾' };
+
+            const hasLesson = lessons.some(l => l.date === dateStr);
+            if (hasLesson) return { type: 'lesson', label: 'Cours', icon: '🎓' };
+
+            return { type: 'rest', label: 'Repos', icon: '💤' };
+        }
+
+        function cycleDayActivity(dateStr) {
+            const currentStatus = getDayStatus(dateStr);
+            const types = ['rest', 'match', 'lesson'];
+            const nextIdx = (types.indexOf(currentStatus.type) + 1) % types.length;
+            
+            weeklyOverrides[dateStr] = types[nextIdx];
             saveAllData();
             renderWeeklySchedule();
         }
@@ -864,22 +886,31 @@
             const sessionCountEl = document.getElementById('weekly-session-count');
             if (!container) return;
 
+            const weekDays = getCurrentWeekDays();
             let activeCount = 0;
-            container.innerHTML = weeklySchedule.map((d, idx) => {
+
+            container.innerHTML = weekDays.map((d) => {
+                const status = getDayStatus(d.dateStr);
                 let badgeStyle = 'bg-slate-900 border-slate-800 text-slate-500';
-                if (d.type === 'match') {
+                
+                if (status.type === 'match') {
                     badgeStyle = 'bg-lime-500/20 border-lime-500/40 text-lime-400 font-bold';
                     activeCount++;
-                } else if (d.type === 'lesson') {
+                } else if (status.type === 'lesson') {
                     badgeStyle = 'bg-amber-500/20 border-amber-500/40 text-amber-400 font-bold';
                     activeCount++;
                 }
 
+                const todayStyle = d.isToday ? 'ring-1 ring-lime-400/70' : '';
+
                 return `
-                    <div onclick="cycleDayActivity(${idx})" class="p-1.5 rounded-xl border ${badgeStyle} cursor-pointer hover:border-lime-500/60 transition flex flex-col items-center justify-between h-16 select-none">
-                        <span class="text-[9px] font-bold text-slate-400 uppercase">${d.day}</span>
-                        <span class="text-xs my-0.5">${d.icon}</span>
-                        <span class="text-[8px] truncate max-w-full font-medium">${d.label}</span>
+                    <div onclick="cycleDayActivity('${d.dateStr}')" class="p-1 rounded-xl border ${badgeStyle} ${todayStyle} cursor-pointer hover:border-lime-500/60 transition flex flex-col items-center justify-between h-16 select-none">
+                        <div class="flex items-center gap-0.5">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">${d.letter}</span>
+                            <span class="text-[8px] text-slate-500 font-mono">${d.dateNum}</span>
+                        </div>
+                        <span class="text-xs my-0.5">${status.icon}</span>
+                        <span class="text-[8px] truncate max-w-full font-medium">${status.label}</span>
                     </div>
                 `;
             }).join('');
