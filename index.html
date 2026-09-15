@@ -30,6 +30,7 @@
     </script>
     <style>
         ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         .tag-chip.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 600; }
@@ -39,16 +40,17 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex justify-center items-start sm:items-center p-0 sm:p-4 selection:bg-lime-500 selection:text-slate-950">
 
-    <div class="w-full max-w-full sm:max-w-[390px] h-screen sm:h-[844px] bg-slate-900 sm:rounded-[50px] sm:border-[10px] sm:border-slate-800 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-700/50">
+    <!-- Container Frame Smartphone & PC Adaptatif -->
+    <div class="w-full max-w-full sm:max-w-[410px] h-screen sm:h-[850px] sm:max-h-[96vh] bg-slate-900 sm:rounded-[45px] sm:border-[8px] sm:border-slate-800 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-700/50">
         
-        <!-- Dynamic Island (Desktop Preview Only) -->
-        <div class="hidden sm:flex absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-50 justify-center items-center pointer-events-none">
-            <div class="w-3 h-3 rounded-full bg-slate-950 mr-2 border border-slate-800"></div>
-            <div class="w-2 h-2 rounded-full bg-blue-900/40"></div>
+        <!-- Dynamic Island (Simulateur iPhone sur PC) -->
+        <div class="hidden sm:flex absolute top-0 left-1/2 -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-50 justify-center items-center pointer-events-none">
+            <div class="w-2.5 h-2.5 rounded-full bg-slate-950 mr-2 border border-slate-800"></div>
+            <div class="w-1.5 h-1.5 rounded-full bg-blue-900/40"></div>
         </div>
 
-        <!-- Header -->
-        <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 px-4 pt-8 sm:pt-9 pb-3 sticky top-0 z-40 flex justify-between items-center shrink-0">
+        <!-- En-tête de l'application -->
+        <header class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 px-4 pt-6 sm:pt-8 pb-3 sticky top-0 z-40 flex justify-between items-center shrink-0">
             <div class="flex items-center gap-2.5">
                 <div class="w-9 h-9 bg-gradient-to-tr from-lime-500 to-emerald-400 rounded-xl flex items-center justify-center font-black text-slate-950 text-lg shadow-lg shadow-lime-500/20">
                     P
@@ -60,7 +62,7 @@
             </div>
             
             <div class="flex items-center gap-2">
-                <button onclick="openResetModal()" title="Réinitialiser les données" class="w-8 h-8 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-rose-400 flex items-center justify-center border border-slate-700/60 transition active:scale-95">
+                <button onclick="openResetModal()" title="Réinitialiser l'application" class="w-8 h-8 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-rose-400 flex items-center justify-center border border-slate-700/60 transition active:scale-95">
                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                 </button>
                 <button onclick="openMatchModal()" class="bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs shadow-lg shadow-lime-500/20 active:scale-95 transition">
@@ -70,12 +72,27 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-24" id="main-content">
+        <!-- Zone de contenu principal avec défilement -->
+        <div class="flex-1 overflow-y-auto p-3.5 space-y-3.5 pb-24" id="main-content">
             
             <!-- VUE DASHBOARD (ACCUEIL) -->
-            <div id="view-dashboard" class="space-y-4">
+            <div id="view-dashboard" class="space-y-3.5">
+                
+                <!-- Sélecteur de Période (Mois / Année / Global) -->
+                <div class="flex items-center justify-between bg-slate-800/60 px-3 py-2 rounded-2xl border border-slate-800">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-lime-400"></i> Période
+                    </span>
+                    <select id="time-period-filter" onchange="setTimePeriodFilter(this.value)" class="bg-slate-950 border border-slate-700 rounded-xl text-[11px] font-bold text-lime-400 px-2.5 py-1 focus:outline-none focus:border-lime-500 cursor-pointer">
+                        <option value="all">Tout l'historique</option>
+                        <option value="this_month">Ce mois-ci</option>
+                        <option value="this_year">Année en cours</option>
+                        <option value="prev_year">Année précédente</option>
+                    </select>
+                </div>
+
                 <!-- Cartes de Stats Rapides -->
-                <div class="grid grid-cols-3 gap-2.5">
+                <div class="grid grid-cols-3 gap-2">
                     <div class="bg-slate-800/60 p-3 rounded-2xl border border-slate-800 text-center relative overflow-hidden">
                         <span class="text-[10px] font-semibold text-slate-400 block mb-0.5">MATCHS</span>
                         <span class="text-xl font-extrabold text-white" id="stat-total-matches">0</span>
@@ -86,11 +103,11 @@
                     </div>
                     <div class="bg-slate-800/60 p-3 rounded-2xl border border-slate-800 text-center relative overflow-hidden">
                         <span class="text-[10px] font-semibold text-slate-400 block mb-0.5">FORME MOY.</span>
-                        <span class="text-xl font-extrabold text-emerald-400" id="stat-avg-feeling">4.2<span class="text-xs text-slate-500 font-normal">/5</span></span>
+                        <span class="text-xl font-extrabold text-emerald-400" id="stat-avg-feeling">0<span class="text-xs text-slate-500 font-normal">/5</span></span>
                     </div>
                 </div>
 
-                <!-- Charge Physique & Planning Hebdo -->
+                <!-- Rythme de la Semaine (3 options uniquement : Match, Cours, Repos) -->
                 <div class="bg-slate-800/40 p-3.5 rounded-2xl border border-slate-800/80 space-y-2.5">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
@@ -99,15 +116,13 @@
                         <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-medium" id="weekly-session-count">0 Séance</span>
                     </div>
                     
-                    <!-- Légende explicative rapide -->
-                    <div class="flex items-center justify-between text-[9px] text-slate-400 px-1.5 py-1 bg-slate-950/40 rounded-lg border border-slate-800/60">
+                    <!-- Légende (Match, Cours, Repos) -->
+                    <div class="flex items-center justify-around text-[9px] text-slate-400 px-2 py-1 bg-slate-950/40 rounded-lg border border-slate-800/60">
                         <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-lime-400 border border-lime-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Match</span>
                         <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Cours</span>
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Physio</span>
                         <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-600"></span> Repos</span>
                     </div>
 
-                    <!-- Grille des 7 Jours de la semaine -->
                     <div class="grid grid-cols-7 gap-1 text-center" id="weekly-grid">
                         <!-- Rempli en JS -->
                     </div>
@@ -157,7 +172,7 @@
                 <div class="space-y-2">
                     <div class="flex justify-between items-center px-1">
                         <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Dernières parties</h2>
-                        <button onclick="switchTab('tab-matches')" class="text-[11px] text-lime-400 hover:underline">Voir tout</button>
+                        <button onclick="switchTab('tab-matches')" class="text-[11px] text-lime-400 hover:underline font-semibold">Voir tout</button>
                     </div>
                     <div id="recent-matches-container" class="space-y-2">
                         <!-- Rempli en JS -->
@@ -217,7 +232,10 @@
                                     <span class="text-[9px] font-bold text-lime-400 uppercase tracking-wider bg-lime-500/10 px-2 py-0.5 rounded border border-lime-500/20">Raquette Principale</span>
                                     <p class="font-extrabold text-xs text-slate-100 mt-1" id="main-racket-name">Aucune raquette enregistrée</p>
                                 </div>
-                                <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="main-racket-date">-</span>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="main-racket-date">-</span>
+                                    <button onclick="archiveMainRacket()" title="Archiver cette raquette" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 px-1.5 py-0.5 rounded border border-slate-700 transition flex items-center gap-0.5">📦 Archiver</button>
+                                </div>
                             </div>
                             <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1.5 border-t border-slate-800/80">
                                 <span>Matériel actif</span>
@@ -234,13 +252,19 @@
                                     <span class="text-[9px] font-bold text-amber-400 uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Raquette Test</span>
                                     <p class="font-bold text-xs text-slate-200 mt-1" id="test-racket-name">Aucune raquette test</p>
                                 </div>
-                                <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="test-racket-date">-</span>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="test-racket-date">-</span>
+                                    <button onclick="archiveTestRacket()" title="Archiver la raquette test" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 px-1.5 py-0.5 rounded border border-slate-700 transition flex items-center gap-0.5">📦 Archiver</button>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Historique des Raquettes -->
+                        <!-- Historique des Raquettes (Limité à 3 avec Voir plus) -->
                         <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80 space-y-2">
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique de Raquettes</span>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique de Raquettes</span>
+                                <button onclick="toggleRacketsHistory()" id="btn-toggle-rackets" class="text-[10px] text-lime-400 hover:underline font-semibold hidden">Voir plus</button>
+                            </div>
                             <div class="space-y-1.5" id="rackets-history-container">
                                 <!-- Rempli en JS -->
                             </div>
@@ -272,9 +296,12 @@
                         <p class="text-[10px] text-slate-400">Posé le <span id="current-surgrip-date">-</span></p>
                     </div>
 
-                    <!-- Historique des Surgrips -->
+                    <!-- Historique des Surgrips (Limité à 3 avec Voir plus) -->
                     <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80 space-y-2">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique des Surgrips</span>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique des Surgrips</span>
+                            <button onclick="toggleSurgripsHistory()" id="btn-toggle-surgrips" class="text-[10px] text-lime-400 hover:underline font-semibold hidden">Voir plus</button>
+                        </div>
                         <div class="space-y-1.5" id="surgrip-history-container">
                             <!-- Rempli en JS -->
                         </div>
@@ -284,7 +311,7 @@
 
         </div>
 
-        <!-- Navigation infographie / Tabs en bas -->
+        <!-- Navigation principale en bas -->
         <nav class="bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-3 py-2 absolute bottom-0 left-0 right-0 z-40 flex justify-around items-center shrink-0">
             <button onclick="switchTab('tab-dashboard')" id="tab-dashboard" class="tab-btn flex flex-col items-center gap-1 text-lime-400 transition">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
@@ -306,9 +333,8 @@
 
         <!-- MODAL SAISIE EXPRESS MATCH (< 30 sec) -->
         <div id="modal-match" class="absolute inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-2.5 overflow-hidden transition-all duration-300">
-            <div class="bg-slate-900 w-[92%] max-w-[340px] max-h-[85vh] rounded-3xl border border-slate-800 p-3.5 space-y-3 overflow-y-auto shadow-2xl relative my-auto shrink-0 mx-auto">
+            <div class="bg-slate-900 w-[92%] max-w-[350px] max-h-[85vh] rounded-3xl border border-slate-800 p-3.5 space-y-3 overflow-y-auto shadow-2xl relative my-auto shrink-0 mx-auto">
                 
-                <!-- Header Modal -->
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2 sticky top-0 bg-slate-900/95 z-10 pt-1">
                     <h3 class="font-bold text-xs sm:text-sm text-slate-100 flex items-center gap-1.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-lime-400 animate-pulse shrink-0"></span>
@@ -319,7 +345,7 @@
 
                 <div class="space-y-2.5 text-left w-full min-w-0">
                     
-                    <!-- Type de Partie (Amical vs Compétition) -->
+                    <!-- Type de Partie -->
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Type de Partie</label>
                         <div class="grid grid-cols-2 gap-1.5">
@@ -337,7 +363,7 @@
                         </div>
                     </div>
 
-                    <!-- 1. Sélection Coéquipier -->
+                    <!-- Coéquipier -->
                     <div class="min-w-0">
                         <div class="flex justify-between items-center mb-1 gap-1">
                             <label class="block text-[11px] font-semibold text-slate-400 truncate">Ton Coéquipier</label>
@@ -346,19 +372,15 @@
                             </button>
                         </div>
                         <select id="match-partner" onchange="handlePartnerSelectChange(this.value)" class="w-full max-w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition truncate">
-                            <option value="Alexandre L.">Alexandre L. (P300)</option>
-                            <option value="Marc D.">Marc D. (P200)</option>
-                            <option value="Thomas B.">Thomas B. (P400)</option>
-                            <option value="Sophie M.">Sophie M. (P200D)</option>
-                            <option value="Julie V.">Julie V. (P100D)</option>
+                            <option value="">Sélectionner un coéquipier...</option>
                             <option value="__NEW__">+ Créer un nouveau partenaire...</option>
                         </select>
 
-                        <!-- Saisie rapide Nouveau Partenaire -->
+                        <!-- Champ création rapide partenaire -->
                         <div id="new-partner-fields" class="hidden mt-2 p-2 bg-slate-950/90 rounded-xl border border-lime-500/40 space-y-1.5 min-w-0">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-bold text-lime-400 uppercase tracking-wider flex items-center gap-1">
-                                    <i data-lucide="user-plus" class="w-3 h-3"></i> Ajouter au carnet
+                                    <i data-lucide="user-plus" class="w-3 h-3"></i> Nouveau Coéquipier
                                 </span>
                                 <button type="button" onclick="toggleNewPartnerInput(false)" class="text-[10px] text-slate-400 hover:text-white">Annuler</button>
                             </div>
@@ -368,7 +390,7 @@
                                     <input type="text" id="new-partner-name" placeholder="Ex: Julien M." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 min-w-0">
                                 </div>
                                 <div class="min-w-0">
-                                    <label class="block text-[9px] text-slate-400 mb-0.5 truncate">Classement Padel</label>
+                                    <label class="block text-[9px] text-slate-400 mb-0.5 truncate">Classement</label>
                                     <select id="new-partner-rank" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 focus:outline-none focus:border-lime-500 truncate min-w-0">
                                         <optgroup label="Messieurs">
                                             <option value="P50">P50</option>
@@ -395,42 +417,74 @@
                         </div>
                     </div>
 
-                    <!-- 2. Adversaires -->
-                    <div class="min-w-0">
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Adversaires</label>
-                        <input type="text" id="match-opponents" placeholder="Ex: Antoine & David" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 transition">
+                    <!-- Adversaires séparés avec leurs classements -->
+                    <div class="space-y-1.5 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80">
+                        <label class="block text-[11px] font-semibold text-slate-400">Équipe Adverse</label>
+                        
+                        <!-- Adversaire 1 -->
+                        <div class="grid grid-cols-3 gap-1.5 items-center">
+                            <input type="text" id="match-opp1-name" placeholder="Adversaire 1" class="col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
+                            <select id="match-opp1-rank" class="bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none">
+                                <option value="P50">P50</option>
+                                <option value="P100">P100</option>
+                                <option value="P200" selected>P200</option>
+                                <option value="P300">P300</option>
+                                <option value="P400">P400</option>
+                                <option value="P500">P500</option>
+                                <option value="P700">P700</option>
+                                <option value="P1000">P1000</option>
+                                <option value="P100D">P100D</option>
+                                <option value="P200D">P200D</option>
+                                <option value="P300D">P300D</option>
+                            </select>
+                        </div>
+
+                        <!-- Adversaire 2 -->
+                        <div class="grid grid-cols-3 gap-1.5 items-center">
+                            <input type="text" id="match-opp2-name" placeholder="Adversaire 2" class="col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
+                            <select id="match-opp2-rank" class="bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none">
+                                <option value="P50">P50</option>
+                                <option value="P100">P100</option>
+                                <option value="P200" selected>P200</option>
+                                <option value="P300">P300</option>
+                                <option value="P400">P400</option>
+                                <option value="P500">P500</option>
+                                <option value="P700">P700</option>
+                                <option value="P1000">P1000</option>
+                                <option value="P100D">P100D</option>
+                                <option value="P200D">P200D</option>
+                                <option value="P300D">P300D</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- 3. Formats & Scores -->
+                    <!-- Formats & Scores -->
                     <div class="min-w-0">
                         <div class="flex justify-between items-center mb-1.5">
                             <label class="block text-[11px] font-semibold text-slate-400">Format de jeu</label>
                             <span id="format-badge" class="text-[10px] font-medium text-lime-400 bg-lime-500/10 px-2 py-0.5 rounded-full border border-lime-500/20">Sets en 6 jeux</span>
                         </div>
 
-                        <!-- Boutons de format -->
                         <div class="grid grid-cols-3 gap-1.5 mb-2.5">
                             <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-300 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
                             <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[10px] hover:border-slate-700 transition text-center leading-tight truncate">Sets en 9 jeux</button>
                             <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[10px] hover:border-slate-700 transition text-center leading-tight truncate">Partie Libre (21pt)</button>
                         </div>
 
-                        <!-- Grille des Scores Aérée -->
+                        <!-- Scores initialisés à 0 : 0 -->
                         <div class="space-y-2 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80" id="sets-container">
-                            <!-- Set 1 (Toujours visible) -->
+                            <!-- Set 1 -->
                             <div class="flex items-center justify-between p-2 bg-slate-900/90 rounded-xl border border-slate-800/90" id="row-set-1">
                                 <span class="text-xs font-bold text-slate-300 w-20 shrink-0" id="label-set-1">Set 1</span>
                                 <div class="flex items-center gap-2">
                                     <div class="flex flex-col items-center gap-0.5">
                                         <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
-                                        <select id="s1-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer">
-                                        </select>
+                                        <select id="s1-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
                                     </div>
                                     <span class="text-slate-500 font-black text-sm pt-2">:</span>
                                     <div class="flex flex-col items-center gap-0.5">
                                         <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
-                                        <select id="s1-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer">
-                                        </select>
+                                        <select id="s1-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
                                     </div>
                                 </div>
                             </div>
@@ -441,14 +495,12 @@
                                 <div class="flex items-center gap-2">
                                     <div class="flex flex-col items-center gap-0.5">
                                         <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
-                                        <select id="s2-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer">
-                                        </select>
+                                        <select id="s2-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
                                     </div>
                                     <span class="text-slate-500 font-black text-sm pt-2">:</span>
                                     <div class="flex flex-col items-center gap-0.5">
                                         <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
-                                        <select id="s2-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer">
-                                        </select>
+                                        <select id="s2-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
                                     </div>
                                 </div>
                             </div>
@@ -459,19 +511,16 @@
                                 <div class="flex items-center gap-2">
                                     <div class="flex flex-col items-center gap-0.5">
                                         <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
-                                        <select id="s3-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer">
-                                        </select>
+                                        <select id="s3-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
                                     </div>
                                     <span class="text-slate-500 font-black text-sm pt-2">:</span>
                                     <div class="flex flex-col items-center gap-0.5">
                                         <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
-                                        <select id="s3-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer">
-                                        </select>
+                                        <select id="s3-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Bouton + Ajouter un set -->
                             <button type="button" id="btn-add-set" onclick="addSetField()" class="w-full py-1.5 bg-slate-900 hover:bg-slate-800 border border-dashed border-lime-500/40 text-lime-400 font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition active:scale-98">
                                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                 <span>+ Ajouter le Set 2</span>
@@ -479,7 +528,7 @@
                         </div>
                     </div>
 
-                    <!-- 4. Sensations & Note -->
+                    <!-- Sensations & Note -->
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-[11px] font-semibold text-slate-400 mb-1">Énergie</label>
@@ -502,25 +551,68 @@
                         </div>
                     </div>
 
-                    <!-- 5. Tags Tactiques Rapides -->
+                    <!-- Tags Tactiques Rapides (inclus Fautes directes) -->
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1.5">Tag tactique rapide</label>
                         <div class="flex flex-wrap gap-1.5" id="tag-container">
-                            <span onclick="toggleTag(this)" class="tag-chip active px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🎾 Bons lobs</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🎾 Bons lobs</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚠️ Mauvais lobs</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🚫 Fautes directes</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">❌ Erreurs retour</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">💥 Erreurs offensives</span>
-                            <span onclick="toggleTag(this)" class="tag-chip active px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🔥 Volée solide</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🔥 Volée solide</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">📉 Volée faible</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚡ Présence au filet</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🛡️ Trop au fond</span>
                         </div>
                     </div>
 
-                    <!-- Action Submit -->
                     <button type="button" onclick="submitExpressMatch()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-2xl shadow-lg shadow-lime-500/20 transition text-xs flex items-center justify-center gap-2 mt-2">
                         <span>Enregistrer le match</span>
                         <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL EDIT CLASSEMENT JOUEUR -->
+        <div id="modal-edit-player" class="absolute inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
+            <div class="bg-slate-900 w-full max-w-[320px] rounded-3xl border border-slate-800 p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
+                        <i data-lucide="edit" class="w-4 h-4 text-lime-400"></i>
+                        Modifier le Classement
+                    </h3>
+                    <button onclick="closeEditPlayerModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
+                </div>
+                <div class="space-y-2.5 text-left">
+                    <p class="text-xs font-bold text-slate-200" id="edit-player-name-title">-</p>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Nouveau Niveau Padel</label>
+                        <select id="edit-player-rank-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-lime-500">
+                            <optgroup label="Messieurs">
+                                <option value="P50">P50</option>
+                                <option value="P100">P100</option>
+                                <option value="P200">P200</option>
+                                <option value="P300">P300</option>
+                                <option value="P400">P400</option>
+                                <option value="P500">P500</option>
+                                <option value="P700">P700</option>
+                                <option value="P1000">P1000</option>
+                            </optgroup>
+                            <optgroup label="Dames">
+                                <option value="P50D">P50D</option>
+                                <option value="P100D">P100D</option>
+                                <option value="P200D">P200D</option>
+                                <option value="P300D">P300D</option>
+                                <option value="P400D">P400D</option>
+                                <option value="P500D">P500D</option>
+                                <option value="P700D">P700D</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <button type="button" onclick="savePlayerRankEdit()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-2">
+                        Enregistrer le nouveau niveau
                     </button>
                 </div>
             </div>
@@ -532,7 +624,7 @@
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                     <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
                         <i data-lucide="shield" class="w-4 h-4 text-lime-400"></i>
-                        Ajouter / Modifier Raquette
+                        Ajouter une Raquette
                     </h3>
                     <button onclick="closeRacketModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
                 </div>
@@ -550,8 +642,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date d'acquisition / Période</label>
-                        <input type="text" id="racket-input-date" placeholder="Ex: 15/09/2024" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date d'acquisition</label>
+                        <input type="text" id="racket-input-date" placeholder="Ex: 15/09/2026" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                     </div>
                     <button type="button" onclick="submitRacket()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-2">
                         Enregistrer la raquette
@@ -588,10 +680,43 @@
 
         <!-- MODAL AJOUT COURS PRIVÉ -->
         <div id="modal-lesson" class="absolute inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
-            <!-- ... existing content ... -->
+            <div class="bg-slate-900 w-full max-w-[340px] rounded-3xl border border-slate-800 p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
+                        <i data-lucide="graduation-cap" class="w-4 h-4 text-lime-400"></i>
+                        Ajouter un Cours Privé
+                    </h3>
+                    <button onclick="closeLessonModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
+                </div>
+                <div class="space-y-2 text-left">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Nom du Coach</label>
+                        <input type="text" id="lesson-input-coach" placeholder="Ex: Coach Nicolas" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Lieu / Club</label>
+                        <input type="text" id="lesson-input-location" placeholder="Ex: Planet Padel" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date</label>
+                        <input type="text" id="lesson-input-date" placeholder="Aujourd'hui" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Thème Travaillé</label>
+                        <input type="text" id="lesson-input-theme" placeholder="Ex: Bandeja & Placement" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Notes & Consignes (1 par ligne)</label>
+                        <textarea id="lesson-input-notes" rows="3" placeholder="Insister sur la préparation précoce&#10;Fixer le regard sur la balle" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 resize-none"></textarea>
+                    </div>
+                    <button type="button" onclick="submitLesson()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-2">
+                        Enregistrer le cours
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <!-- MODAL DE CONFIRMATION DE RÉINITIALISATION -->
+        <!-- MODAL CONFIRMATION RÉINITIALISATION -->
         <div id="modal-reset" class="absolute inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-slate-900 w-full max-w-[320px] rounded-3xl border border-rose-500/30 p-4 space-y-3 shadow-2xl relative my-auto shrink-0 text-center">
                 <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 flex items-center justify-center mx-auto">
@@ -615,16 +740,20 @@
     </div>
 
     <script>
+        // Data Stores & State Variables
         let playersDatabase = JSON.parse(localStorage.getItem('padelpulse_players')) || {};
-
         let currentMatchType = 'amical';
         let currentFormat = '6sets';
         let visibleSetsCount = 1;
+        let currentTimePeriod = 'all';
         let currentSurgripMatchCount = parseInt(localStorage.getItem('padelpulse_surgrip_count')) || 0;
         let showAllRecentMatches = false;
         let showAllLessons = false;
         let showAllPlayers = false;
+        let showAllRacketsHistory = false;
+        let showAllSurgripsHistory = false;
         let playerFilterType = 'all';
+        let editingPlayerName = null;
 
         let matches = JSON.parse(localStorage.getItem('padelpulse_matches')) || [];
         let lessons = JSON.parse(localStorage.getItem('padelpulse_lessons')) || [];
@@ -634,6 +763,7 @@
         let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-' };
         let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
 
+        // Weekly Activity Schedule (Seulement 3 options : Match, Cours, Repos)
         let weeklySchedule = JSON.parse(localStorage.getItem('padelpulse_weekly')) || [
             { day: 'L', type: 'rest', label: 'Repos', icon: '💤' },
             { day: 'M', type: 'rest', label: 'Repos', icon: '💤' },
@@ -657,13 +787,8 @@
             localStorage.setItem('padelpulse_current_surgrip', JSON.stringify(currentSurgrip));
         }
 
-        function openResetModal() {
-            document.getElementById('modal-reset').classList.remove('hidden');
-        }
-
-        function closeResetModal() {
-            document.getElementById('modal-reset').classList.add('hidden');
-        }
+        function openResetModal() { document.getElementById('modal-reset').classList.remove('hidden'); }
+        function closeResetModal() { document.getElementById('modal-reset').classList.add('hidden'); }
 
         function confirmResetData() {
             localStorage.clear();
@@ -693,7 +818,7 @@
             renderRackets();
             renderSurgrips();
             updateStats();
-            renderStatsSummary();
+            updatePartnerDropdownOptions();
             closeResetModal();
         }
 
@@ -704,6 +829,7 @@
             tabs.forEach((t, index) => {
                 const btn = document.getElementById(t);
                 const view = document.getElementById(views[index]);
+                if (!btn || !view) return;
                 if (t === tabId) {
                     btn.classList.add('text-lime-400');
                     btn.classList.remove('text-slate-400');
@@ -716,10 +842,11 @@
             });
         }
 
+        // Cycle Weekly Schedule - 3 Options (Match, Cours, Repos)
         function cycleDayActivity(idx) {
-            const types = ['match', 'lesson', 'physio', 'mobility', 'walk', 'rest'];
-            const labels = ['Match', 'Cours', 'Physio', 'Mobilité', 'Marche', 'Repos'];
-            const icons = ['🎾', '🎾', '💪', '🧘', '🚶', '💤'];
+            const types = ['match', 'lesson', 'rest'];
+            const labels = ['Match', 'Cours', 'Repos'];
+            const icons = ['🎾', '🎓', '💤'];
 
             const currentTypeIdx = types.indexOf(weeklySchedule[idx].type);
             const nextIdx = (currentTypeIdx + 1) % types.length;
@@ -746,9 +873,6 @@
                 } else if (d.type === 'lesson') {
                     badgeStyle = 'bg-amber-500/20 border-amber-500/40 text-amber-400 font-bold';
                     activeCount++;
-                } else if (d.type === 'physio' || d.type === 'mobility' || d.type === 'walk') {
-                    badgeStyle = 'bg-blue-500/20 border-blue-500/40 text-blue-300 font-semibold';
-                    activeCount++;
                 }
 
                 return `
@@ -760,19 +884,15 @@
                 `;
             }).join('');
 
-            if (sessionCountEl) {
-                sessionCountEl.innerText = `${activeCount} Séance${activeCount > 1 ? 's' : ''}`;
-            }
+            if (sessionCountEl) sessionCountEl.innerText = `${activeCount} Séance${activeCount > 1 ? 's' : ''}`;
         }
 
+        // Populate score dropdowns defaulting to 0
         function populateScoreDropdowns(maxScore) {
             [1, 2, 3].forEach(setNum => {
                 const usSelect = document.getElementById(`s${setNum}-us`);
                 const themSelect = document.getElementById(`s${setNum}-them`);
                 if (!usSelect || !themSelect) return;
-
-                const prevUs = usSelect.value;
-                const prevThem = themSelect.value;
 
                 usSelect.innerHTML = '';
                 themSelect.innerHTML = '';
@@ -782,8 +902,8 @@
                     themSelect.innerHTML += `<option value="${i}">${i}</option>`;
                 }
 
-                usSelect.value = Math.min(prevUs || 0, maxScore);
-                themSelect.value = Math.min(prevThem || 0, maxScore);
+                usSelect.value = 0;
+                themSelect.value = 0;
             });
         }
 
@@ -826,8 +946,6 @@
                 if (r2) r2.classList.add('hidden');
                 if (r3) r3.classList.add('hidden');
                 if (addBtn) addBtn.classList.add('hidden');
-                if (document.getElementById('s1-us')) document.getElementById('s1-us').value = 21;
-                if (document.getElementById('s1-them')) document.getElementById('s1-them').value = 17;
             } else {
                 const maxScore = formatKey === '9sets' ? 10 : 7;
                 populateScoreDropdowns(maxScore);
@@ -840,14 +958,6 @@
                     addBtn.classList.remove('hidden');
                     addBtn.querySelector('span').innerText = '+ Ajouter le Set 2';
                 }
-
-                if (formatKey === '9sets') {
-                    if (document.getElementById('s1-us')) document.getElementById('s1-us').value = 9;
-                    if (document.getElementById('s1-them')) document.getElementById('s1-them').value = 7;
-                } else {
-                    if (document.getElementById('s1-us')) document.getElementById('s1-us').value = 6;
-                    if (document.getElementById('s1-them')) document.getElementById('s1-them').value = 4;
-                }
             }
         }
 
@@ -857,13 +967,10 @@
                 const row = document.getElementById(`row-set-${visibleSetsCount}`);
                 if (row) row.classList.remove('hidden');
 
-                const defaultUs = currentFormat === '9sets' ? 9 : 6;
-                const defaultThem = currentFormat === '9sets' ? 7 : 4;
-
                 const usEl = document.getElementById(`s${visibleSetsCount}-us`);
                 const themEl = document.getElementById(`s${visibleSetsCount}-them`);
-                if (usEl) usEl.value = defaultUs;
-                if (themEl) themEl.value = defaultThem;
+                if (usEl) usEl.value = 0;
+                if (themEl) themEl.value = 0;
 
                 const addBtn = document.getElementById('btn-add-set');
                 if (addBtn) {
@@ -876,7 +983,40 @@
             }
         }
 
+        function updatePartnerDropdownOptions() {
+            const select = document.getElementById('match-partner');
+            if (!select) return;
+
+            select.innerHTML = '<option value="">Sélectionner un coéquipier...</option>';
+            
+            const partners = Object.keys(playersDatabase);
+            partners.forEach(name => {
+                const rank = playersDatabase[name]?.rank || 'P200';
+                select.innerHTML += `<option value="${name}">${name} (${rank})</option>`;
+            });
+
+            select.innerHTML += '<option value="__NEW__">+ Créer un nouveau partenaire...</option>';
+        }
+
+        function resetMatchModalForm() {
+            setMatchType('amical');
+            setFormat('6sets');
+            if (document.getElementById('match-location')) document.getElementById('match-location').value = '';
+            if (document.getElementById('match-opp1-name')) document.getElementById('match-opp1-name').value = '';
+            if (document.getElementById('match-opp2-name')) document.getElementById('match-opp2-name').value = '';
+            if (document.getElementById('match-feeling')) document.getElementById('match-feeling').value = '⚡ En forme';
+            if (document.getElementById('match-rating')) document.getElementById('match-rating').value = '4';
+            
+            toggleNewPartnerInput(false);
+            updatePartnerDropdownOptions();
+
+            document.querySelectorAll('#tag-container .tag-chip').forEach(el => el.classList.remove('active'));
+            
+            populateScoreDropdowns(7);
+        }
+
         function openMatchModal() {
+            resetMatchModalForm();
             document.getElementById('modal-match').classList.remove('hidden');
         }
 
@@ -906,49 +1046,82 @@
             if (el) el.classList.toggle('active');
         }
 
+        function setTimePeriodFilter(period) {
+            currentTimePeriod = period;
+            updateStats();
+            renderMatches();
+        }
+
+        function getFilteredMatches() {
+            if (currentTimePeriod === 'all') return matches;
+
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth();
+
+            return matches.filter(m => {
+                const matchDate = m.timestamp ? new Date(m.timestamp) : new Date();
+                if (currentTimePeriod === 'this_month') {
+                    return matchDate.getFullYear() === currentYear && matchDate.getMonth() === currentMonth;
+                }
+                if (currentTimePeriod === 'this_year') {
+                    return matchDate.getFullYear() === currentYear;
+                }
+                if (currentTimePeriod === 'prev_year') {
+                    return matchDate.getFullYear() === currentYear - 1;
+                }
+                return true;
+            });
+        }
+
         function submitExpressMatch() {
-            let partnerName = document.getElementById('match-partner').value;
+            let partnerName = document.getElementById('match-partner')?.value || '';
 
             const newPartnerFields = document.getElementById('new-partner-fields');
             if (newPartnerFields && !newPartnerFields.classList.contains('hidden')) {
-                const newName = document.getElementById('new-partner-name').value.trim();
-                const newRank = document.getElementById('new-partner-rank').value;
+                const newName = document.getElementById('new-partner-name')?.value.trim();
+                const newRank = document.getElementById('new-partner-rank')?.value || 'P200';
                 if (newName) {
                     partnerName = newName;
                     playersDatabase[partnerName] = { rank: newRank, gender: newRank.endsWith('D') ? 'F' : 'M' };
-                    
-                    const select = document.getElementById('match-partner');
-                    const opt = document.createElement('option');
-                    opt.value = partnerName;
-                    opt.text = `${partnerName} (${newRank})`;
-                    select.add(opt, select.options[0]);
-                    select.value = partnerName;
                 }
             }
 
-            if (partnerName === '__NEW__') partnerName = 'Partenaire';
+            if (!partnerName || partnerName === '__NEW__') partnerName = 'Coéquipier';
 
-            const opponents = document.getElementById('match-opponents').value || 'Adversaires';
-            const location = document.getElementById('match-location').value || '';
-            const feeling = document.getElementById('match-feeling').value;
-            const rating = parseInt(document.getElementById('match-rating').value) || 4;
+            const opp1Name = document.getElementById('match-opp1-name')?.value.trim();
+            const opp1Rank = document.getElementById('match-opp1-rank')?.value || 'P200';
+            const opp2Name = document.getElementById('match-opp2-name')?.value.trim();
+            const opp2Rank = document.getElementById('match-opp2-rank')?.value || 'P200';
 
-            const activeTags = Array.from(document.querySelectorAll('#tag-container .tag-chip.active')).map(el => el.innerText);
+            if (opp1Name) playersDatabase[opp1Name] = { rank: opp1Rank, gender: opp1Rank.endsWith('D') ? 'F' : 'M' };
+            if (opp2Name) playersDatabase[opp2Name] = { rank: opp2Rank, gender: opp2Rank.endsWith('D') ? 'F' : 'M' };
+
+            let opponentsStr = 'Adversaires';
+            if (opp1Name && opp2Name) opponentsStr = `${opp1Name} & ${opp2Name}`;
+            else if (opp1Name) opponentsStr = opp1Name;
+            else if (opp2Name) opponentsStr = opp2Name;
+
+            const location = document.getElementById('match-location')?.value || '';
+            const feeling = document.getElementById('match-feeling')?.value || '⚡ En forme';
+            const rating = parseInt(document.getElementById('match-rating')?.value) || 4;
+
+            const activeTags = Array.from(document.querySelectorAll('#tag-container .tag-chip.active')).map(el => el.innerText.trim());
 
             let scoreStr = '';
             let usSetsWon = 0;
             let themSetsWon = 0;
 
             if (currentFormat === '21pts') {
-                const s1Us = parseInt(document.getElementById('s1-us').value) || 0;
-                const s1Them = parseInt(document.getElementById('s1-them').value) || 0;
+                const s1Us = parseInt(document.getElementById('s1-us')?.value) || 0;
+                const s1Them = parseInt(document.getElementById('s1-them')?.value) || 0;
                 scoreStr = `${s1Us}/${s1Them}`;
-                if (s1Us > s1Them) usSetsWon++; else themSetsWon++;
+                if (s1Us > s1Them) usSetsWon++; else if (s1Them > s1Us) themSetsWon++;
             } else {
                 let scores = [];
                 for (let i = 1; i <= visibleSetsCount; i++) {
-                    const us = parseInt(document.getElementById(`s${i}-us`).value) || 0;
-                    const them = parseInt(document.getElementById(`s${i}-them`).value) || 0;
+                    const us = parseInt(document.getElementById(`s${i}-us`)?.value) || 0;
+                    const them = parseInt(document.getElementById(`s${i}-them`)?.value) || 0;
                     scores.push(`${us}/${them}`);
                     if (us > them) usSetsWon++;
                     else if (them > us) themSetsWon++;
@@ -957,13 +1130,15 @@
             }
 
             const result = usSetsWon >= themSetsWon ? 'VICTOIRE' : 'DÉFAITE';
+            const nowDate = new Date();
 
             const newMatch = {
                 id: Date.now(),
-                date: 'Aujourd\'hui',
+                timestamp: nowDate.getTime(),
+                date: nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }),
                 type: currentMatchType,
                 partner: partnerName,
-                opponents: opponents,
+                opponents: opponentsStr,
                 location: location,
                 format: currentFormat === '21pts' ? 'Partie Libre (21pt)' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
                 score: scoreStr,
@@ -980,9 +1155,6 @@
             renderMatches();
             updateStats();
             closeMatchModal();
-
-            if (document.getElementById('match-location')) document.getElementById('match-location').value = '';
-            toggleNewPartnerInput(false);
         }
 
         function renderMatchCard(m) {
@@ -1020,7 +1192,7 @@
                     <div class="flex items-center justify-between border-t border-slate-800/80 pt-2 text-[10px]">
                         <span class="text-slate-400">${m.feeling}</span>
                         <div class="flex gap-1 flex-wrap">
-                            ${m.tags.map(t => `<span class="bg-slate-950 px-2 py-0.5 rounded-md text-[9px] text-slate-300 border border-slate-800">${t}</span>`).join('')}
+                            ${(m.tags || []).map(t => `<span class="bg-slate-950 px-2 py-0.5 rounded-md text-[9px] text-slate-300 border border-slate-800">${t}</span>`).join('')}
                         </div>
                     </div>
                 </div>
@@ -1035,24 +1207,28 @@
         function renderMatches() {
             const recentContainer = document.getElementById('recent-matches-container');
             const allContainer = document.getElementById('all-matches-container');
+            const filteredMatches = getFilteredMatches();
 
             if (recentContainer) {
-                const displayRecent = showAllRecentMatches ? matches : matches.slice(0, 3);
+                const displayRecent = showAllRecentMatches ? filteredMatches : filteredMatches.slice(0, 3);
                 let html = displayRecent.map(m => renderMatchCard(m)).join('');
 
-                if (matches.length > 3) {
+                if (filteredMatches.length > 3) {
                     html += `
                         <button onclick="toggleAllRecentMatches()" class="w-full py-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs text-lime-400 font-semibold transition flex items-center justify-center gap-1 mt-1">
-                            <span>${showAllRecentMatches ? 'Réduire' : `Voir plus (${matches.length - 3} de plus)`}</span>
+                            <span>${showAllRecentMatches ? 'Réduire' : `Voir plus (${filteredMatches.length - 3} de plus)`}</span>
                             <i data-lucide="${showAllRecentMatches ? 'chevron-up' : 'chevron-down'}" class="w-3.5 h-3.5"></i>
                         </button>
                     `;
                 }
+                if (!filteredMatches.length) html = `<p class="text-[11px] text-slate-500 text-center py-4">Aucun match enregistré pour cette période</p>`;
                 recentContainer.innerHTML = html;
             }
 
             if (allContainer) {
-                allContainer.innerHTML = matches.map(m => renderMatchCard(m)).join('');
+                let html = filteredMatches.map(m => renderMatchCard(m)).join('');
+                if (!filteredMatches.length) html = `<p class="text-[11px] text-slate-500 text-center py-4">Aucun match enregistré</p>`;
+                allContainer.innerHTML = html;
             }
 
             const currentSurgripMatchesEl = document.getElementById('current-surgrip-matches');
@@ -1064,17 +1240,23 @@
         }
 
         function updateStats() {
+            const filteredMatches = getFilteredMatches();
+
             const totalEl = document.getElementById('stat-total-matches');
-            if (totalEl) totalEl.innerText = matches.length;
-            const wins = matches.filter(m => m.result === 'VICTOIRE').length;
-            const winRate = matches.length ? Math.round((wins / matches.length) * 100) : 0;
+            if (totalEl) totalEl.innerText = filteredMatches.length;
+
+            const wins = filteredMatches.filter(m => m.result === 'VICTOIRE').length;
+            const winRate = filteredMatches.length ? Math.round((wins / filteredMatches.length) * 100) : 0;
             const rateEl = document.getElementById('stat-win-rate');
             if (rateEl) rateEl.innerText = winRate + '%';
 
-            if (matches.length > 0) {
-                const avgRating = (matches.reduce((acc, m) => acc + (m.rating || 4), 0) / matches.length).toFixed(1);
+            if (filteredMatches.length > 0) {
+                const avgRating = (filteredMatches.reduce((acc, m) => acc + (m.rating || 4), 0) / filteredMatches.length).toFixed(1);
                 const avgEl = document.getElementById('stat-avg-feeling');
                 if (avgEl) avgEl.innerHTML = `${avgRating}<span class="text-xs text-slate-500 font-normal">/5</span>`;
+            } else {
+                const avgEl = document.getElementById('stat-avg-feeling');
+                if (avgEl) avgEl.innerHTML = `0<span class="text-xs text-slate-500 font-normal">/5</span>`;
             }
 
             renderPlayersStats();
@@ -1085,12 +1267,13 @@
             const summaryGrid = document.getElementById('stats-summary-grid');
             if (!summaryGrid) return;
 
+            const filteredMatches = getFilteredMatches();
             const locationCounts = {};
             const locationWins = {};
             const partnerCounts = {};
             const partnerWins = {};
 
-            matches.forEach(m => {
+            filteredMatches.forEach(m => {
                 if (m.location) {
                     locationCounts[m.location] = (locationCounts[m.location] || 0) + 1;
                     if (m.result === 'VICTOIRE') locationWins[m.location] = (locationWins[m.location] || 0) + 1;
@@ -1146,6 +1329,33 @@
             if (window.lucide) lucide.createIcons();
         }
 
+        function openEditPlayerModal(name) {
+            editingPlayerName = name;
+            const currentRank = playersDatabase[name]?.rank || 'P200';
+            document.getElementById('edit-player-name-title').innerText = name;
+            document.getElementById('edit-player-rank-select').value = currentRank;
+            document.getElementById('modal-edit-player').classList.remove('hidden');
+        }
+
+        function closeEditPlayerModal() {
+            editingPlayerName = null;
+            document.getElementById('modal-edit-player').classList.add('hidden');
+        }
+
+        function savePlayerRankEdit() {
+            if (!editingPlayerName) return;
+            const newRank = document.getElementById('edit-player-rank-select').value;
+            if (!playersDatabase[editingPlayerName]) {
+                playersDatabase[editingPlayerName] = { rank: newRank, gender: newRank.endsWith('D') ? 'F' : 'M' };
+            } else {
+                playersDatabase[editingPlayerName].rank = newRank;
+            }
+            saveAllData();
+            renderPlayersStats();
+            updatePartnerDropdownOptions();
+            closeEditPlayerModal();
+        }
+
         function toggleAllPlayers() {
             showAllPlayers = !showAllPlayers;
             renderPlayersStats();
@@ -1173,8 +1383,9 @@
 
             const partnersMap = {};
             const opponentsMap = {};
+            const filteredMatches = getFilteredMatches();
 
-            matches.forEach(m => {
+            filteredMatches.forEach(m => {
                 if (m.partner) {
                     if (!partnersMap[m.partner]) {
                         partnersMap[m.partner] = { name: m.partner, wins: 0, total: 0, type: 'partner' };
@@ -1229,7 +1440,7 @@
 
                 const initials = item.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 const roleLabel = item.type === 'partner' ? 'Coéquipier' : 'Adversaire';
-                const playerInfo = playersDatabase[item.name] || { rank: 'P100', gender: 'M' };
+                const playerInfo = playersDatabase[item.name] || { rank: 'P200', gender: 'M' };
                 const isDames = playerInfo.rank.endsWith('D') || playerInfo.gender === 'F';
                 
                 const rankBadgeClass = isDames 
@@ -1242,14 +1453,17 @@
 
                 return `
                     <div class="flex items-center justify-between p-2.5 bg-slate-800/80 rounded-xl border border-slate-700/50">
-                        <div class="flex items-center gap-2.5">
+                        <div class="flex items-center gap-2.5 min-w-0">
                             <div class="w-8 h-8 rounded-full ${item.type === 'partner' ? 'bg-gradient-to-tr from-slate-700 to-slate-600 text-lime-400' : 'bg-slate-700 text-slate-300'} flex items-center justify-center text-xs font-bold border border-slate-600 shrink-0">
                                 ${initials}
                             </div>
                             <div class="min-w-0">
                                 <div class="flex items-center gap-1.5 flex-wrap">
                                     <p class="text-xs font-bold text-slate-200 truncate">${item.name}</p>
-                                    <span class="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded border ${rankBadgeClass}">${playerInfo.rank}</span>
+                                    <button onclick="openEditPlayerModal('${item.name}')" title="Modifier le niveau" class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border ${rankBadgeClass} hover:border-lime-400 transition flex items-center gap-0.5">
+                                        <span>${playerInfo.rank}</span>
+                                        <i data-lucide="edit-2" class="w-2.5 h-2.5 opacity-70"></i>
+                                    </button>
                                     <span class="text-[8px] px-1.5 py-0.2 rounded font-medium ${item.type === 'partner' ? 'bg-lime-500/10 text-lime-300 border border-lime-500/20' : 'bg-blue-500/10 text-blue-300 border border-blue-500/20'}">${roleLabel}</span>
                                 </div>
                                 <p class="text-[10px] text-slate-400 truncate">${detailText}</p>
@@ -1275,8 +1489,27 @@
             if (window.lucide) lucide.createIcons();
         }
 
+        // Gear Functions (Rackets & Surgrips)
         function openRacketModal() { document.getElementById('modal-racket').classList.remove('hidden'); }
         function closeRacketModal() { document.getElementById('modal-racket').classList.add('hidden'); }
+
+        function archiveMainRacket() {
+            if (mainRacket && mainRacket.name !== 'Aucune raquette enregistrée') {
+                racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
+                mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
+                saveAllData();
+                renderRackets();
+            }
+        }
+
+        function archiveTestRacket() {
+            if (testRacket && testRacket.name !== 'Aucune raquette test') {
+                racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
+                testRacket = { name: 'Aucune raquette test', date: '-' };
+                saveAllData();
+                renderRackets();
+            }
+        }
 
         function submitRacket() {
             const name = document.getElementById('racket-input-name').value.trim();
@@ -1286,8 +1519,14 @@
             if (!name) return;
 
             if (status === 'main') {
+                if (mainRacket.name && mainRacket.name !== 'Aucune raquette enregistrée') {
+                    racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
+                }
                 mainRacket = { name: name, date: date };
             } else if (status === 'test') {
+                if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
+                    racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
+                }
                 testRacket = { name: name, date: date };
             } else {
                 racketsHistory.unshift({ name: name, dates: date });
@@ -1298,6 +1537,11 @@
             closeRacketModal();
             document.getElementById('racket-input-name').value = '';
             document.getElementById('racket-input-date').value = '';
+        }
+
+        function toggleRacketsHistory() {
+            showAllRacketsHistory = !showAllRacketsHistory;
+            renderRacketsHistory();
         }
 
         function renderRackets() {
@@ -1316,12 +1560,26 @@
 
         function renderRacketsHistory() {
             const container = document.getElementById('rackets-history-container');
+            const toggleBtn = document.getElementById('btn-toggle-rackets');
             if (!container) return;
+
             if (racketsHistory.length === 0) {
                 container.innerHTML = `<p class="text-[10px] text-slate-500 text-center py-2">Aucune raquette archivée</p>`;
+                if (toggleBtn) toggleBtn.classList.add('hidden');
                 return;
             }
-            container.innerHTML = racketsHistory.map(r => `
+
+            if (toggleBtn) {
+                if (racketsHistory.length > 3) {
+                    toggleBtn.classList.remove('hidden');
+                    toggleBtn.innerText = showAllRacketsHistory ? 'Réduire' : `Voir plus (${racketsHistory.length - 3})`;
+                } else {
+                    toggleBtn.classList.add('hidden');
+                }
+            }
+
+            const displayList = showAllRacketsHistory ? racketsHistory : racketsHistory.slice(0, 3);
+            container.innerHTML = displayList.map(r => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
                         <p class="font-bold text-slate-200 text-[11px]">${r.name}</p>
@@ -1344,7 +1602,7 @@
                 surgripsHistory.unshift({
                     name: currentSurgrip.name,
                     date: 'Posé le ' + currentSurgrip.date,
-                    matches: currentSurgripMatchCount + ' matchs'
+                    matches: currentSurgripMatchCount + ' match' + (currentSurgripMatchCount > 1 ? 's' : '')
                 });
             }
 
@@ -1359,6 +1617,11 @@
             document.getElementById('surgrip-input-date').value = '';
         }
 
+        function toggleSurgripsHistory() {
+            showAllSurgripsHistory = !showAllSurgripsHistory;
+            renderSurgripsHistory();
+        }
+
         function renderSurgrips() {
             const surgripNameEl = document.getElementById('current-surgrip-name');
             const surgripDateEl = document.getElementById('current-surgrip-date');
@@ -1371,12 +1634,26 @@
 
         function renderSurgripsHistory() {
             const container = document.getElementById('surgrip-history-container');
+            const toggleBtn = document.getElementById('btn-toggle-surgrips');
             if (!container) return;
+
             if (surgripsHistory.length === 0) {
                 container.innerHTML = `<p class="text-[10px] text-slate-500 text-center py-2">Aucun historique de surgrip</p>`;
+                if (toggleBtn) toggleBtn.classList.add('hidden');
                 return;
             }
-            container.innerHTML = surgripsHistory.map(s => `
+
+            if (toggleBtn) {
+                if (surgripsHistory.length > 3) {
+                    toggleBtn.classList.remove('hidden');
+                    toggleBtn.innerText = showAllSurgripsHistory ? 'Réduire' : `Voir plus (${surgripsHistory.length - 3})`;
+                } else {
+                    toggleBtn.classList.add('hidden');
+                }
+            }
+
+            const displayList = showAllSurgripsHistory ? surgripsHistory : surgripsHistory.slice(0, 3);
+            container.innerHTML = displayList.map(s => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
                         <p class="font-bold text-slate-200 text-[11px]">${s.name}</p>
@@ -1385,11 +1662,6 @@
                     <span class="text-[9px] text-slate-400 font-semibold bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">${s.matches}</span>
                 </div>
             `).join('');
-        }
-
-        function toggleAllLessons() {
-            showAllLessons = !showAllLessons;
-            renderLessons();
         }
 
         function openLessonModal() { document.getElementById('modal-lesson').classList.remove('hidden'); }
@@ -1422,6 +1694,11 @@
             document.getElementById('lesson-input-date').value = '';
             document.getElementById('lesson-input-theme').value = '';
             document.getElementById('lesson-input-notes').value = '';
+        }
+
+        function toggleAllLessons() {
+            showAllLessons = !showAllLessons;
+            renderLessons();
         }
 
         function renderLessons() {
@@ -1467,19 +1744,49 @@
                 </div>
             `).join('');
 
-            if (lessons.length > 2 && !showAllLessons) {
-                html += `
-                    <button onclick="toggleAllLessons()" class="w-full py-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs text-lime-400 font-semibold transition flex items-center justify-center gap-1">
-                        <span>Voir tout (${lessons.length} cours)</span>
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-                    </button>
-                `;
-            }
-
             container.innerHTML = html;
             if (window.lucide) lucide.createIcons();
         }
 
+        // Attach global bindings for inline HTML handlers
+        window.openResetModal = openResetModal;
+        window.closeResetModal = closeResetModal;
+        window.confirmResetData = confirmResetData;
+        window.switchTab = switchTab;
+        window.cycleDayActivity = cycleDayActivity;
+        window.setMatchType = setMatchType;
+        window.setFormat = setFormat;
+        window.addSetField = addSetField;
+        window.openMatchModal = openMatchModal;
+        window.closeMatchModal = closeMatchModal;
+        window.toggleNewPartnerInput = toggleNewPartnerInput;
+        window.handlePartnerSelectChange = handlePartnerSelectChange;
+        window.toggleTag = toggleTag;
+        window.setTimePeriodFilter = setTimePeriodFilter;
+        window.submitExpressMatch = submitExpressMatch;
+        window.toggleAllRecentMatches = toggleAllRecentMatches;
+        window.openEditPlayerModal = openEditPlayerModal;
+        window.closeEditPlayerModal = closeEditPlayerModal;
+        window.savePlayerRankEdit = savePlayerRankEdit;
+        window.toggleAllPlayers = toggleAllPlayers;
+        window.setPlayerFilter = setPlayerFilter;
+        window.renderPlayersStats = renderPlayersStats;
+        window.openRacketModal = openRacketModal;
+        window.closeRacketModal = closeRacketModal;
+        window.archiveMainRacket = archiveMainRacket;
+        window.archiveTestRacket = archiveTestRacket;
+        window.submitRacket = submitRacket;
+        window.toggleRacketsHistory = toggleRacketsHistory;
+        window.openSurgripModal = openSurgripModal;
+        window.closeSurgripModal = closeSurgripModal;
+        window.submitSurgrip = submitSurgrip;
+        window.toggleSurgripsHistory = toggleSurgripsHistory;
+        window.openLessonModal = openLessonModal;
+        window.closeLessonModal = closeLessonModal;
+        window.submitLesson = submitLesson;
+        window.toggleAllLessons = toggleAllLessons;
+
+        // Initialization
         window.onload = function() {
             setFormat('6sets');
             renderWeeklySchedule();
@@ -1488,7 +1795,7 @@
             renderRackets();
             renderSurgrips();
             updateStats();
-            renderStatsSummary();
+            updatePartnerDropdownOptions();
             if (window.lucide) lucide.createIcons();
         };
     </script>
