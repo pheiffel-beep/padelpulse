@@ -12,6 +12,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -36,6 +38,19 @@
         .tag-chip.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 600; }
         .fmt-btn.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 700; }
         .type-btn.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 700; }
+
+        @keyframes popIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            70% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes shakeSoft {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-4px); }
+            40%, 80% { transform: translateX(4px); }
+        }
+        .animate-pop-in { animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-shake { animation: shakeSoft 0.4s ease-in-out; }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex justify-center items-start sm:items-center p-0 sm:p-4 selection:bg-lime-500 selection:text-slate-950">
@@ -758,6 +773,37 @@
             </div>
         </div>
 
+        <!-- MODAL ANIMATION FIN DE MATCH (VICTOIRE / DÉFAITE) -->
+        <div id="modal-result-feedback" class="absolute inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
+            <div id="feedback-card" class="bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border">
+                <!-- Icone & Titre animés -->
+                <div id="feedback-icon-wrapper" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl shadow-lg transition-transform">
+                    <span id="feedback-emoji">🏆</span>
+                </div>
+                
+                <div class="space-y-1">
+                    <span id="feedback-badge" class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border">Victoire</span>
+                    <h3 id="feedback-title" class="font-black text-base text-slate-100 pt-1">Super Match !</h3>
+                    <p id="feedback-message" class="text-[11px] text-slate-400 leading-relaxed">Le travail paye sur le terrain ! 🔥</p>
+                </div>
+
+                <!-- Récapitulatif rapide du match encodé -->
+                <div class="bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/80 space-y-1 text-xs">
+                    <div class="flex justify-between items-center text-slate-300 font-bold">
+                        <span id="feedback-partner-text" class="text-[11px] truncate">avec Partenaire</span>
+                        <span id="feedback-score-text" class="text-lime-400 font-black">6/4 6/3</span>
+                    </div>
+                    <div class="text-[10px] text-slate-500 text-left truncate" id="feedback-opponents-text">
+                        vs Adversaires
+                    </div>
+                </div>
+
+                <button type="button" onclick="closeResultFeedbackModal()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-extrabold py-2.5 rounded-xl shadow-lg transition text-xs mt-1">
+                    Continuer 🎾
+                </button>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -1230,6 +1276,77 @@
             renderWeeklySchedule();
             updateStats();
             closeMatchModal();
+
+            // Déclencher l'animation personnalisée de résultat
+            showResultFeedback(newMatch);
+        }
+
+        function showResultFeedback(matchData) {
+            const modal = document.getElementById('modal-result-feedback');
+            const card = document.getElementById('feedback-card');
+            const iconWrapper = document.getElementById('feedback-icon-wrapper');
+            const emojiEl = document.getElementById('feedback-emoji');
+            const badgeEl = document.getElementById('feedback-badge');
+            const titleEl = document.getElementById('feedback-title');
+            const messageEl = document.getElementById('feedback-message');
+            const partnerEl = document.getElementById('feedback-partner-text');
+            const scoreEl = document.getElementById('feedback-score-text');
+            const oppEl = document.getElementById('feedback-opponents-text');
+
+            if (!modal || !card) return;
+
+            partnerEl.innerText = `avec ${matchData.partner}`;
+            scoreEl.innerText = matchData.score;
+            oppEl.innerText = `vs ${matchData.opponents}`;
+
+            if (matchData.result === 'VICTOIRE') {
+                // Style Victoire
+                card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-lime-500/50 shadow-lime-500/20 animate-pop-in";
+                iconWrapper.className = "w-16 h-16 rounded-full bg-lime-500/20 text-lime-400 border border-lime-500/40 flex items-center justify-center mx-auto text-3xl shadow-lg shadow-lime-500/20";
+                emojiEl.innerText = "🏆";
+                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-lime-500/10 text-lime-400 border-lime-500/30";
+                badgeEl.innerText = "Victoire !";
+                titleEl.innerText = "Super Match ! 🔥";
+
+                const victoryQuotes = [
+                    "Le travail finit toujours par payer !",
+                    "Tactique solide et belle présence au filet !",
+                    "Encore une belle victoire à inscrire au compteur !"
+                ];
+                messageEl.innerText = victoryQuotes[Math.floor(Math.random() * victoryQuotes.length)];
+
+                // Pluie de Confettis 🎉
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 80,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#84cc16', '#10b981', '#f59e0b', '#ffffff']
+                    });
+                }
+            } else {
+                // Style Défaite
+                card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-slate-700 shadow-slate-950 animate-shake";
+                iconWrapper.className = "w-16 h-16 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto text-3xl shadow-lg";
+                emojiEl.innerText = "🧠";
+                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-amber-500/10 text-amber-400 border-amber-500/30";
+                badgeEl.innerText = "Défaite";
+                titleEl.innerText = "Rien n'est perdu !";
+
+                const defeatQuotes = [
+                    "Chaque défaite est une leçon pour la suivante 💪",
+                    "Analyse tes tags tactiques et reviens plus fort !",
+                    "Bien battu ! La revanche au prochain match."
+                ];
+                messageEl.innerText = defeatQuotes[Math.floor(Math.random() * defeatQuotes.length)];
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeResultFeedbackModal() {
+            const modal = document.getElementById('modal-result-feedback');
+            if (modal) modal.classList.add('hidden');
         }
 
         function renderMatchCard(m) {
@@ -1864,6 +1981,8 @@
         window.closeLessonModal = closeLessonModal;
         window.submitLesson = submitLesson;
         window.toggleAllLessons = toggleAllLessons;
+        window.showResultFeedback = showResultFeedback;
+        window.closeResultFeedbackModal = closeResultFeedbackModal;
 
         // Initialization
         window.onload = function() {
