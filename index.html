@@ -564,6 +564,11 @@
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">📉 Volée faible</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚡ Présence au filet</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🛡️ Trop au fond</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🛡️ Super défense</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">↗️ Positionnement up</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">↘️ Positionnement down</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🧠 Tactique up</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">📉 Tactique down</span>
                         </div>
                     </div>
 
@@ -861,11 +866,30 @@
                 return { type: 'rest', label: 'Repos', icon: '💤' };
             }
 
-            // Détection automatique basée sur les matchs et cours enregistrés à cette date
-            const hasMatch = matches.some(m => m.date === dateStr || (m.timestamp && new Date(m.timestamp).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }) === dateStr));
+            const todayStr = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            // Détection automatique basée sur la date réelle ou le timestamp des matchs
+            const hasMatch = matches.some(m => {
+                if (m.date === dateStr) return true;
+                if (m.date === "Aujourd'hui" && dateStr === todayStr) return true;
+                if (m.timestamp) {
+                    const mDateStr = new Date(m.timestamp).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    if (mDateStr === dateStr) return true;
+                }
+                return false;
+            });
             if (hasMatch) return { type: 'match', label: 'Match', icon: '🎾' };
 
-            const hasLesson = lessons.some(l => l.date === dateStr);
+            // Détection automatique basée sur les cours
+            const hasLesson = lessons.some(l => {
+                if (l.date === dateStr) return true;
+                if (l.date === "Aujourd'hui" && dateStr === todayStr) return true;
+                if (l.timestamp) {
+                    const lDateStr = new Date(l.timestamp).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    if (lDateStr === dateStr) return true;
+                }
+                return false;
+            });
             if (hasLesson) return { type: 'lesson', label: 'Cours', icon: '🎓' };
 
             return { type: 'rest', label: 'Repos', icon: '💤' };
@@ -1162,11 +1186,12 @@
 
             const result = usSetsWon >= themSetsWon ? 'VICTOIRE' : 'DÉFAITE';
             const nowDate = new Date();
+            const dateStrFormatted = nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
             const newMatch = {
                 id: Date.now(),
                 timestamp: nowDate.getTime(),
-                date: nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+                date: dateStrFormatted,
                 type: currentMatchType,
                 partner: partnerName,
                 opponents: opponentsStr,
@@ -1184,6 +1209,7 @@
             
             saveAllData();
             renderMatches();
+            renderWeeklySchedule();
             updateStats();
             closeMatchModal();
         }
@@ -1706,18 +1732,22 @@
             const notesRaw = document.getElementById('lesson-input-notes').value || '';
 
             const notes = notesRaw.split('\n').map(n => n.trim()).filter(Boolean);
+            const nowDate = new Date();
+            const dateStrFormatted = nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
             lessons.unshift({
                 id: Date.now(),
+                timestamp: nowDate.getTime(),
                 coach: coach,
                 location: location,
-                date: date,
+                date: date === "Aujourd'hui" ? dateStrFormatted : date,
                 theme: theme,
                 notes: notes.length ? notes : ['Remarques et consignes enregistrées.']
             });
 
             saveAllData();
             renderLessons();
+            renderWeeklySchedule();
             closeLessonModal();
 
             document.getElementById('lesson-input-coach').value = '';
