@@ -425,17 +425,25 @@
                         <div class="grid grid-cols-3 gap-1.5 items-center">
                             <input type="text" id="match-opp1-name" placeholder="Adversaire 1" class="col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
                             <select id="match-opp1-rank" class="bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none">
-                                <option value="P50">P50</option>
-                                <option value="P100">P100</option>
-                                <option value="P200" selected>P200</option>
-                                <option value="P300">P300</option>
-                                <option value="P400">P400</option>
-                                <option value="P500">P500</option>
-                                <option value="P700">P700</option>
-                                <option value="P1000">P1000</option>
-                                <option value="P100D">P100D</option>
-                                <option value="P200D">P200D</option>
-                                <option value="P300D">P300D</option>
+                                <optgroup label="Messieurs">
+                                    <option value="P50">P50</option>
+                                    <option value="P100">P100</option>
+                                    <option value="P200" selected>P200</option>
+                                    <option value="P300">P300</option>
+                                    <option value="P400">P400</option>
+                                    <option value="P500">P500</option>
+                                    <option value="P700">P700</option>
+                                    <option value="P1000">P1000</option>
+                                </optgroup>
+                                <optgroup label="Dames">
+                                    <option value="P50D">P50D</option>
+                                    <option value="P100D">P100D</option>
+                                    <option value="P200D">P200D</option>
+                                    <option value="P300D">P300D</option>
+                                    <option value="P400D">P400D</option>
+                                    <option value="P500D">P500D</option>
+                                    <option value="P700D">P700D</option>
+                                </optgroup>
                             </select>
                         </div>
 
@@ -443,17 +451,25 @@
                         <div class="grid grid-cols-3 gap-1.5 items-center">
                             <input type="text" id="match-opp2-name" placeholder="Adversaire 2" class="col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
                             <select id="match-opp2-rank" class="bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none">
-                                <option value="P50">P50</option>
-                                <option value="P100">P100</option>
-                                <option value="P200" selected>P200</option>
-                                <option value="P300">P300</option>
-                                <option value="P400">P400</option>
-                                <option value="P500">P500</option>
-                                <option value="P700">P700</option>
-                                <option value="P1000">P1000</option>
-                                <option value="P100D">P100D</option>
-                                <option value="P200D">P200D</option>
-                                <option value="P300D">P300D</option>
+                                <optgroup label="Messieurs">
+                                    <option value="P50">P50</option>
+                                    <option value="P100">P100</option>
+                                    <option value="P200" selected>P200</option>
+                                    <option value="P300">P300</option>
+                                    <option value="P400">P400</option>
+                                    <option value="P500">P500</option>
+                                    <option value="P700">P700</option>
+                                    <option value="P1000">P1000</option>
+                                </optgroup>
+                                <optgroup label="Dames">
+                                    <option value="P50D">P50D</option>
+                                    <option value="P100D">P100D</option>
+                                    <option value="P200D">P200D</option>
+                                    <option value="P300D">P300D</option>
+                                    <option value="P400D">P400D</option>
+                                    <option value="P500D">P500D</option>
+                                    <option value="P700D">P700D</option>
+                                </optgroup>
                             </select>
                         </div>
                     </div>
@@ -1058,7 +1074,9 @@
             setFormat('6sets');
             if (document.getElementById('match-location')) document.getElementById('match-location').value = '';
             if (document.getElementById('match-opp1-name')) document.getElementById('match-opp1-name').value = '';
+            if (document.getElementById('match-opp1-rank')) document.getElementById('match-opp1-rank').value = 'P200';
             if (document.getElementById('match-opp2-name')) document.getElementById('match-opp2-name').value = '';
+            if (document.getElementById('match-opp2-rank')) document.getElementById('match-opp2-rank').value = 'P200';
             if (document.getElementById('match-feeling')) document.getElementById('match-feeling').value = '⚡ En forme';
             if (document.getElementById('match-rating')) document.getElementById('match-rating').value = '4';
             
