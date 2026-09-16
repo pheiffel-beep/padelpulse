@@ -303,6 +303,28 @@
                             </div>
                         </div>
 
+                        <!-- Raquette de Réserve -->
+                        <div class="bg-slate-900/80 p-3 rounded-xl border border-sky-500/30 space-y-1 relative">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-[9px] font-bold text-sky-400 uppercase tracking-wider bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">Raquette de Réserve</span>
+                                    <p class="font-extrabold text-xs text-slate-100 mt-1" id="backup-racket-name">Aucune raquette de réserve</p>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="backup-racket-date">-</span>
+                                    <button onclick="openEditRacketModal('backup')" title="Modifier cette raquette" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-lime-400 px-1.5 py-0.5 rounded border border-slate-700 transition">✏️</button>
+                                    <button onclick="deleteRacket('backup')" title="Effacer" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-rose-400 px-1.5 py-0.5 rounded border border-slate-700 transition">🗑️</button>
+                                    <button onclick="archiveBackupRacket()" title="Archiver cette raquette" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 px-1.5 py-0.5 rounded border border-slate-700 transition flex items-center gap-0.5">📦 Archiver</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1.5 border-t border-slate-800/80">
+                                <span>Matériel de secours</span>
+                                <span class="text-sky-400 font-medium flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> En réserve
+                                </span>
+                            </div>
+                        </div>
+
                         <!-- Raquette Test -->
                         <div class="bg-slate-900/70 p-3 rounded-xl border border-amber-500/30 space-y-1">
                             <div class="flex justify-between items-start">
@@ -722,6 +744,7 @@
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Statut</label>
                         <select id="racket-input-status" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none">
                             <option value="main">Raquette Principale</option>
+                            <option value="backup">Raquette de Réserve</option>
                             <option value="test">Raquette Test</option>
                             <option value="history">Historique (Archivée)</option>
                         </select>
@@ -886,6 +909,7 @@
         let racketsHistory = JSON.parse(localStorage.getItem('padelpulse_rackets')) || [];
         let surgripsHistory = JSON.parse(localStorage.getItem('padelpulse_surgrips')) || [];
         let mainRacket = JSON.parse(localStorage.getItem('padelpulse_main_racket')) || { name: 'Aucune raquette enregistrée', date: '-' };
+        let backupRacket = JSON.parse(localStorage.getItem('padelpulse_backup_racket')) || { name: 'Aucune raquette de réserve', date: '-' };
         let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-' };
         let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
 
@@ -901,6 +925,7 @@
             localStorage.setItem('padelpulse_weekly_overrides', JSON.stringify(weeklyOverrides));
             localStorage.setItem('padelpulse_surgrip_count', currentSurgripMatchCount.toString());
             localStorage.setItem('padelpulse_main_racket', JSON.stringify(mainRacket));
+            localStorage.setItem('padelpulse_backup_racket', JSON.stringify(backupRacket));
             localStorage.setItem('padelpulse_test_racket', JSON.stringify(testRacket));
             localStorage.setItem('padelpulse_current_surgrip', JSON.stringify(currentSurgrip));
         }
@@ -925,6 +950,7 @@
             weeklyOverrides = {};
             currentSurgripMatchCount = 0;
             mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
+            backupRacket = { name: 'Aucune raquette de réserve', date: '-' };
             testRacket = { name: 'Aucune raquette test', date: '-' };
             currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
             
@@ -1926,6 +1952,7 @@
             let currentData = { name: '', date: '' };
 
             if (target === 'main') currentData = mainRacket;
+            else if (target === 'backup') currentData = backupRacket;
             else if (target === 'test') currentData = testRacket;
             else if (typeof target === 'number' && racketsHistory[target]) {
                 currentData = { name: racketsHistory[target].name, date: racketsHistory[target].dates };
@@ -1940,6 +1967,7 @@
 
         function deleteRacket(target) {
             if (target === 'main') mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
+            else if (target === 'backup') backupRacket = { name: 'Aucune raquette de réserve', date: '-' };
             else if (target === 'test') testRacket = { name: 'Aucune raquette test', date: '-' };
             else if (typeof target === 'number') racketsHistory.splice(target, 1);
             
@@ -1956,6 +1984,7 @@
 
             if (editingRacketTarget !== null) {
                 if (editingRacketTarget === 'main') mainRacket = { name: name, date: date };
+                else if (editingRacketTarget === 'backup') backupRacket = { name: name, date: date };
                 else if (editingRacketTarget === 'test') testRacket = { name: name, date: date };
                 else if (typeof editingRacketTarget === 'number' && racketsHistory[editingRacketTarget]) {
                     racketsHistory[editingRacketTarget] = { name: name, dates: date };
@@ -1966,6 +1995,11 @@
                         racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
                     }
                     mainRacket = { name: name, date: date };
+                } else if (status === 'backup') {
+                    if (backupRacket.name && backupRacket.name !== 'Aucune raquette de réserve') {
+                        racketsHistory.unshift({ name: backupRacket.name, dates: backupRacket.date });
+                    }
+                    backupRacket = { name: name, date: date };
                 } else if (status === 'test') {
                     if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
                         racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
@@ -1991,6 +2025,15 @@
             }
         }
 
+        function archiveBackupRacket() {
+            if (backupRacket.name && backupRacket.name !== 'Aucune raquette de réserve') {
+                racketsHistory.unshift({ name: backupRacket.name, dates: backupRacket.date });
+                backupRacket = { name: 'Aucune raquette de réserve', date: '-' };
+                saveAllData();
+                renderRackets();
+            }
+        }
+
         function archiveTestRacket() {
             if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
                 racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
@@ -2008,11 +2051,15 @@
         function renderRackets() {
             const mainNameEl = document.getElementById('main-racket-name');
             const mainDateEl = document.getElementById('main-racket-date');
+            const backupNameEl = document.getElementById('backup-racket-name');
+            const backupDateEl = document.getElementById('backup-racket-date');
             const testNameEl = document.getElementById('test-racket-name');
             const testDateEl = document.getElementById('test-racket-date');
 
             if (mainNameEl) mainNameEl.innerText = mainRacket.name;
             if (mainDateEl) mainDateEl.innerText = mainRacket.date;
+            if (backupNameEl) backupNameEl.innerText = backupRacket.name;
+            if (backupDateEl) backupDateEl.innerText = backupRacket.date;
             if (testNameEl) testNameEl.innerText = testRacket.name;
             if (testDateEl) testDateEl.innerText = testRacket.date;
 
@@ -2333,6 +2380,7 @@
         window.closeRacketModal = closeRacketModal;
         window.submitRacket = submitRacket;
         window.archiveMainRacket = archiveMainRacket;
+        window.archiveBackupRacket = archiveBackupRacket;
         window.archiveTestRacket = archiveTestRacket;
         window.toggleRacketsHistory = toggleRacketsHistory;
         window.openSurgripModal = openSurgripModal;
