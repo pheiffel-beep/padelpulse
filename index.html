@@ -55,7 +55,6 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex justify-center items-start sm:items-center p-0 sm:p-4 selection:bg-lime-500 selection:text-slate-950">
 
-    <!-- Container Frame Smartphone & PC Adaptatif -->
     <div class="w-full max-w-full sm:max-w-[410px] h-screen sm:h-[850px] sm:max-h-[96vh] bg-slate-900 sm:rounded-[45px] sm:border-[8px] sm:border-slate-800 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-700/50">
         
         <!-- Dynamic Island (Simulateur iPhone sur PC) -->
@@ -87,18 +86,18 @@
             </div>
         </header>
 
-        <!-- Zone de contenu principal avec défilement -->
-        <div class="flex-1 overflow-y-auto p-3.5 space-y-3.5 pb-24" id="main-content">
+        <!-- Contenu Principal Navigable -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-24" id="main-content">
             
             <!-- VUE DASHBOARD (ACCUEIL) -->
-            <div id="view-dashboard" class="space-y-3.5">
+            <div id="view-dashboard" class="space-y-4">
                 
-                <!-- Sélecteur de Période (Mois / Année / Global) -->
-                <div class="flex items-center justify-between bg-slate-800/60 px-3 py-2 rounded-2xl border border-slate-800">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-lime-400"></i> Période
+                <!-- Sélecteur de Période Temporelle -->
+                <div class="flex justify-between items-center bg-slate-800/40 p-2 rounded-2xl border border-slate-800">
+                    <span class="text-[11px] font-bold text-slate-300 flex items-center gap-1.5 pl-1">
+                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-lime-400"></i> Période :
                     </span>
-                    <select id="time-period-filter" onchange="setTimePeriodFilter(this.value)" class="bg-slate-950 border border-slate-700 rounded-xl text-[11px] font-bold text-lime-400 px-2.5 py-1 focus:outline-none focus:border-lime-500 cursor-pointer">
+                    <select id="time-period-select" onchange="setTimePeriodFilter(this.value)" class="bg-slate-950 border border-slate-800 text-lime-400 font-bold text-xs rounded-xl px-2.5 py-1 focus:outline-none focus:border-lime-500 transition cursor-pointer">
                         <option value="all">Tout l'historique</option>
                         <option value="this_month">Ce mois-ci</option>
                         <option value="this_year">Année en cours</option>
@@ -107,7 +106,7 @@
                 </div>
 
                 <!-- Cartes de Stats Rapides -->
-                <div class="grid grid-cols-3 gap-2">
+                <div class="grid grid-cols-3 gap-2.5">
                     <div class="bg-slate-800/60 p-3 rounded-2xl border border-slate-800 text-center relative overflow-hidden">
                         <span class="text-[10px] font-semibold text-slate-400 block mb-0.5">MATCHS</span>
                         <span class="text-xl font-extrabold text-white" id="stat-total-matches">0</span>
@@ -118,29 +117,73 @@
                     </div>
                     <div class="bg-slate-800/60 p-3 rounded-2xl border border-slate-800 text-center relative overflow-hidden">
                         <span class="text-[10px] font-semibold text-slate-400 block mb-0.5">FORME MOY.</span>
-                        <span class="text-xl font-extrabold text-emerald-400" id="stat-avg-feeling">0<span class="text-xs text-slate-500 font-normal">/5</span></span>
+                        <span class="text-xl font-extrabold text-emerald-400" id="stat-avg-feeling">4.2<span class="text-xs text-slate-500 font-normal">/5</span></span>
                     </div>
                 </div>
 
-                <!-- Rythme de la Semaine (3 options uniquement : Match, Cours, Repos) -->
+                <!-- Charge Physique & Planning Hebdo / Mensuel -->
                 <div class="bg-slate-800/40 p-3.5 rounded-2xl border border-slate-800/80 space-y-2.5">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                            <i data-lucide="activity" class="w-3.5 h-3.5 text-lime-400"></i> Rythme de la Semaine
+                            <i data-lucide="activity" class="w-3.5 h-3.5 text-lime-400"></i> <span id="rhythm-section-title">Rythme d'Activité</span>
                         </h2>
-                        <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-medium" id="weekly-session-count">0 Séance</span>
+                        
+                        <!-- Switcher Semaine / Mois -->
+                        <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                            <button onclick="setRhythmViewMode('week')" id="btn-rhythm-week" class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition">📆 Semaine</button>
+                            <button onclick="setRhythmViewMode('month')" id="btn-rhythm-month" class="px-2 py-0.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-white transition">📅 Mois</button>
+                        </div>
                     </div>
                     
-                    <!-- Légende (Match, Cours, Repos) -->
-                    <div class="flex items-center justify-around text-[9px] text-slate-400 px-2 py-1 bg-slate-950/40 rounded-lg border border-slate-800/60">
-                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-lime-400 border border-lime-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Match</span>
-                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Cours</span>
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-600"></span> Repos</span>
+                    <!-- VUE SEMAINE -->
+                    <div id="wrapper-weekly-view" class="space-y-2.5">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[9px] text-slate-400 font-medium">Semaine en cours</span>
+                            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-medium" id="weekly-session-count">0 Séance</span>
+                        </div>
+                        
+                        <!-- Légende explicative rapide -->
+                        <div class="flex items-center justify-around text-[9px] text-slate-400 px-2 py-1 bg-slate-950/40 rounded-lg border border-slate-800/60">
+                            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-lime-400 border border-lime-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Match</span>
+                            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Cours</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-600"></span> Repos</span>
+                        </div>
+
+                        <!-- Grille des 7 Jours de la semaine -->
+                        <div class="grid grid-cols-7 gap-1 text-center" id="weekly-grid">
+                            <!-- Rempli en JS -->
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-7 gap-1 text-center" id="weekly-grid">
-                        <!-- Rempli en JS -->
+                    <!-- VUE MOIS (CALENDRIER HYBRIDE) -->
+                    <div id="wrapper-monthly-view" class="hidden space-y-2.5">
+                        <!-- Navigation Mois (Précédent / Suivant) -->
+                        <div class="flex justify-between items-center bg-slate-950/60 px-3 py-1.5 rounded-xl border border-slate-800">
+                            <button onclick="navigateCalendarMonth(-1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-xs transition active:scale-95">◀</button>
+                            <div class="text-center">
+                                <span class="text-xs font-extrabold text-lime-400 capitalize" id="calendar-month-label">Septembre 2026</span>
+                                <span class="text-[9px] text-slate-400 block" id="monthly-session-count">0 séance ce mois</span>
+                            </div>
+                            <button onclick="navigateCalendarMonth(1)" class="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center text-xs transition active:scale-95">▶</button>
+                        </div>
+
+                        <!-- En-têtes jours de la semaine (L M M J V S D) -->
+                        <div class="grid grid-cols-7 gap-1 text-center">
+                            <span class="text-[9px] font-bold text-slate-500">L</span>
+                            <span class="text-[9px] font-bold text-slate-500">M</span>
+                            <span class="text-[9px] font-bold text-slate-500">M</span>
+                            <span class="text-[9px] font-bold text-slate-500">J</span>
+                            <span class="text-[9px] font-bold text-slate-500">V</span>
+                            <span class="text-[9px] font-bold text-slate-500">S</span>
+                            <span class="text-[9px] font-bold text-slate-500">D</span>
+                        </div>
+
+                        <!-- Grille Mensuelle Strava-style -->
+                        <div class="grid grid-cols-7 gap-1 text-center" id="monthly-grid">
+                            <!-- Rempli en JS -->
+                        </div>
                     </div>
+
                 </div>
 
                 <!-- Récapitulatif Général & Fréquentation -->
@@ -353,7 +396,7 @@
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2 sticky top-0 bg-slate-900/95 z-10 pt-1">
                     <h3 class="font-bold text-xs sm:text-sm text-slate-100 flex items-center gap-1.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-lime-400 animate-pulse shrink-0"></span>
-                        <span class="truncate">Saisie Express Match (< 30s)</span>
+                        <span class="truncate">Saisie Express Match (&lt; 30s)</span>
                     </h3>
                     <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-xs transition shrink-0">✕</button>
                 </div>
@@ -813,6 +856,8 @@
         let currentFormat = '6sets';
         let visibleSetsCount = 1;
         let currentTimePeriod = 'all';
+        let rhythmViewMode = 'week'; // 'week' ou 'month'
+        let currentCalendarDate = new Date(); // Pour la navigation dans le calendrier mensuel
         let currentSurgripMatchCount = parseInt(localStorage.getItem('padelpulse_surgrip_count')) || 0;
         let showAllRecentMatches = false;
         let showAllLessons = false;
@@ -864,6 +909,7 @@
             
             saveAllData();
             renderWeeklySchedule();
+            renderMonthlySchedule();
             renderMatches();
             renderLessons();
             renderRackets();
@@ -965,6 +1011,7 @@
             weeklyOverrides[dateStr] = types[nextIdx];
             saveAllData();
             renderWeeklySchedule();
+            renderMonthlySchedule();
         }
 
         function renderWeeklySchedule() {
@@ -975,9 +1022,9 @@
             const weekDays = getCurrentWeekDays();
             let activeCount = 0;
 
-            container.innerHTML = weekDays.map((d) => {
+            container.innerHTML = weekDays.map(d => {
                 const status = getDayStatus(d.dateStr);
-                let badgeStyle = 'bg-slate-900 border-slate-800 text-slate-500';
+                let badgeStyle = 'bg-slate-950/60 border-slate-800/80 text-slate-500';
                 
                 if (status.type === 'match') {
                     badgeStyle = 'bg-lime-500/20 border-lime-500/40 text-lime-400 font-bold';
@@ -987,12 +1034,12 @@
                     activeCount++;
                 }
 
-                const todayStyle = d.isToday ? 'ring-1 ring-lime-400/70' : '';
+                const todayRing = d.isToday ? 'ring-1 ring-lime-400' : '';
 
                 return `
-                    <div onclick="cycleDayActivity('${d.dateStr}')" class="p-1 rounded-xl border ${badgeStyle} ${todayStyle} cursor-pointer hover:border-lime-500/60 transition flex flex-col items-center justify-between h-16 select-none">
-                        <div class="flex items-center gap-0.5">
-                            <span class="text-[9px] font-bold text-slate-400 uppercase">${d.letter}</span>
+                    <div onclick="cycleDayActivity('${d.dateStr}')" title="${d.dateStr} : ${status.label}" class="p-1.5 rounded-xl border ${badgeStyle} ${todayRing} cursor-pointer hover:border-lime-500/60 transition flex flex-col items-center justify-between h-16 select-none relative">
+                        <div class="flex items-center justify-center gap-0.5">
+                            <span class="text-[9px] font-extrabold text-slate-300 uppercase">${d.letter}</span>
                             <span class="text-[8px] text-slate-500 font-mono">${d.dateNum}</span>
                         </div>
                         <span class="text-xs my-0.5">${status.icon}</span>
@@ -1001,10 +1048,102 @@
                 `;
             }).join('');
 
-            if (sessionCountEl) sessionCountEl.innerText = `${activeCount} Séance${activeCount > 1 ? 's' : ''}`;
+            if (sessionCountEl) {
+                sessionCountEl.innerText = `${activeCount} Séance${activeCount > 1 ? 's' : ''}`;
+            }
         }
 
-        // Populate score dropdowns defaulting to 0
+        function setRhythmViewMode(mode) {
+            rhythmViewMode = mode;
+            const btnWeek = document.getElementById('btn-rhythm-week');
+            const btnMonth = document.getElementById('btn-rhythm-month');
+            const wrapWeek = document.getElementById('wrapper-weekly-view');
+            const wrapMonth = document.getElementById('wrapper-monthly-view');
+
+            if (mode === 'month') {
+                btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition";
+                btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-white transition";
+                wrapWeek.classList.add('hidden');
+                wrapMonth.classList.remove('hidden');
+                renderMonthlySchedule();
+            } else {
+                btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition";
+                btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-white transition";
+                wrapMonth.classList.add('hidden');
+                wrapWeek.classList.remove('hidden');
+                renderWeeklySchedule();
+            }
+        }
+
+        function navigateCalendarMonth(delta) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + delta);
+            renderMonthlySchedule();
+        }
+
+        function renderMonthlySchedule() {
+            const container = document.getElementById('monthly-grid');
+            const monthLabel = document.getElementById('calendar-month-label');
+            const sessionCountEl = document.getElementById('monthly-session-count');
+            if (!container) return;
+
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+
+            const monthName = currentCalendarDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+            if (monthLabel) monthLabel.innerText = monthName;
+
+            const firstDayOfMonth = new Date(year, month, 1);
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            let startDayIndex = firstDayOfMonth.getDay() - 1;
+            if (startDayIndex === -1) startDayIndex = 6;
+
+            const today = new Date();
+            const todayStr = today.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            let html = '';
+            let activeMonthSessions = 0;
+
+            for (let i = 0; i < startDayIndex; i++) {
+                html += `<div class="p-1 rounded-lg bg-slate-950/20 border border-transparent h-10"></div>`;
+            }
+
+            for (let dayNum = 1; dayNum <= daysInMonth; dayNum++) {
+                const dateObj = new Date(year, month, dayNum);
+                const dateStr = dateObj.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const status = getDayStatus(dateStr);
+                const isToday = dateStr === todayStr;
+
+                let cellStyle = 'bg-slate-950/60 border-slate-800/80 text-slate-400';
+                let dotIcon = '';
+
+                if (status.type === 'match') {
+                    cellStyle = 'bg-lime-500/20 border-lime-500/50 text-lime-400 font-bold shadow-sm shadow-lime-500/10';
+                    dotIcon = '🎾';
+                    activeMonthSessions++;
+                } else if (status.type === 'lesson') {
+                    cellStyle = 'bg-amber-500/20 border-amber-500/50 text-amber-400 font-bold shadow-sm shadow-amber-500/10';
+                    dotIcon = '🎓';
+                    activeMonthSessions++;
+                }
+
+                const todayRing = isToday ? 'ring-1 ring-lime-400' : '';
+
+                html += `
+                    <div onclick="cycleDayActivity('${dateStr}')" title="${dateStr} : ${status.label}" class="p-1 rounded-xl border ${cellStyle} ${todayRing} cursor-pointer hover:border-lime-500/60 transition flex flex-col items-center justify-between h-10 select-none relative overflow-hidden">
+                        <span class="text-[9px] font-mono leading-none font-bold">${dayNum}</span>
+                        <span class="text-[9px] leading-none">${dotIcon || '·'}</span>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+
+            if (sessionCountEl) {
+                sessionCountEl.innerText = `${activeMonthSessions} séance${activeMonthSessions > 1 ? 's' : ''} ce mois`;
+            }
+        }
+
         function populateScoreDropdowns(maxScore) {
             [1, 2, 3].forEach(setNum => {
                 const usSelect = document.getElementById(`s${setNum}-us`);
@@ -1030,11 +1169,11 @@
             const btnComp = document.getElementById('btn-type-competition');
 
             if (type === 'competition') {
-                btnComp.classList.add('active');
-                btnAmical.classList.remove('active');
+                if (btnComp) btnComp.classList.add('active');
+                if (btnAmical) btnAmical.classList.remove('active');
             } else {
-                btnAmical.classList.add('active');
-                btnComp.classList.remove('active');
+                if (btnAmical) btnAmical.classList.add('active');
+                if (btnComp) btnComp.classList.remove('active');
             }
         }
 
@@ -1274,79 +1413,58 @@
             saveAllData();
             renderMatches();
             renderWeeklySchedule();
+            renderMonthlySchedule();
             updateStats();
             closeMatchModal();
 
-            // Déclencher l'animation personnalisée de résultat
             showResultFeedback(newMatch);
         }
 
-        function showResultFeedback(matchData) {
+        function showResultFeedback(match) {
             const modal = document.getElementById('modal-result-feedback');
             const card = document.getElementById('feedback-card');
-            const iconWrapper = document.getElementById('feedback-icon-wrapper');
+            const iconWrap = document.getElementById('feedback-icon-wrapper');
             const emojiEl = document.getElementById('feedback-emoji');
             const badgeEl = document.getElementById('feedback-badge');
             const titleEl = document.getElementById('feedback-title');
-            const messageEl = document.getElementById('feedback-message');
+            const msgEl = document.getElementById('feedback-message');
             const partnerEl = document.getElementById('feedback-partner-text');
             const scoreEl = document.getElementById('feedback-score-text');
             const oppEl = document.getElementById('feedback-opponents-text');
 
             if (!modal || !card) return;
 
-            partnerEl.innerText = `avec ${matchData.partner}`;
-            scoreEl.innerText = matchData.score;
-            oppEl.innerText = `vs ${matchData.opponents}`;
+            partnerEl.innerText = `avec ${match.partner}`;
+            scoreEl.innerText = match.score;
+            oppEl.innerText = `vs ${match.opponents}`;
 
-            if (matchData.result === 'VICTOIRE') {
-                // Style Victoire
-                card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-lime-500/50 shadow-lime-500/20 animate-pop-in";
-                iconWrapper.className = "w-16 h-16 rounded-full bg-lime-500/20 text-lime-400 border border-lime-500/40 flex items-center justify-center mx-auto text-3xl shadow-lg shadow-lime-500/20";
+            if (match.result === 'VICTOIRE') {
+                card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-lime-500/40 animate-pop-in";
+                iconWrap.className = "w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg bg-lime-500/20 text-lime-400 border border-lime-500/40";
                 emojiEl.innerText = "🏆";
-                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-lime-500/10 text-lime-400 border-lime-500/30";
+                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-lime-500/20 text-lime-400 border-lime-500/40";
                 badgeEl.innerText = "Victoire !";
-                titleEl.innerText = "Super Match ! 🔥";
+                titleEl.innerText = "Super Match !";
+                msgEl.innerText = "Le travail paye sur le terrain ! Continue sur cette lancée 🔥";
 
-                const victoryQuotes = [
-                    "Le travail finit toujours par payer !",
-                    "Tactique solide et belle présence au filet !",
-                    "Encore une belle victoire à inscrire au compteur !"
-                ];
-                messageEl.innerText = victoryQuotes[Math.floor(Math.random() * victoryQuotes.length)];
-
-                // Pluie de Confettis 🎉
-                if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 80,
-                        spread: 70,
-                        origin: { y: 0.6 },
-                        colors: ['#84cc16', '#10b981', '#f59e0b', '#ffffff']
-                    });
+                if (window.confetti) {
+                    confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
                 }
             } else {
-                // Style Défaite
-                card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-slate-700 shadow-slate-950 animate-shake";
-                iconWrapper.className = "w-16 h-16 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto text-3xl shadow-lg";
+                card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-rose-500/30 animate-shake";
+                iconWrap.className = "w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg bg-rose-500/20 text-rose-400 border border-rose-500/30";
                 emojiEl.innerText = "🧠";
-                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-amber-500/10 text-amber-400 border-amber-500/30";
+                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-rose-500/20 text-rose-400 border-rose-500/30";
                 badgeEl.innerText = "Défaite";
-                titleEl.innerText = "Rien n'est perdu !";
-
-                const defeatQuotes = [
-                    "Chaque défaite est une leçon pour la suivante 💪",
-                    "Analyse tes tags tactiques et reviens plus fort !",
-                    "Bien battu ! La revanche au prochain match."
-                ];
-                messageEl.innerText = defeatQuotes[Math.floor(Math.random() * defeatQuotes.length)];
+                titleEl.innerText = "Bien battu !";
+                msgEl.innerText = "Analyse tes tags tactiques, ajuste tes coups et reviens plus fort 💪";
             }
 
             modal.classList.remove('hidden');
         }
 
         function closeResultFeedbackModal() {
-            const modal = document.getElementById('modal-result-feedback');
-            if (modal) modal.classList.add('hidden');
+            document.getElementById('modal-result-feedback').classList.add('hidden');
         }
 
         function renderMatchCard(m) {
@@ -1399,28 +1517,25 @@
         function renderMatches() {
             const recentContainer = document.getElementById('recent-matches-container');
             const allContainer = document.getElementById('all-matches-container');
-            const filteredMatches = getFilteredMatches();
+            const filtered = getFilteredMatches();
 
             if (recentContainer) {
-                const displayRecent = showAllRecentMatches ? filteredMatches : filteredMatches.slice(0, 3);
+                const displayRecent = showAllRecentMatches ? filtered : filtered.slice(0, 3);
                 let html = displayRecent.map(m => renderMatchCard(m)).join('');
 
-                if (filteredMatches.length > 3) {
+                if (filtered.length > 3) {
                     html += `
                         <button onclick="toggleAllRecentMatches()" class="w-full py-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs text-lime-400 font-semibold transition flex items-center justify-center gap-1 mt-1">
-                            <span>${showAllRecentMatches ? 'Réduire' : `Voir plus (${filteredMatches.length - 3} de plus)`}</span>
+                            <span>${showAllRecentMatches ? 'Réduire' : `Voir plus (${filtered.length - 3} de plus)`}</span>
                             <i data-lucide="${showAllRecentMatches ? 'chevron-up' : 'chevron-down'}" class="w-3.5 h-3.5"></i>
                         </button>
                     `;
                 }
-                if (!filteredMatches.length) html = `<p class="text-[11px] text-slate-500 text-center py-4">Aucun match enregistré pour cette période</p>`;
                 recentContainer.innerHTML = html;
             }
 
             if (allContainer) {
-                let html = filteredMatches.map(m => renderMatchCard(m)).join('');
-                if (!filteredMatches.length) html = `<p class="text-[11px] text-slate-500 text-center py-4">Aucun match enregistré</p>`;
-                allContainer.innerHTML = html;
+                allContainer.innerHTML = filtered.map(m => renderMatchCard(m)).join('');
             }
 
             const currentSurgripMatchesEl = document.getElementById('current-surgrip-matches');
@@ -1432,23 +1547,22 @@
         }
 
         function updateStats() {
-            const filteredMatches = getFilteredMatches();
-
+            const filtered = getFilteredMatches();
             const totalEl = document.getElementById('stat-total-matches');
-            if (totalEl) totalEl.innerText = filteredMatches.length;
-
-            const wins = filteredMatches.filter(m => m.result === 'VICTOIRE').length;
-            const winRate = filteredMatches.length ? Math.round((wins / filteredMatches.length) * 100) : 0;
+            if (totalEl) totalEl.innerText = filtered.length;
+            
+            const wins = filtered.filter(m => m.result === 'VICTOIRE').length;
+            const winRate = filtered.length ? Math.round((wins / filtered.length) * 100) : 0;
             const rateEl = document.getElementById('stat-win-rate');
             if (rateEl) rateEl.innerText = winRate + '%';
 
-            if (filteredMatches.length > 0) {
-                const avgRating = (filteredMatches.reduce((acc, m) => acc + (m.rating || 4), 0) / filteredMatches.length).toFixed(1);
+            if (filtered.length > 0) {
+                const avgRating = (filtered.reduce((acc, m) => acc + (m.rating || 4), 0) / filtered.length).toFixed(1);
                 const avgEl = document.getElementById('stat-avg-feeling');
                 if (avgEl) avgEl.innerHTML = `${avgRating}<span class="text-xs text-slate-500 font-normal">/5</span>`;
             } else {
                 const avgEl = document.getElementById('stat-avg-feeling');
-                if (avgEl) avgEl.innerHTML = `0<span class="text-xs text-slate-500 font-normal">/5</span>`;
+                if (avgEl) avgEl.innerHTML = `-<span class="text-xs text-slate-500 font-normal">/5</span>`;
             }
 
             renderPlayersStats();
@@ -1459,13 +1573,13 @@
             const summaryGrid = document.getElementById('stats-summary-grid');
             if (!summaryGrid) return;
 
-            const filteredMatches = getFilteredMatches();
+            const filtered = getFilteredMatches();
             const locationCounts = {};
             const locationWins = {};
             const partnerCounts = {};
             const partnerWins = {};
 
-            filteredMatches.forEach(m => {
+            filtered.forEach(m => {
                 if (m.location) {
                     locationCounts[m.location] = (locationCounts[m.location] || 0) + 1;
                     if (m.result === 'VICTOIRE') locationWins[m.location] = (locationWins[m.location] || 0) + 1;
@@ -1521,27 +1635,34 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        function openEditPlayerModal(name) {
-            editingPlayerName = name;
-            const currentRank = playersDatabase[name]?.rank || 'P200';
-            document.getElementById('edit-player-name-title').innerText = name;
-            document.getElementById('edit-player-rank-select').value = currentRank;
+        function openEditPlayerModal(playerName) {
+            editingPlayerName = playerName;
+            const titleEl = document.getElementById('edit-player-name-title');
+            const selectEl = document.getElementById('edit-player-rank-select');
+            
+            if (titleEl) titleEl.innerText = `Joueur : ${playerName}`;
+            if (selectEl) {
+                const currentRank = playersDatabase[playerName]?.rank || 'P200';
+                selectEl.value = currentRank;
+            }
             document.getElementById('modal-edit-player').classList.remove('hidden');
         }
 
         function closeEditPlayerModal() {
-            editingPlayerName = null;
             document.getElementById('modal-edit-player').classList.add('hidden');
+            editingPlayerName = null;
         }
 
         function savePlayerRankEdit() {
             if (!editingPlayerName) return;
             const newRank = document.getElementById('edit-player-rank-select').value;
+            
             if (!playersDatabase[editingPlayerName]) {
                 playersDatabase[editingPlayerName] = { rank: newRank, gender: newRank.endsWith('D') ? 'F' : 'M' };
             } else {
                 playersDatabase[editingPlayerName].rank = newRank;
             }
+
             saveAllData();
             renderPlayersStats();
             updatePartnerDropdownOptions();
@@ -1575,9 +1696,8 @@
 
             const partnersMap = {};
             const opponentsMap = {};
-            const filteredMatches = getFilteredMatches();
 
-            filteredMatches.forEach(m => {
+            matches.forEach(m => {
                 if (m.partner) {
                     if (!partnersMap[m.partner]) {
                         partnersMap[m.partner] = { name: m.partner, wins: 0, total: 0, type: 'partner' };
@@ -1618,7 +1738,7 @@
             }
 
             if (list.length === 0) {
-                container.innerHTML = `<p class="text-[11px] text-slate-500 text-center py-3">Aucun joueur trouvé</p>`;
+                container.innerHTML = `<p class="text-[11px] text-slate-500 text-center py-3">Aucun joueur enregistré</p>`;
                 return;
             }
 
@@ -1645,17 +1765,15 @@
 
                 return `
                     <div class="flex items-center justify-between p-2.5 bg-slate-800/80 rounded-xl border border-slate-700/50">
-                        <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="flex items-center gap-2.5">
                             <div class="w-8 h-8 rounded-full ${item.type === 'partner' ? 'bg-gradient-to-tr from-slate-700 to-slate-600 text-lime-400' : 'bg-slate-700 text-slate-300'} flex items-center justify-center text-xs font-bold border border-slate-600 shrink-0">
                                 ${initials}
                             </div>
                             <div class="min-w-0">
                                 <div class="flex items-center gap-1.5 flex-wrap">
                                     <p class="text-xs font-bold text-slate-200 truncate">${item.name}</p>
-                                    <button onclick="openEditPlayerModal('${item.name}')" title="Modifier le niveau" class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border ${rankBadgeClass} hover:border-lime-400 transition flex items-center gap-0.5">
-                                        <span>${playerInfo.rank}</span>
-                                        <i data-lucide="edit-2" class="w-2.5 h-2.5 opacity-70"></i>
-                                    </button>
+                                    <span class="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded border ${rankBadgeClass}">${playerInfo.rank}</span>
+                                    <button onclick="openEditPlayerModal('${item.name.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-lime-400 text-[10px]" title="Modifier le classement">✏️</button>
                                     <span class="text-[8px] px-1.5 py-0.2 rounded font-medium ${item.type === 'partner' ? 'bg-lime-500/10 text-lime-300 border border-lime-500/20' : 'bg-blue-500/10 text-blue-300 border border-blue-500/20'}">${roleLabel}</span>
                                 </div>
                                 <p class="text-[10px] text-slate-400 truncate">${detailText}</p>
@@ -1681,32 +1799,13 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        // Gear Functions (Rackets & Surgrips)
         function openRacketModal() { document.getElementById('modal-racket').classList.remove('hidden'); }
         function closeRacketModal() { document.getElementById('modal-racket').classList.add('hidden'); }
 
-        function archiveMainRacket() {
-            if (mainRacket && mainRacket.name !== 'Aucune raquette enregistrée') {
-                racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
-                mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
-                saveAllData();
-                renderRackets();
-            }
-        }
-
-        function archiveTestRacket() {
-            if (testRacket && testRacket.name !== 'Aucune raquette test') {
-                racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
-                testRacket = { name: 'Aucune raquette test', date: '-' };
-                saveAllData();
-                renderRackets();
-            }
-        }
-
         function submitRacket() {
-            const name = document.getElementById('racket-input-name').value.trim();
-            const status = document.getElementById('racket-input-status').value;
-            const date = document.getElementById('racket-input-date').value.trim() || 'Récemment';
+            const name = document.getElementById('racket-input-name')?.value.trim();
+            const status = document.getElementById('racket-input-status')?.value;
+            const date = document.getElementById('racket-input-date')?.value.trim() || 'Récemment';
 
             if (!name) return;
 
@@ -1729,6 +1828,24 @@
             closeRacketModal();
             document.getElementById('racket-input-name').value = '';
             document.getElementById('racket-input-date').value = '';
+        }
+
+        function archiveMainRacket() {
+            if (mainRacket.name && mainRacket.name !== 'Aucune raquette enregistrée') {
+                racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
+                mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
+                saveAllData();
+                renderRackets();
+            }
+        }
+
+        function archiveTestRacket() {
+            if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
+                racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
+                testRacket = { name: 'Aucune raquette test', date: '-' };
+                saveAllData();
+                renderRackets();
+            }
         }
 
         function toggleRacketsHistory() {
@@ -1764,13 +1881,14 @@
             if (toggleBtn) {
                 if (racketsHistory.length > 3) {
                     toggleBtn.classList.remove('hidden');
-                    toggleBtn.innerText = showAllRacketsHistory ? 'Réduire' : `Voir plus (${racketsHistory.length - 3})`;
+                    toggleBtn.innerText = showAllRacketsHistory ? 'Réduire' : `Voir plus (${racketsHistory.length})`;
                 } else {
                     toggleBtn.classList.add('hidden');
                 }
             }
 
             const displayList = showAllRacketsHistory ? racketsHistory : racketsHistory.slice(0, 3);
+
             container.innerHTML = displayList.map(r => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
@@ -1786,15 +1904,15 @@
         function closeSurgripModal() { document.getElementById('modal-surgrip').classList.add('hidden'); }
 
         function submitSurgrip() {
-            const name = document.getElementById('surgrip-input-name').value.trim();
-            const date = document.getElementById('surgrip-input-date').value.trim() || 'Aujourd\'hui';
+            const name = document.getElementById('surgrip-input-name')?.value.trim();
+            const date = document.getElementById('surgrip-input-date')?.value.trim() || 'Aujourd\'hui';
             if (!name) return;
 
             if (currentSurgrip.name && currentSurgrip.name !== 'Aucun surgrip enregistré') {
                 surgripsHistory.unshift({
                     name: currentSurgrip.name,
                     date: 'Posé le ' + currentSurgrip.date,
-                    matches: currentSurgripMatchCount + ' match' + (currentSurgripMatchCount > 1 ? 's' : '')
+                    matches: currentSurgripMatchCount + ' matchs'
                 });
             }
 
@@ -1838,13 +1956,14 @@
             if (toggleBtn) {
                 if (surgripsHistory.length > 3) {
                     toggleBtn.classList.remove('hidden');
-                    toggleBtn.innerText = showAllSurgripsHistory ? 'Réduire' : `Voir plus (${surgripsHistory.length - 3})`;
+                    toggleBtn.innerText = showAllSurgripsHistory ? 'Réduire' : `Voir plus (${surgripsHistory.length})`;
                 } else {
                     toggleBtn.classList.add('hidden');
                 }
             }
 
             const displayList = showAllSurgripsHistory ? surgripsHistory : surgripsHistory.slice(0, 3);
+
             container.innerHTML = displayList.map(s => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
@@ -1860,11 +1979,11 @@
         function closeLessonModal() { document.getElementById('modal-lesson').classList.add('hidden'); }
 
         function submitLesson() {
-            const coach = document.getElementById('lesson-input-coach').value || 'Coach Nicolas';
-            const location = document.getElementById('lesson-input-location').value || 'Lieu non précisé';
-            const date = document.getElementById('lesson-input-date').value || 'Aujourd\'hui';
-            const theme = document.getElementById('lesson-input-theme').value || 'Thème général';
-            const notesRaw = document.getElementById('lesson-input-notes').value || '';
+            const coach = document.getElementById('lesson-input-coach')?.value || 'Coach Nicolas';
+            const location = document.getElementById('lesson-input-location')?.value || 'Lieu non précisé';
+            const date = document.getElementById('lesson-input-date')?.value || 'Aujourd\'hui';
+            const theme = document.getElementById('lesson-input-theme')?.value || 'Thème général';
+            const notesRaw = document.getElementById('lesson-input-notes')?.value || '';
 
             const notes = notesRaw.split('\n').map(n => n.trim()).filter(Boolean);
             const nowDate = new Date();
@@ -1883,6 +2002,7 @@
             saveAllData();
             renderLessons();
             renderWeeklySchedule();
+            renderMonthlySchedule();
             closeLessonModal();
 
             document.getElementById('lesson-input-coach').value = '';
@@ -1944,34 +2064,31 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        // Attach global bindings for inline HTML handlers
+        // Global Event Binding
+        window.openMatchModal = openMatchModal;
+        window.closeMatchModal = closeMatchModal;
+        window.submitExpressMatch = submitExpressMatch;
         window.openResetModal = openResetModal;
         window.closeResetModal = closeResetModal;
         window.confirmResetData = confirmResetData;
         window.switchTab = switchTab;
         window.cycleDayActivity = cycleDayActivity;
-        window.setMatchType = setMatchType;
+        window.setRhythmViewMode = setRhythmViewMode;
+        window.navigateCalendarMonth = navigateCalendarMonth;
         window.setFormat = setFormat;
+        window.setMatchType = setMatchType;
         window.addSetField = addSetField;
-        window.openMatchModal = openMatchModal;
-        window.closeMatchModal = closeMatchModal;
+        window.toggleTag = toggleTag;
         window.toggleNewPartnerInput = toggleNewPartnerInput;
         window.handlePartnerSelectChange = handlePartnerSelectChange;
-        window.toggleTag = toggleTag;
-        window.setTimePeriodFilter = setTimePeriodFilter;
-        window.submitExpressMatch = submitExpressMatch;
-        window.toggleAllRecentMatches = toggleAllRecentMatches;
         window.openEditPlayerModal = openEditPlayerModal;
         window.closeEditPlayerModal = closeEditPlayerModal;
         window.savePlayerRankEdit = savePlayerRankEdit;
-        window.toggleAllPlayers = toggleAllPlayers;
-        window.setPlayerFilter = setPlayerFilter;
-        window.renderPlayersStats = renderPlayersStats;
         window.openRacketModal = openRacketModal;
         window.closeRacketModal = closeRacketModal;
+        window.submitRacket = submitRacket;
         window.archiveMainRacket = archiveMainRacket;
         window.archiveTestRacket = archiveTestRacket;
-        window.submitRacket = submitRacket;
         window.toggleRacketsHistory = toggleRacketsHistory;
         window.openSurgripModal = openSurgripModal;
         window.closeSurgripModal = closeSurgripModal;
@@ -1981,13 +2098,14 @@
         window.closeLessonModal = closeLessonModal;
         window.submitLesson = submitLesson;
         window.toggleAllLessons = toggleAllLessons;
-        window.showResultFeedback = showResultFeedback;
         window.closeResultFeedbackModal = closeResultFeedbackModal;
+        window.setTimePeriodFilter = setTimePeriodFilter;
 
         // Initialization
         window.onload = function() {
             setFormat('6sets');
             renderWeeklySchedule();
+            renderMonthlySchedule();
             renderMatches();
             renderLessons();
             renderRackets();
