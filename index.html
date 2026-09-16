@@ -576,50 +576,74 @@
                         <!-- Scores initialisés à 0 : 0 -->
                         <div class="space-y-2 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80" id="sets-container">
                             <!-- Set 1 -->
-                            <div class="flex items-center justify-between p-2 bg-slate-900/90 rounded-xl border border-slate-800/90" id="row-set-1">
-                                <span class="text-xs font-bold text-slate-300 w-20 shrink-0" id="label-set-1">Set 1</span>
-                                <div class="flex items-center gap-2">
-                                    <div class="flex flex-col items-center gap-0.5">
-                                        <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
-                                        <select id="s1-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90" id="row-set-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-300 w-20 shrink-0" id="label-set-1">Set 1</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
+                                            <select id="s1-us" onchange="checkTieBreakVisibility(1)" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                                        </div>
+                                        <span class="text-slate-500 font-black text-sm pt-2">:</span>
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
+                                            <select id="s1-them" onchange="checkTieBreakVisibility(1)" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                                        </div>
                                     </div>
-                                    <span class="text-slate-500 font-black text-sm pt-2">:</span>
-                                    <div class="flex flex-col items-center gap-0.5">
-                                        <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
-                                        <select id="s1-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
-                                    </div>
+                                </div>
+                                <div id="s1-tb-wrap" class="flex items-center justify-between pt-1 border-t border-slate-800/60 hidden">
+                                    <span class="text-[9px] text-amber-400 font-bold uppercase flex items-center gap-1">
+                                        ⚡ Tie-Break (Points)
+                                    </span>
+                                    <input type="text" id="s1-tb" placeholder="Ex: 7-5 ou 5" class="w-24 bg-slate-950 border border-slate-800 rounded-lg px-2 py-0.5 text-[10px] text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                                 </div>
                             </div>
 
                             <!-- Set 2 -->
-                            <div class="flex items-center justify-between p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden" id="row-set-2">
-                                <span class="text-xs font-bold text-slate-300 w-20 shrink-0">Set 2</span>
-                                <div class="flex items-center gap-2">
-                                    <div class="flex flex-col items-center gap-0.5">
-                                        <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
-                                        <select id="s2-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden" id="row-set-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-300 w-20 shrink-0">Set 2</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
+                                            <select id="s2-us" onchange="checkTieBreakVisibility(2)" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                                        </div>
+                                        <span class="text-slate-500 font-black text-sm pt-2">:</span>
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
+                                            <select id="s2-them" onchange="checkTieBreakVisibility(2)" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                                        </div>
                                     </div>
-                                    <span class="text-slate-500 font-black text-sm pt-2">:</span>
-                                    <div class="flex flex-col items-center gap-0.5">
-                                        <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
-                                        <select id="s2-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
-                                    </div>
+                                </div>
+                                <div id="s2-tb-wrap" class="flex items-center justify-between pt-1 border-t border-slate-800/60 hidden">
+                                    <span class="text-[9px] text-amber-400 font-bold uppercase flex items-center gap-1">
+                                        ⚡ Tie-Break (Points)
+                                    </span>
+                                    <input type="text" id="s2-tb" placeholder="Ex: 7-5 ou 5" class="w-24 bg-slate-950 border border-slate-800 rounded-lg px-2 py-0.5 text-[10px] text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                                 </div>
                             </div>
 
                             <!-- Set 3 -->
-                            <div class="flex items-center justify-between p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden" id="row-set-3">
-                                <span class="text-xs font-bold text-slate-300 w-20 shrink-0">Set 3</span>
-                                <div class="flex items-center gap-2">
-                                    <div class="flex flex-col items-center gap-0.5">
-                                        <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
-                                        <select id="s3-us" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden" id="row-set-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-300 w-20 shrink-0">Set 3</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <span class="text-[9px] text-slate-400 font-semibold uppercase">Nous</span>
+                                            <select id="s3-us" onchange="checkTieBreakVisibility(3)" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-lime-400 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                                        </div>
+                                        <span class="text-slate-500 font-black text-sm pt-2">:</span>
+                                        <div class="flex flex-col items-center gap-0.5">
+                                            <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
+                                            <select id="s3-them" onchange="checkTieBreakVisibility(3)" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
+                                        </div>
                                     </div>
-                                    <span class="text-slate-500 font-black text-sm pt-2">:</span>
-                                    <div class="flex flex-col items-center gap-0.5">
-                                        <span class="text-[9px] text-slate-400 font-semibold uppercase">Eux</span>
-                                        <select id="s3-them" class="bg-slate-950 border border-slate-700 rounded-xl px-2 py-1 font-bold text-slate-200 text-xs focus:outline-none focus:border-lime-500 cursor-pointer"></select>
-                                    </div>
+                                </div>
+                                <div id="s3-tb-wrap" class="flex items-center justify-between pt-1 border-t border-slate-800/60 hidden">
+                                    <span class="text-[9px] text-amber-400 font-bold uppercase flex items-center gap-1">
+                                        ⚡ Tie-Break (Points)
+                                    </span>
+                                    <input type="text" id="s3-tb" placeholder="Ex: 7-5 ou 5" class="w-24 bg-slate-950 border border-slate-800 rounded-lg px-2 py-0.5 text-[10px] text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                                 </div>
                             </div>
 
@@ -1204,7 +1228,28 @@
 
                 usSelect.value = 0;
                 themSelect.value = 0;
+                checkTieBreakVisibility(setNum);
             });
+        }
+
+        function checkTieBreakVisibility(setNum) {
+            const us = parseInt(document.getElementById(`s${setNum}-us`)?.value) || 0;
+            const them = parseInt(document.getElementById(`s${setNum}-them`)?.value) || 0;
+            const tbInput = document.getElementById(`s${setNum}-tb`);
+            const wrap = document.getElementById(`s${setNum}-tb-wrap`);
+            
+            // Un tie-break survient généralement sur des scores de 7-6, 6-7, 9-8, 8-9, 10-9, 9-10
+            const isTieBreakScore = (us === 7 && them === 6) || (us === 6 && them === 7) ||
+                                    (us === 9 && them === 8) || (us === 8 && them === 9) ||
+                                    (us === 10 && them === 9) || (us === 9 && them === 10);
+
+            if (wrap) {
+                if (isTieBreakScore || (tbInput && tbInput.value.trim() !== '')) {
+                    wrap.classList.remove('hidden');
+                } else {
+                    wrap.classList.add('hidden');
+                }
+            }
         }
 
         function setMatchType(type) {
@@ -1310,6 +1355,12 @@
             if (document.getElementById('match-feeling')) document.getElementById('match-feeling').value = '⚡ En forme';
             if (document.getElementById('match-rating')) document.getElementById('match-rating').value = '4';
             
+            [1, 2, 3].forEach(n => {
+                const tbInput = document.getElementById(`s${n}-tb`);
+                if (tbInput) tbInput.value = '';
+                checkTieBreakVisibility(n);
+            });
+
             toggleNewPartnerInput(false);
             updatePartnerDropdownOptions();
 
@@ -1347,6 +1398,32 @@
 
             if (document.getElementById('match-feeling')) document.getElementById('match-feeling').value = m.feeling || '⚡ En forme';
             if (document.getElementById('match-rating')) document.getElementById('match-rating').value = (m.rating || 4).toString();
+
+            if (m.score) {
+                const setScores = m.score.split(' ');
+                visibleSetsCount = Math.min(Math.max(setScores.length, 1), 3);
+                for (let i = 1; i <= 3; i++) {
+                    const row = document.getElementById(`row-set-${i}`);
+                    if (row) {
+                        if (i <= visibleSetsCount) row.classList.remove('hidden');
+                        else row.classList.add('hidden');
+                    }
+                }
+                setScores.forEach((setStr, idx) => {
+                    const setNum = idx + 1;
+                    if (setNum > 3) return;
+                    const match = setStr.match(/^(\d+)\/(\d+)(?:\(([^)]+)\))?/);
+                    if (match) {
+                        const usEl = document.getElementById(`s${setNum}-us`);
+                        const themEl = document.getElementById(`s${setNum}-them`);
+                        const tbEl = document.getElementById(`s${setNum}-tb`);
+                        if (usEl) usEl.value = match[1];
+                        if (themEl) themEl.value = match[2];
+                        if (tbEl) tbEl.value = match[3] || '';
+                        checkTieBreakVisibility(setNum);
+                    }
+                });
+            }
 
             if (m.tags && Array.isArray(m.tags)) {
                 document.querySelectorAll('#tag-container .tag-chip').forEach(el => {
@@ -1415,7 +1492,9 @@
                 for (let i = 1; i <= visibleSetsCount; i++) {
                     const us = parseInt(document.getElementById(`s${i}-us`)?.value) || 0;
                     const them = parseInt(document.getElementById(`s${i}-them`)?.value) || 0;
-                    scores.push(`${us}/${them}`);
+                    const tbVal = document.getElementById(`s${i}-tb`)?.value?.trim() || '';
+                    const tbFormatted = tbVal ? `(${tbVal})` : '';
+                    scores.push(`${us}/${them}${tbFormatted}`);
                     if (us > them) usSetsWon++;
                     else if (them > us) themSetsWon++;
                 }
@@ -2398,6 +2477,7 @@
         window.renderSurgrips = renderSurgrips;
         window.closeResultFeedbackModal = closeResultFeedbackModal;
         window.setTimePeriodFilter = setTimePeriodFilter;
+        window.checkTieBreakVisibility = checkTieBreakVisibility;
 
         // Initialization
         window.onload = function() {
