@@ -57,7 +57,6 @@
 
     <div class="w-full max-w-full sm:max-w-[410px] h-screen sm:h-[850px] sm:max-h-[96vh] bg-slate-900 sm:rounded-[45px] sm:border-[8px] sm:border-slate-800 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-700/50">
         
-        <!-- Dynamic Island (Simulateur iPhone sur PC) -->
         <div class="hidden sm:flex absolute top-0 left-1/2 -translate-x-1/2 w-32 h-5 bg-black rounded-b-2xl z-50 justify-center items-center pointer-events-none">
             <div class="w-2.5 h-2.5 rounded-full bg-slate-950 mr-2 border border-slate-800"></div>
             <div class="w-1.5 h-1.5 rounded-full bg-blue-900/40"></div>
@@ -81,12 +80,11 @@
                 </button>
                 <button onclick="openMatchModal()" class="bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs shadow-lg shadow-lime-500/20 active:scale-95 transition">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                    <span>+ Match (30s)</span>
+                    <span>+ Match</span>
                 </button>
             </div>
         </header>
 
-        <!-- Contenu Principal Navigable -->
         <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-24" id="main-content">
             
             <!-- VUE DASHBOARD (ACCUEIL) -->
@@ -142,7 +140,7 @@
                             <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-medium" id="weekly-session-count">0 Séance</span>
                         </div>
                         
-                        <!-- Légende explicative rapide -->
+                        <!-- Légende explicative rapide à 3 options -->
                         <div class="flex items-center justify-around text-[9px] text-slate-400 px-2 py-1 bg-slate-950/40 rounded-lg border border-slate-800/60">
                             <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-lime-400 border border-lime-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Match</span>
                             <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 border border-amber-300 flex items-center justify-center text-[7px] text-slate-950 font-black">●</span> Cours</span>
@@ -292,6 +290,8 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="main-racket-date">-</span>
+                                    <button onclick="openEditRacketModal('main')" title="Modifier cette raquette" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-lime-400 px-1.5 py-0.5 rounded border border-slate-700 transition">✏️</button>
+                                    <button onclick="deleteRacket('main')" title="Effacer" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-rose-400 px-1.5 py-0.5 rounded border border-slate-700 transition">🗑️</button>
                                     <button onclick="archiveMainRacket()" title="Archiver cette raquette" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 px-1.5 py-0.5 rounded border border-slate-700 transition flex items-center gap-0.5">📦 Archiver</button>
                                 </div>
                             </div>
@@ -312,6 +312,8 @@
                                 </div>
                                 <div class="flex items-center gap-1.5">
                                     <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700/60" id="test-racket-date">-</span>
+                                    <button onclick="openEditRacketModal('test')" title="Modifier la raquette test" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-lime-400 px-1.5 py-0.5 rounded border border-slate-700 transition">✏️</button>
+                                    <button onclick="deleteRacket('test')" title="Effacer" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-rose-400 px-1.5 py-0.5 rounded border border-slate-700 transition">🗑️</button>
                                     <button onclick="archiveTestRacket()" title="Archiver la raquette test" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 px-1.5 py-0.5 rounded border border-slate-700 transition flex items-center gap-0.5">📦 Archiver</button>
                                 </div>
                             </div>
@@ -349,7 +351,11 @@
                                 <span class="text-[9px] text-slate-400 font-semibold uppercase block">Surgrip Actuel</span>
                                 <p class="font-bold text-slate-100 text-xs mt-0.5" id="current-surgrip-name">Aucun surgrip enregistré</p>
                             </div>
-                            <span class="text-[10px] text-lime-400 font-bold bg-lime-500/10 px-2 py-0.5 rounded-md border border-lime-500/20" id="current-surgrip-matches">0 match joué</span>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openEditSurgripModal('current')" title="Modifier" class="text-slate-400 hover:text-lime-400 text-xs">✏️</button>
+                                <button onclick="deleteSurgrip('current')" title="Supprimer" class="text-slate-400 hover:text-rose-400 text-xs">🗑️</button>
+                                <span class="text-[10px] text-lime-400 font-bold bg-lime-500/10 px-2 py-0.5 rounded-md border border-lime-500/20" id="current-surgrip-matches">0 match joué</span>
+                            </div>
                         </div>
                         <p class="text-[10px] text-slate-400">Posé le <span id="current-surgrip-date">-</span></p>
                     </div>
@@ -396,7 +402,7 @@
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2 sticky top-0 bg-slate-900/95 z-10 pt-1">
                     <h3 class="font-bold text-xs sm:text-sm text-slate-100 flex items-center gap-1.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-lime-400 animate-pulse shrink-0"></span>
-                        <span class="truncate">Saisie Express Match (&lt; 30s)</span>
+                        <span class="truncate">Saisie Express Match</span>
                     </h3>
                     <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-xs transition shrink-0">✕</button>
                 </div>
@@ -475,7 +481,7 @@
                         </div>
                     </div>
 
-                    <!-- Adversaires séparés avec leurs classements -->
+                    <!-- Adversaires séparés avec leurs classements AFT Padel -->
                     <div class="space-y-1.5 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80">
                         <label class="block text-[11px] font-semibold text-slate-400">Équipe Adverse</label>
                         
@@ -625,24 +631,24 @@
                         </div>
                     </div>
 
-                    <!-- Tags Tactiques Rapides (inclus Fautes directes) -->
+                    <!-- Tags Tactiques Rapides -->
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-400 mb-1.5">Tag tactique rapide</label>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1.5">Tags tactiques rapides</label>
                         <div class="flex flex-wrap gap-1.5" id="tag-container">
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🚫 Fautes directes</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🛡️ Super défense</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">↗️ Positionnement up</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">↘️ Positionnement down</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🧠 Tactique up</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">📉 Tactique down</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🎾 Bons lobs</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚠️ Mauvais lobs</span>
-                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🚫 Fautes directes</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">❌ Erreurs retour</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">💥 Erreurs offensives</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🔥 Volée solide</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">📉 Volée faible</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚡ Présence au filet</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🛡️ Trop au fond</span>
-                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🛡️ Super défense</span>
-                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">↗️ Positionnement up</span>
-                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">↘️ Positionnement down</span>
-                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🧠 Tactique up</span>
-                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">📉 Tactique down</span>
                         </div>
                     </div>
 
@@ -703,7 +709,7 @@
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                     <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
                         <i data-lucide="shield" class="w-4 h-4 text-lime-400"></i>
-                        Ajouter une Raquette
+                        Ajouter / Modifier Raquette
                     </h3>
                     <button onclick="closeRacketModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
                 </div>
@@ -737,7 +743,7 @@
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                     <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
                         <i data-lucide="wrench" class="w-4 h-4 text-lime-400"></i>
-                        Poser un Nouveau Surgrip
+                        Poser / Modifier Surgrip
                     </h3>
                     <button onclick="closeSurgripModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
                 </div>
@@ -751,7 +757,7 @@
                         <input type="text" id="surgrip-input-date" placeholder="Aujourd'hui" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                     </div>
                     <button type="button" onclick="submitSurgrip()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-2">
-                        Valider le nouveau surgrip
+                        Valider le surgrip
                     </button>
                 </div>
             </div>
@@ -763,7 +769,7 @@
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2">
                     <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
                         <i data-lucide="graduation-cap" class="w-4 h-4 text-lime-400"></i>
-                        Ajouter un Cours Privé
+                        Ajouter / Modifier Cours
                     </h3>
                     <button onclick="closeLessonModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
                 </div>
@@ -856,16 +862,24 @@
         let currentFormat = '6sets';
         let visibleSetsCount = 1;
         let currentTimePeriod = 'all';
-        let rhythmViewMode = 'week'; // 'week' ou 'month'
-        let currentCalendarDate = new Date(); // Pour la navigation dans le calendrier mensuel
+        let rhythmViewMode = 'week';
+        let currentCalendarDate = new Date();
         let currentSurgripMatchCount = parseInt(localStorage.getItem('padelpulse_surgrip_count')) || 0;
+        
         let showAllRecentMatches = false;
         let showAllLessons = false;
         let showAllPlayers = false;
         let showAllRacketsHistory = false;
         let showAllSurgripsHistory = false;
+        
         let playerFilterType = 'all';
         let editingPlayerName = null;
+
+        // Editing state identifiers
+        let editingMatchId = null;
+        let editingLessonId = null;
+        let editingRacketTarget = null;
+        let editingSurgripTarget = null;
 
         let matches = JSON.parse(localStorage.getItem('padelpulse_matches')) || [];
         let lessons = JSON.parse(localStorage.getItem('padelpulse_lessons')) || [];
@@ -875,7 +889,7 @@
         let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-' };
         let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
 
-        // Surcharges manuelles pour les jours de la semaine (clé : dateStr "JJ/MM/AAAA")
+        // Surcharges manuelles pour les jours de la semaine
         let weeklyOverrides = JSON.parse(localStorage.getItem('padelpulse_weekly_overrides')) || {};
 
         function saveAllData() {
@@ -891,8 +905,15 @@
             localStorage.setItem('padelpulse_current_surgrip', JSON.stringify(currentSurgrip));
         }
 
-        function openResetModal() { document.getElementById('modal-reset').classList.remove('hidden'); }
-        function closeResetModal() { document.getElementById('modal-reset').classList.add('hidden'); }
+        function openResetModal() { 
+            const el = document.getElementById('modal-reset');
+            if (el) el.classList.remove('hidden'); 
+        }
+        
+        function closeResetModal() { 
+            const el = document.getElementById('modal-reset');
+            if (el) el.classList.add('hidden'); 
+        }
 
         function confirmResetData() {
             localStorage.clear();
@@ -939,7 +960,6 @@
             });
         }
 
-        // Calcul automatique des dates de la semaine en cours (du Lundi au Dimanche)
         function getCurrentWeekDays() {
             const now = new Date();
             const dayOfWeek = now.getDay();
@@ -976,7 +996,6 @@
 
             const todayStr = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-            // Détection automatique basée sur la date réelle ou le timestamp des matchs
             const hasMatch = matches.some(m => {
                 if (m.date === dateStr) return true;
                 if (m.date === "Aujourd'hui" && dateStr === todayStr) return true;
@@ -988,7 +1007,6 @@
             });
             if (hasMatch) return { type: 'match', label: 'Match', icon: '🎾' };
 
-            // Détection automatique basée sur les cours
             const hasLesson = lessons.some(l => {
                 if (l.date === dateStr) return true;
                 if (l.date === "Aujourd'hui" && dateStr === todayStr) return true;
@@ -1061,16 +1079,16 @@
             const wrapMonth = document.getElementById('wrapper-monthly-view');
 
             if (mode === 'month') {
-                btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition";
-                btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-white transition";
-                wrapWeek.classList.add('hidden');
-                wrapMonth.classList.remove('hidden');
+                if (btnMonth) btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition";
+                if (btnWeek) btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-white transition";
+                if (wrapWeek) wrapWeek.classList.add('hidden');
+                if (wrapMonth) wrapMonth.classList.remove('hidden');
                 renderMonthlySchedule();
             } else {
-                btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition";
-                btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-white transition";
-                wrapMonth.classList.add('hidden');
-                wrapWeek.classList.remove('hidden');
+                if (btnWeek) btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition";
+                if (btnMonth) btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-white transition";
+                if (wrapMonth) wrapMonth.classList.add('hidden');
+                if (wrapWeek) wrapWeek.classList.remove('hidden');
                 renderWeeklySchedule();
             }
         }
@@ -1255,6 +1273,7 @@
         }
 
         function resetMatchModalForm() {
+            editingMatchId = null;
             setMatchType('amical');
             setFormat('6sets');
             if (document.getElementById('match-location')) document.getElementById('match-location').value = '';
@@ -1269,67 +1288,57 @@
             updatePartnerDropdownOptions();
 
             document.querySelectorAll('#tag-container .tag-chip').forEach(el => el.classList.remove('active'));
-            
             populateScoreDropdowns(7);
         }
 
         function openMatchModal() {
             resetMatchModalForm();
-            document.getElementById('modal-match').classList.remove('hidden');
+            const modal = document.getElementById('modal-match');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closeMatchModal() {
-            document.getElementById('modal-match').classList.add('hidden');
+            const modal = document.getElementById('modal-match');
+            if (modal) modal.classList.add('hidden');
         }
 
-        function toggleNewPartnerInput(show) {
-            const fields = document.getElementById('new-partner-fields');
-            const select = document.getElementById('match-partner');
-            if (fields) {
-                if (show) {
-                    fields.classList.remove('hidden');
-                } else {
-                    fields.classList.add('hidden');
-                    if (select && select.value === '__NEW__') select.selectedIndex = 0;
-                }
+        function openEditMatchModal(id) {
+            const m = matches.find(x => x.id === id);
+            if (!m) return;
+
+            resetMatchModalForm();
+            editingMatchId = id;
+
+            setMatchType(m.type || 'amical');
+            if (document.getElementById('match-location')) document.getElementById('match-location').value = m.location || '';
+            if (document.getElementById('match-partner')) document.getElementById('match-partner').value = m.partner || '';
+            
+            if (m.opponents) {
+                const opps = m.opponents.split(/&|,|\set\s/).map(s => s.trim());
+                if (opps[0] && document.getElementById('match-opp1-name')) document.getElementById('match-opp1-name').value = opps[0];
+                if (opps[1] && document.getElementById('match-opp2-name')) document.getElementById('match-opp2-name').value = opps[1];
             }
+
+            if (document.getElementById('match-feeling')) document.getElementById('match-feeling').value = m.feeling || '⚡ En forme';
+            if (document.getElementById('match-rating')) document.getElementById('match-rating').value = (m.rating || 4).toString();
+
+            if (m.tags && Array.isArray(m.tags)) {
+                document.querySelectorAll('#tag-container .tag-chip').forEach(el => {
+                    if (m.tags.includes(el.innerText.trim())) el.classList.add('active');
+                });
+            }
+
+            const modal = document.getElementById('modal-match');
+            if (modal) modal.classList.remove('hidden');
         }
 
-        function handlePartnerSelectChange(val) {
-            if (val === '__NEW__') toggleNewPartnerInput(true);
-            else toggleNewPartnerInput(false);
-        }
-
-        function toggleTag(el) {
-            if (el) el.classList.toggle('active');
-        }
-
-        function setTimePeriodFilter(period) {
-            currentTimePeriod = period;
-            updateStats();
+        function deleteMatch(id) {
+            matches = matches.filter(m => m.id !== id);
+            saveAllData();
             renderMatches();
-        }
-
-        function getFilteredMatches() {
-            if (currentTimePeriod === 'all') return matches;
-
-            const now = new Date();
-            const currentYear = now.getFullYear();
-            const currentMonth = now.getMonth();
-
-            return matches.filter(m => {
-                const matchDate = m.timestamp ? new Date(m.timestamp) : new Date();
-                if (currentTimePeriod === 'this_month') {
-                    return matchDate.getFullYear() === currentYear && matchDate.getMonth() === currentMonth;
-                }
-                if (currentTimePeriod === 'this_year') {
-                    return matchDate.getFullYear() === currentYear;
-                }
-                if (currentTimePeriod === 'prev_year') {
-                    return matchDate.getFullYear() === currentYear - 1;
-                }
-                return true;
-            });
+            renderWeeklySchedule();
+            renderMonthlySchedule();
+            updateStats();
         }
 
         function submitExpressMatch() {
@@ -1391,25 +1400,48 @@
             const nowDate = new Date();
             const dateStrFormatted = nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-            const newMatch = {
-                id: Date.now(),
-                timestamp: nowDate.getTime(),
-                date: dateStrFormatted,
-                type: currentMatchType,
-                partner: partnerName,
-                opponents: opponentsStr,
-                location: location,
-                format: currentFormat === '21pts' ? 'Partie Libre (21pt)' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
-                score: scoreStr,
-                result: result,
-                feeling: feeling,
-                rating: rating,
-                tags: activeTags.length ? activeTags : ['🔥 Volée solide']
-            };
+            let savedMatch = null;
 
-            matches.unshift(newMatch);
-            currentSurgripMatchCount++;
-            
+            if (editingMatchId) {
+                const index = matches.findIndex(m => m.id === editingMatchId);
+                if (index !== -1) {
+                    matches[index] = {
+                        ...matches[index],
+                        type: currentMatchType,
+                        partner: partnerName,
+                        opponents: opponentsStr,
+                        location: location,
+                        format: currentFormat === '21pts' ? 'Partie Libre (21pt)' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
+                        score: scoreStr,
+                        result: result,
+                        feeling: feeling,
+                        rating: rating,
+                        tags: activeTags.length ? activeTags : ['🔥 Volée solide']
+                    };
+                    savedMatch = matches[index];
+                }
+            } else {
+                savedMatch = {
+                    id: Date.now(),
+                    timestamp: nowDate.getTime(),
+                    date: dateStrFormatted,
+                    type: currentMatchType,
+                    partner: partnerName,
+                    opponents: opponentsStr,
+                    location: location,
+                    format: currentFormat === '21pts' ? 'Partie Libre (21pt)' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
+                    score: scoreStr,
+                    result: result,
+                    feeling: feeling,
+                    rating: rating,
+                    tags: activeTags.length ? activeTags : ['🔥 Volée solide']
+                };
+
+                matches.unshift(savedMatch);
+                currentSurgripMatchCount++;
+            }
+
+            editingMatchId = null;
             saveAllData();
             renderMatches();
             renderWeeklySchedule();
@@ -1417,7 +1449,59 @@
             updateStats();
             closeMatchModal();
 
-            showResultFeedback(newMatch);
+            if (savedMatch) {
+                showResultFeedback(savedMatch);
+            }
+        }
+
+        function toggleNewPartnerInput(show) {
+            const fields = document.getElementById('new-partner-fields');
+            const select = document.getElementById('match-partner');
+            if (fields) {
+                if (show) {
+                    fields.classList.remove('hidden');
+                } else {
+                    fields.classList.add('hidden');
+                    if (select && select.value === '__NEW__') select.selectedIndex = 0;
+                }
+            }
+        }
+
+        function handlePartnerSelectChange(val) {
+            if (val === '__NEW__') toggleNewPartnerInput(true);
+            else toggleNewPartnerInput(false);
+        }
+
+        function toggleTag(el) {
+            if (el) el.classList.toggle('active');
+        }
+
+        function setTimePeriodFilter(period) {
+            currentTimePeriod = period;
+            updateStats();
+            renderMatches();
+        }
+
+        function getFilteredMatches() {
+            if (currentTimePeriod === 'all') return matches;
+
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth();
+
+            return matches.filter(m => {
+                const matchDate = m.timestamp ? new Date(m.timestamp) : new Date();
+                if (currentTimePeriod === 'this_month') {
+                    return matchDate.getFullYear() === currentYear && matchDate.getMonth() === currentMonth;
+                }
+                if (currentTimePeriod === 'this_year') {
+                    return matchDate.getFullYear() === currentYear;
+                }
+                if (currentTimePeriod === 'prev_year') {
+                    return matchDate.getFullYear() === currentYear - 1;
+                }
+                return true;
+            });
         }
 
         function showResultFeedback(match) {
@@ -1434,37 +1518,42 @@
 
             if (!modal || !card) return;
 
-            partnerEl.innerText = `avec ${match.partner}`;
-            scoreEl.innerText = match.score;
-            oppEl.innerText = `vs ${match.opponents}`;
+            if (partnerEl) partnerEl.innerText = `avec ${match.partner}`;
+            if (scoreEl) scoreEl.innerText = match.score;
+            if (oppEl) oppEl.innerText = `vs ${match.opponents}`;
 
             if (match.result === 'VICTOIRE') {
                 card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-lime-500/40 animate-pop-in";
-                iconWrap.className = "w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg bg-lime-500/20 text-lime-400 border border-lime-500/40";
-                emojiEl.innerText = "🏆";
-                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-lime-500/20 text-lime-400 border-lime-500/40";
-                badgeEl.innerText = "Victoire !";
-                titleEl.innerText = "Super Match !";
-                msgEl.innerText = "Le travail paye sur le terrain ! Continue sur cette lancée 🔥";
+                if (iconWrap) iconWrap.className = "w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg bg-lime-500/20 text-lime-400 border border-lime-500/40";
+                if (emojiEl) emojiEl.innerText = "🏆";
+                if (badgeEl) {
+                    badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-lime-500/20 text-lime-400 border-lime-500/40";
+                    badgeEl.innerText = "Victoire !";
+                }
+                if (titleEl) titleEl.innerText = "Super Match !";
+                if (msgEl) msgEl.innerText = "Le travail paye sur le terrain ! Continue sur cette lancée 🔥";
 
                 if (window.confetti) {
                     confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
                 }
             } else {
                 card.className = "bg-slate-900 w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border border-rose-500/30 animate-shake";
-                iconWrap.className = "w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg bg-rose-500/20 text-rose-400 border border-rose-500/30";
-                emojiEl.innerText = "🧠";
-                badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-rose-500/20 text-rose-400 border-rose-500/30";
-                badgeEl.innerText = "Défaite";
-                titleEl.innerText = "Bien battu !";
-                msgEl.innerText = "Analyse tes tags tactiques, ajuste tes coups et reviens plus fort 💪";
+                if (iconWrap) iconWrap.className = "w-16 h-16 rounded-full flex items-center justify-center mx-auto text-3xl shadow-lg bg-rose-500/20 text-rose-400 border border-rose-500/30";
+                if (emojiEl) emojiEl.innerText = "🧠";
+                if (badgeEl) {
+                    badgeEl.className = "text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border bg-rose-500/20 text-rose-400 border-rose-500/30";
+                    badgeEl.innerText = "Défaite";
+                }
+                if (titleEl) titleEl.innerText = "Bien battu !";
+                if (msgEl) msgEl.innerText = "Analyse tes tags tactiques, ajuste tes coups et reviens plus fort 💪";
             }
 
             modal.classList.remove('hidden');
         }
 
         function closeResultFeedbackModal() {
-            document.getElementById('modal-result-feedback').classList.add('hidden');
+            const modal = document.getElementById('modal-result-feedback');
+            if (modal) modal.classList.add('hidden');
         }
 
         function renderMatchCard(m) {
@@ -1481,7 +1570,7 @@
                 : '';
 
             return `
-                <div class="bg-slate-800/60 p-3 rounded-2xl border border-slate-800 space-y-2">
+                <div class="bg-slate-800/60 p-3 rounded-2xl border border-slate-800 space-y-2 relative group">
                     <div class="flex justify-between items-start">
                         <div>
                             <div class="flex items-center gap-1.5 mb-1 flex-wrap">
@@ -1493,7 +1582,11 @@
                             <p class="text-[10px] text-slate-400">vs ${m.opponents}</p>
                             ${locationTag ? `<p class="mt-0.5">${locationTag}</p>` : ''}
                         </div>
-                        <div class="text-right">
+                        <div class="text-right flex flex-col items-end gap-1">
+                            <div class="flex items-center gap-1">
+                                <button onclick="openEditMatchModal(${m.id})" title="Modifier le match" class="text-slate-400 hover:text-lime-400 text-xs p-0.5">✏️</button>
+                                <button onclick="deleteMatch(${m.id})" title="Supprimer le match" class="text-slate-400 hover:text-rose-400 text-xs p-0.5">🗑️</button>
+                            </div>
                             <span class="text-xs font-black tracking-wide text-lime-400 block">${m.score}</span>
                             <span class="text-[9px] text-slate-500 block">${m.format}</span>
                         </div>
@@ -1645,11 +1738,13 @@
                 const currentRank = playersDatabase[playerName]?.rank || 'P200';
                 selectEl.value = currentRank;
             }
-            document.getElementById('modal-edit-player').classList.remove('hidden');
+            const modal = document.getElementById('modal-edit-player');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closeEditPlayerModal() {
-            document.getElementById('modal-edit-player').classList.add('hidden');
+            const modal = document.getElementById('modal-edit-player');
+            if (modal) modal.classList.add('hidden');
             editingPlayerName = null;
         }
 
@@ -1764,23 +1859,24 @@
                     : `${item.total} affrontement${item.total > 1 ? 's' : ''} (${item.wins}V - ${item.total - item.wins}D)`;
 
                 return `
-                    <div class="flex items-center justify-between p-2.5 bg-slate-800/80 rounded-xl border border-slate-700/50">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-full ${item.type === 'partner' ? 'bg-gradient-to-tr from-slate-700 to-slate-600 text-lime-400' : 'bg-slate-700 text-slate-300'} flex items-center justify-center text-xs font-bold border border-slate-600 shrink-0">
+                    <div class="flex items-center justify-between bg-slate-900/90 p-2.5 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-xs text-lime-400 shrink-0">
                                 ${initials}
                             </div>
                             <div class="min-w-0">
                                 <div class="flex items-center gap-1.5 flex-wrap">
-                                    <p class="text-xs font-bold text-slate-200 truncate">${item.name}</p>
-                                    <span class="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded border ${rankBadgeClass}">${playerInfo.rank}</span>
-                                    <button onclick="openEditPlayerModal('${item.name.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-lime-400 text-[10px]" title="Modifier le classement">✏️</button>
-                                    <span class="text-[8px] px-1.5 py-0.2 rounded font-medium ${item.type === 'partner' ? 'bg-lime-500/10 text-lime-300 border border-lime-500/20' : 'bg-blue-500/10 text-blue-300 border border-blue-500/20'}">${roleLabel}</span>
+                                    <span class="font-extrabold text-xs text-slate-100 truncate">${item.name}</span>
+                                    <button onclick="openEditPlayerModal('${item.name}')" title="Modifier le classement" class="text-[9px] ${rankBadgeClass} px-1.5 py-0.2 rounded font-bold border hover:border-lime-400 transition">
+                                        ${playerInfo.rank} ✏️
+                                    </button>
                                 </div>
-                                <p class="text-[10px] text-slate-400 truncate">${detailText}</p>
+                                <span class="text-[10px] text-slate-400 block truncate">${detailText}</span>
                             </div>
                         </div>
                         <div class="text-right shrink-0">
-                            <span class="text-xs font-extrabold ${badgeColor} px-2 py-0.5 rounded-md border">${winRate}%</span>
+                            <span class="text-[10px] font-bold ${badgeColor} px-2 py-0.5 rounded-full border">${winRate}% V</span>
+                            <span class="text-[9px] text-slate-500 block mt-0.5">${roleLabel}</span>
                         </div>
                     </div>
                 `;
@@ -1788,9 +1884,9 @@
 
             if (list.length > 3) {
                 html += `
-                    <button onclick="toggleAllPlayers()" class="w-full py-2 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs text-lime-400 font-semibold transition flex items-center justify-center gap-1 mt-1">
+                    <button onclick="toggleAllPlayers()" class="w-full py-1.5 bg-slate-900/60 hover:bg-slate-900 border border-slate-800 rounded-xl text-[10px] text-lime-400 font-semibold transition flex items-center justify-center gap-1 mt-1">
                         <span>${showAllPlayers ? 'Réduire' : `Voir plus (${list.length - 3} de plus)`}</span>
-                        <i data-lucide="${showAllPlayers ? 'chevron-up' : 'chevron-down'}" class="w-3.5 h-3.5"></i>
+                        <i data-lucide="${showAllPlayers ? 'chevron-up' : 'chevron-down'}" class="w-3 h-3"></i>
                     </button>
                 `;
             }
@@ -1799,8 +1895,57 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        function openRacketModal() { document.getElementById('modal-racket').classList.remove('hidden'); }
-        function closeRacketModal() { document.getElementById('modal-racket').classList.add('hidden'); }
+        function toggleAllLessons() {
+            showAllLessons = !showAllLessons;
+            renderLessons();
+        }
+
+        function renderSurgrips() {
+            const currentNameEl = document.getElementById('current-surgrip-name');
+            const currentDateEl = document.getElementById('current-surgrip-date');
+            if (currentNameEl) currentNameEl.innerText = currentSurgrip.name;
+            if (currentDateEl) currentDateEl.innerText = currentSurgrip.date;
+            renderSurgripsHistory();
+        }
+
+        function openRacketModal() { 
+            editingRacketTarget = null;
+            if (document.getElementById('racket-input-name')) document.getElementById('racket-input-name').value = '';
+            if (document.getElementById('racket-input-date')) document.getElementById('racket-input-date').value = '';
+            const modal = document.getElementById('modal-racket');
+            if (modal) modal.classList.remove('hidden'); 
+        }
+
+        function closeRacketModal() {
+            const modal = document.getElementById('modal-racket');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function openEditRacketModal(target) {
+            editingRacketTarget = target;
+            let currentData = { name: '', date: '' };
+
+            if (target === 'main') currentData = mainRacket;
+            else if (target === 'test') currentData = testRacket;
+            else if (typeof target === 'number' && racketsHistory[target]) {
+                currentData = { name: racketsHistory[target].name, date: racketsHistory[target].dates };
+            }
+
+            if (document.getElementById('racket-input-name')) document.getElementById('racket-input-name').value = currentData.name || '';
+            if (document.getElementById('racket-input-date')) document.getElementById('racket-input-date').value = currentData.date || '';
+            
+            const modal = document.getElementById('modal-racket');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function deleteRacket(target) {
+            if (target === 'main') mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
+            else if (target === 'test') testRacket = { name: 'Aucune raquette test', date: '-' };
+            else if (typeof target === 'number') racketsHistory.splice(target, 1);
+            
+            saveAllData();
+            renderRackets();
+        }
 
         function submitRacket() {
             const name = document.getElementById('racket-input-name')?.value.trim();
@@ -1809,25 +1954,32 @@
 
             if (!name) return;
 
-            if (status === 'main') {
-                if (mainRacket.name && mainRacket.name !== 'Aucune raquette enregistrée') {
-                    racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
+            if (editingRacketTarget !== null) {
+                if (editingRacketTarget === 'main') mainRacket = { name: name, date: date };
+                else if (editingRacketTarget === 'test') testRacket = { name: name, date: date };
+                else if (typeof editingRacketTarget === 'number' && racketsHistory[editingRacketTarget]) {
+                    racketsHistory[editingRacketTarget] = { name: name, dates: date };
                 }
-                mainRacket = { name: name, date: date };
-            } else if (status === 'test') {
-                if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
-                    racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
-                }
-                testRacket = { name: name, date: date };
             } else {
-                racketsHistory.unshift({ name: name, dates: date });
+                if (status === 'main') {
+                    if (mainRacket.name && mainRacket.name !== 'Aucune raquette enregistrée') {
+                        racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
+                    }
+                    mainRacket = { name: name, date: date };
+                } else if (status === 'test') {
+                    if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
+                        racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
+                    }
+                    testRacket = { name: name, date: date };
+                } else {
+                    racketsHistory.unshift({ name: name, dates: date });
+                }
             }
 
+            editingRacketTarget = null;
             saveAllData();
             renderRackets();
             closeRacketModal();
-            document.getElementById('racket-input-name').value = '';
-            document.getElementById('racket-input-date').value = '';
         }
 
         function archiveMainRacket() {
@@ -1889,56 +2041,95 @@
 
             const displayList = showAllRacketsHistory ? racketsHistory : racketsHistory.slice(0, 3);
 
-            container.innerHTML = displayList.map(r => `
+            container.innerHTML = displayList.map((r, index) => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
                         <p class="font-bold text-slate-200 text-[11px]">${r.name}</p>
                         <p class="text-[9px] text-slate-400">${r.dates}</p>
                     </div>
-                    <span class="text-[9px] font-semibold text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">Archivée</span>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="openEditRacketModal(${index})" title="Modifier" class="text-slate-400 hover:text-lime-400 text-[10px]">✏️</button>
+                        <button onclick="deleteRacket(${index})" title="Supprimer" class="text-slate-400 hover:text-rose-400 text-[10px]">🗑️</button>
+                        <span class="text-[9px] font-semibold text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">Archivée</span>
+                    </div>
                 </div>
             `).join('');
         }
 
-        function openSurgripModal() { document.getElementById('modal-surgrip').classList.remove('hidden'); }
-        function closeSurgripModal() { document.getElementById('modal-surgrip').classList.add('hidden'); }
+        function openSurgripModal() { 
+            editingSurgripTarget = null;
+            if (document.getElementById('surgrip-input-name')) document.getElementById('surgrip-input-name').value = '';
+            if (document.getElementById('surgrip-input-date')) document.getElementById('surgrip-input-date').value = '';
+            const modal = document.getElementById('modal-surgrip');
+            if (modal) modal.classList.remove('hidden'); 
+        }
+
+        function closeSurgripModal() {
+            const modal = document.getElementById('modal-surgrip');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function openEditSurgripModal(target) {
+            editingSurgripTarget = target;
+            let currentData = { name: '', date: '' };
+
+            if (target === 'current') currentData = currentSurgrip;
+            else if (typeof target === 'number' && surgripsHistory[target]) {
+                currentData = { name: surgripsHistory[target].name, date: surgripsHistory[target].date };
+            }
+
+            if (document.getElementById('surgrip-input-name')) document.getElementById('surgrip-input-name').value = currentData.name || '';
+            if (document.getElementById('surgrip-input-date')) document.getElementById('surgrip-input-date').value = currentData.date || '';
+
+            const modal = document.getElementById('modal-surgrip');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function deleteSurgrip(target) {
+            if (target === 'current') {
+                currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
+                currentSurgripMatchCount = 0;
+            } else if (typeof target === 'number') {
+                surgripsHistory.splice(target, 1);
+            }
+
+            saveAllData();
+            renderSurgrips();
+        }
 
         function submitSurgrip() {
             const name = document.getElementById('surgrip-input-name')?.value.trim();
             const date = document.getElementById('surgrip-input-date')?.value.trim() || 'Aujourd\'hui';
             if (!name) return;
 
-            if (currentSurgrip.name && currentSurgrip.name !== 'Aucun surgrip enregistré') {
-                surgripsHistory.unshift({
-                    name: currentSurgrip.name,
-                    date: 'Posé le ' + currentSurgrip.date,
-                    matches: currentSurgripMatchCount + ' matchs'
-                });
+            if (editingSurgripTarget !== null) {
+                if (editingSurgripTarget === 'current') {
+                    currentSurgrip = { name: name, date: date };
+                } else if (typeof editingSurgripTarget === 'number' && surgripsHistory[editingSurgripTarget]) {
+                    surgripsHistory[editingSurgripTarget].name = name;
+                    surgripsHistory[editingSurgripTarget].date = date;
+                }
+            } else {
+                if (currentSurgrip.name && currentSurgrip.name !== 'Aucun surgrip enregistré') {
+                    surgripsHistory.unshift({
+                        name: currentSurgrip.name,
+                        date: 'Posé le ' + currentSurgrip.date,
+                        matches: currentSurgripMatchCount + ' matchs'
+                    });
+                }
+                currentSurgrip = { name: name, date: date };
+                currentSurgripMatchCount = 0;
             }
 
-            currentSurgrip = { name: name, date: date };
-            currentSurgripMatchCount = 0;
-
+            editingSurgripTarget = null;
             saveAllData();
             renderMatches();
             renderSurgrips();
             closeSurgripModal();
-            document.getElementById('surgrip-input-name').value = '';
-            document.getElementById('surgrip-input-date').value = '';
         }
 
         function toggleSurgripsHistory() {
             showAllSurgripsHistory = !showAllSurgripsHistory;
-            renderSurgripsHistory();
-        }
-
-        function renderSurgrips() {
-            const surgripNameEl = document.getElementById('current-surgrip-name');
-            const surgripDateEl = document.getElementById('current-surgrip-date');
-
-            if (surgripNameEl) surgripNameEl.innerText = currentSurgrip.name;
-            if (surgripDateEl) surgripDateEl.innerText = currentSurgrip.date;
-
             renderSurgripsHistory();
         }
 
@@ -1964,19 +2155,59 @@
 
             const displayList = showAllSurgripsHistory ? surgripsHistory : surgripsHistory.slice(0, 3);
 
-            container.innerHTML = displayList.map(s => `
+            container.innerHTML = displayList.map((s, index) => `
                 <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
                     <div>
                         <p class="font-bold text-slate-200 text-[11px]">${s.name}</p>
                         <p class="text-[9px] text-slate-400">${s.date}</p>
                     </div>
-                    <span class="text-[9px] text-slate-400 font-semibold bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">${s.matches}</span>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="openEditSurgripModal(${index})" title="Modifier" class="text-slate-400 hover:text-lime-400 text-[10px]">✏️</button>
+                        <button onclick="deleteSurgrip(${index})" title="Supprimer" class="text-slate-400 hover:text-rose-400 text-[10px]">🗑️</button>
+                        <span class="text-[9px] text-slate-400 font-semibold bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">${s.matches}</span>
+                    </div>
                 </div>
             `).join('');
         }
 
-        function openLessonModal() { document.getElementById('modal-lesson').classList.remove('hidden'); }
-        function closeLessonModal() { document.getElementById('modal-lesson').classList.add('hidden'); }
+        function openLessonModal() { 
+            editingLessonId = null;
+            if (document.getElementById('lesson-input-coach')) document.getElementById('lesson-input-coach').value = '';
+            if (document.getElementById('lesson-input-location')) document.getElementById('lesson-input-location').value = '';
+            if (document.getElementById('lesson-input-date')) document.getElementById('lesson-input-date').value = '';
+            if (document.getElementById('lesson-input-theme')) document.getElementById('lesson-input-theme').value = '';
+            if (document.getElementById('lesson-input-notes')) document.getElementById('lesson-input-notes').value = '';
+            const modal = document.getElementById('modal-lesson');
+            if (modal) modal.classList.remove('hidden'); 
+        }
+
+        function closeLessonModal() {
+            const modal = document.getElementById('modal-lesson');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function openEditLessonModal(id) {
+            const l = lessons.find(x => x.id === id);
+            if (!l) return;
+
+            editingLessonId = id;
+            if (document.getElementById('lesson-input-coach')) document.getElementById('lesson-input-coach').value = l.coach || '';
+            if (document.getElementById('lesson-input-location')) document.getElementById('lesson-input-location').value = l.location || '';
+            if (document.getElementById('lesson-input-date')) document.getElementById('lesson-input-date').value = l.date || '';
+            if (document.getElementById('lesson-input-theme')) document.getElementById('lesson-input-theme').value = l.theme || '';
+            if (document.getElementById('lesson-input-notes')) document.getElementById('lesson-input-notes').value = (l.notes || []).join('\n');
+
+            const modal = document.getElementById('modal-lesson');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function deleteLesson(id) {
+            lessons = lessons.filter(l => l.id !== id);
+            saveAllData();
+            renderLessons();
+            renderWeeklySchedule();
+            renderMonthlySchedule();
+        }
 
         function submitLesson() {
             const coach = document.getElementById('lesson-input-coach')?.value || 'Coach Nicolas';
@@ -1989,32 +2220,36 @@
             const nowDate = new Date();
             const dateStrFormatted = nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-            lessons.unshift({
-                id: Date.now(),
-                timestamp: nowDate.getTime(),
-                coach: coach,
-                location: location,
-                date: date === "Aujourd'hui" ? dateStrFormatted : date,
-                theme: theme,
-                notes: notes.length ? notes : ['Remarques et consignes enregistrées.']
-            });
+            if (editingLessonId) {
+                const index = lessons.findIndex(l => l.id === editingLessonId);
+                if (index !== -1) {
+                    lessons[index] = {
+                        ...lessons[index],
+                        coach: coach,
+                        location: location,
+                        date: date === "Aujourd'hui" ? dateStrFormatted : date,
+                        theme: theme,
+                        notes: notes.length ? notes : ['Remarques et consignes enregistrées.']
+                    };
+                }
+            } else {
+                lessons.unshift({
+                    id: Date.now(),
+                    timestamp: nowDate.getTime(),
+                    coach: coach,
+                    location: location,
+                    date: date === "Aujourd'hui" ? dateStrFormatted : date,
+                    theme: theme,
+                    notes: notes.length ? notes : ['Remarques et consignes enregistrées.']
+                });
+            }
 
+            editingLessonId = null;
             saveAllData();
             renderLessons();
             renderWeeklySchedule();
             renderMonthlySchedule();
             closeLessonModal();
-
-            document.getElementById('lesson-input-coach').value = '';
-            document.getElementById('lesson-input-location').value = '';
-            document.getElementById('lesson-input-date').value = '';
-            document.getElementById('lesson-input-theme').value = '';
-            document.getElementById('lesson-input-notes').value = '';
-        }
-
-        function toggleAllLessons() {
-            showAllLessons = !showAllLessons;
-            renderLessons();
         }
 
         function renderLessons() {
@@ -2040,17 +2275,23 @@
             const displayLessons = showAllLessons ? lessons : lessons.slice(0, 2);
 
             let html = displayLessons.map(l => `
-                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-2">
+                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-2 relative group">
                     <div class="flex justify-between items-start gap-2">
                         <span class="text-[10px] font-bold text-lime-400 bg-lime-500/10 px-2 py-0.5 rounded border border-lime-500/20">${l.date}</span>
-                        <div class="text-right flex items-center gap-1.5 text-[10px] text-slate-400">
-                            <span class="font-medium text-slate-300 flex items-center gap-1">
-                                <i data-lucide="user" class="w-3 h-3 text-lime-400"></i> ${l.coach}
-                            </span>
-                            <span>•</span>
-                            <span class="text-slate-400 flex items-center gap-1">
-                                <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i> ${l.location}
-                            </span>
+                        <div class="flex items-center gap-2">
+                            <div class="text-right flex items-center gap-1.5 text-[10px] text-slate-400">
+                                <span class="font-medium text-slate-300 flex items-center gap-1">
+                                    <i data-lucide="user" class="w-3 h-3 text-lime-400"></i> ${l.coach}
+                                </span>
+                                <span>•</span>
+                                <span class="text-slate-400 flex items-center gap-1">
+                                    <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i> ${l.location}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button onclick="openEditLessonModal(${l.id})" title="Modifier le cours" class="text-slate-400 hover:text-lime-400 text-xs p-0.5">✏️</button>
+                                <button onclick="deleteLesson(${l.id})" title="Supprimer le cours" class="text-slate-400 hover:text-rose-400 text-xs p-0.5">🗑️</button>
+                            </div>
                         </div>
                     </div>
                     <p class="text-xs text-slate-200 font-extrabold pt-0.5">Thème : ${l.theme}</p>
@@ -2064,8 +2305,10 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        // Global Event Binding
+        // Global Event Binding to Window
         window.openMatchModal = openMatchModal;
+        window.openEditMatchModal = openEditMatchModal;
+        window.deleteMatch = deleteMatch;
         window.closeMatchModal = closeMatchModal;
         window.submitExpressMatch = submitExpressMatch;
         window.openResetModal = openResetModal;
@@ -2085,19 +2328,26 @@
         window.closeEditPlayerModal = closeEditPlayerModal;
         window.savePlayerRankEdit = savePlayerRankEdit;
         window.openRacketModal = openRacketModal;
+        window.openEditRacketModal = openEditRacketModal;
+        window.deleteRacket = deleteRacket;
         window.closeRacketModal = closeRacketModal;
         window.submitRacket = submitRacket;
         window.archiveMainRacket = archiveMainRacket;
         window.archiveTestRacket = archiveTestRacket;
         window.toggleRacketsHistory = toggleRacketsHistory;
         window.openSurgripModal = openSurgripModal;
+        window.openEditSurgripModal = openEditSurgripModal;
+        window.deleteSurgrip = deleteSurgrip;
         window.closeSurgripModal = closeSurgripModal;
         window.submitSurgrip = submitSurgrip;
         window.toggleSurgripsHistory = toggleSurgripsHistory;
         window.openLessonModal = openLessonModal;
+        window.openEditLessonModal = openEditLessonModal;
+        window.deleteLesson = deleteLesson;
         window.closeLessonModal = closeLessonModal;
         window.submitLesson = submitLesson;
         window.toggleAllLessons = toggleAllLessons;
+        window.renderSurgrips = renderSurgrips;
         window.closeResultFeedbackModal = closeResultFeedbackModal;
         window.setTimePeriodFilter = setTimePeriodFilter;
 
