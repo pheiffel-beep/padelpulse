@@ -39,6 +39,14 @@
         .fmt-btn.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 700; }
         .type-btn.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 700; }
 
+        /* Safe Area Insets pour iPhone (Encoche / Dynamic Island & Barre d'accueil du bas) */
+        header {
+            padding-top: calc(0.85rem + env(safe-area-inset-top, 0px)) !important;
+        }
+        nav.tab-nav {
+            padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px)) !important;
+        }
+
         @keyframes popIn {
             0% { transform: scale(0.85); opacity: 0; }
             70% { transform: scale(1.05); opacity: 1; }
@@ -63,7 +71,7 @@
         </div>
 
         <!-- En-tête de l'application -->
-        <header class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 px-4 pt-6 sm:pt-8 pb-3 sticky top-0 z-40 flex justify-between items-center shrink-0">
+        <header class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 px-4 pb-3 sticky top-0 z-40 flex justify-between items-center shrink-0">
             <div class="flex items-center gap-2.5">
                 <div class="w-9 h-9 bg-gradient-to-tr from-lime-500 to-emerald-400 rounded-xl flex items-center justify-center font-black text-slate-950 text-lg shadow-lg shadow-lime-500/20">
                     P
@@ -393,12 +401,53 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Section Chaussures -->
+                <div class="bg-slate-800/40 p-3.5 rounded-2xl border border-slate-800/80 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                            <i data-lucide="footprints" class="w-4 h-4 text-lime-400"></i> Chaussures
+                        </h2>
+                        <button onclick="openShoesModal()" class="bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold px-2.5 py-1 rounded-full text-[10px] flex items-center gap-1 shadow-md shadow-lime-500/10 active:scale-95 transition">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                            <span>+ Chaussures</span>
+                        </button>
+                    </div>
+
+                    <!-- Chaussures Actuelles -->
+                    <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[9px] text-slate-400 font-semibold uppercase block">Paire Actuelle</span>
+                                <p class="font-bold text-slate-100 text-xs mt-0.5" id="current-shoes-name">Aucune paire enregistrée</p>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openEditShoesModal('current')" title="Modifier" class="text-slate-400 hover:text-lime-400 text-xs">✏️</button>
+                                <button onclick="deleteShoes('current')" title="Supprimer" class="text-slate-400 hover:text-rose-400 text-xs">🗑️</button>
+                                <button onclick="archiveCurrentShoes()" title="Archiver cette paire" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 px-1.5 py-0.5 rounded border border-slate-700 transition flex items-center gap-0.5">📦 Archiver</button>
+                                <span class="text-[10px] text-lime-400 font-bold bg-lime-500/10 px-2 py-0.5 rounded-md border border-lime-500/20" id="current-shoes-matches">0 match joué</span>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-slate-400">Acquises le <span id="current-shoes-date">-</span></p>
+                    </div>
+
+                    <!-- Historique des Chaussures (Limité à 3 avec Voir plus) -->
+                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique de Chaussures</span>
+                            <button onclick="toggleShoesHistory()" id="btn-toggle-shoes" class="text-[10px] text-lime-400 hover:underline font-semibold hidden">Voir plus</button>
+                        </div>
+                        <div class="space-y-1.5" id="shoes-history-container">
+                            <!-- Rempli en JS -->
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
 
         <!-- Navigation principale en bas -->
-        <nav class="bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-3 py-2 absolute bottom-0 left-0 right-0 z-40 flex justify-around items-center shrink-0">
+        <nav class="tab-nav bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-3 py-2 absolute bottom-0 left-0 right-0 z-40 flex justify-around items-center shrink-0">
             <button onclick="switchTab('tab-dashboard')" id="tab-dashboard" class="tab-btn flex flex-col items-center gap-1 text-lime-400 transition">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                 <span class="text-[10px] font-bold">Accueil</span>
@@ -810,6 +859,32 @@
             </div>
         </div>
 
+        <!-- MODAL AJOUT CHAUSSURES -->
+        <div id="modal-shoes" class="absolute inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
+            <div class="bg-slate-900 w-full max-w-[340px] rounded-3xl border border-slate-800 p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
+                        <i data-lucide="footprints" class="w-4 h-4 text-lime-400"></i>
+                        Ajouter / Modifier Chaussures
+                    </h3>
+                    <button onclick="closeShoesModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
+                </div>
+                <div class="space-y-2.5 text-left">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Modèle des Chaussures</label>
+                        <input type="text" id="shoes-input-name" placeholder="Ex: Asics Gel Padel Pro 5" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date d'Acquisition</label>
+                        <input type="text" id="shoes-input-date" placeholder="Aujourd'hui" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                    </div>
+                    <button type="button" onclick="submitShoes()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-2">
+                        Valider les chaussures
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- MODAL AJOUT COURS PRIVÉ -->
         <div id="modal-lesson" class="absolute inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-slate-900 w-full max-w-[340px] rounded-3xl border border-slate-800 p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
@@ -912,12 +987,14 @@
         let rhythmViewMode = 'week';
         let currentCalendarDate = new Date();
         let currentSurgripMatchCount = parseInt(localStorage.getItem('padelpulse_surgrip_count')) || 0;
+        let currentShoesMatchCount = parseInt(localStorage.getItem('padelpulse_shoes_count')) || 0;
         
         let showAllRecentMatches = false;
         let showAllLessons = false;
         let showAllPlayers = false;
         let showAllRacketsHistory = false;
         let showAllSurgripsHistory = false;
+        let showAllShoesHistory = false;
         
         let playerFilterType = 'all';
         let editingPlayerName = null;
@@ -927,15 +1004,18 @@
         let editingLessonId = null;
         let editingRacketTarget = null;
         let editingSurgripTarget = null;
+        let editingShoesTarget = null;
 
         let matches = JSON.parse(localStorage.getItem('padelpulse_matches')) || [];
         let lessons = JSON.parse(localStorage.getItem('padelpulse_lessons')) || [];
         let racketsHistory = JSON.parse(localStorage.getItem('padelpulse_rackets')) || [];
         let surgripsHistory = JSON.parse(localStorage.getItem('padelpulse_surgrips')) || [];
+        let shoesHistory = JSON.parse(localStorage.getItem('padelpulse_shoes')) || [];
         let mainRacket = JSON.parse(localStorage.getItem('padelpulse_main_racket')) || { name: 'Aucune raquette enregistrée', date: '-' };
         let backupRacket = JSON.parse(localStorage.getItem('padelpulse_backup_racket')) || { name: 'Aucune raquette de réserve', date: '-' };
         let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-' };
         let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
+        let currentShoes = JSON.parse(localStorage.getItem('padelpulse_current_shoes')) || { name: 'Aucune paire enregistrée', date: '-' };
 
         // Surcharges manuelles pour les jours de la semaine
         let weeklyOverrides = JSON.parse(localStorage.getItem('padelpulse_weekly_overrides')) || {};
@@ -945,13 +1025,16 @@
             localStorage.setItem('padelpulse_lessons', JSON.stringify(lessons));
             localStorage.setItem('padelpulse_rackets', JSON.stringify(racketsHistory));
             localStorage.setItem('padelpulse_surgrips', JSON.stringify(surgripsHistory));
+            localStorage.setItem('padelpulse_shoes', JSON.stringify(shoesHistory));
             localStorage.setItem('padelpulse_players', JSON.stringify(playersDatabase));
             localStorage.setItem('padelpulse_weekly_overrides', JSON.stringify(weeklyOverrides));
             localStorage.setItem('padelpulse_surgrip_count', currentSurgripMatchCount.toString());
+            localStorage.setItem('padelpulse_shoes_count', currentShoesMatchCount.toString());
             localStorage.setItem('padelpulse_main_racket', JSON.stringify(mainRacket));
             localStorage.setItem('padelpulse_backup_racket', JSON.stringify(backupRacket));
             localStorage.setItem('padelpulse_test_racket', JSON.stringify(testRacket));
             localStorage.setItem('padelpulse_current_surgrip', JSON.stringify(currentSurgrip));
+            localStorage.setItem('padelpulse_current_shoes', JSON.stringify(currentShoes));
         }
 
         function openResetModal() { 
@@ -970,13 +1053,16 @@
             lessons = [];
             racketsHistory = [];
             surgripsHistory = [];
+            shoesHistory = [];
             playersDatabase = {};
             weeklyOverrides = {};
             currentSurgripMatchCount = 0;
+            currentShoesMatchCount = 0;
             mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
             backupRacket = { name: 'Aucune raquette de réserve', date: '-' };
             testRacket = { name: 'Aucune raquette test', date: '-' };
             currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
+            currentShoes = { name: 'Aucune paire enregistrée', date: '-' };
             
             saveAllData();
             renderWeeklySchedule();
@@ -985,6 +1071,7 @@
             renderLessons();
             renderRackets();
             renderSurgrips();
+            renderShoes();
             updateStats();
             updatePartnerDropdownOptions();
             closeResetModal();
@@ -1544,6 +1631,7 @@
 
                 matches.unshift(savedMatch);
                 currentSurgripMatchCount++;
+                currentShoesMatchCount++;
             }
 
             editingMatchId = null;
@@ -1741,95 +1829,11 @@
                 currentSurgripMatchesEl.innerText = `${currentSurgripMatchCount} match${currentSurgripMatchCount > 1 ? 's' : ''} joué${currentSurgripMatchCount > 1 ? 's' : ''}`;
             }
 
-            if (window.lucide) lucide.createIcons();
-        }
-
-        function updateStats() {
-            const filtered = getFilteredMatches();
-            const totalEl = document.getElementById('stat-total-matches');
-            if (totalEl) totalEl.innerText = filtered.length;
-            
-            const wins = filtered.filter(m => m.result === 'VICTOIRE').length;
-            const winRate = filtered.length ? Math.round((wins / filtered.length) * 100) : 0;
-            const rateEl = document.getElementById('stat-win-rate');
-            if (rateEl) rateEl.innerText = winRate + '%';
-
-            if (filtered.length > 0) {
-                const avgRating = (filtered.reduce((acc, m) => acc + (m.rating || 4), 0) / filtered.length).toFixed(1);
-                const avgEl = document.getElementById('stat-avg-feeling');
-                if (avgEl) avgEl.innerHTML = `${avgRating}<span class="text-xs text-slate-500 font-normal">/5</span>`;
-            } else {
-                const avgEl = document.getElementById('stat-avg-feeling');
-                if (avgEl) avgEl.innerHTML = `-<span class="text-xs text-slate-500 font-normal">/5</span>`;
+            const currentShoesMatchesEl = document.getElementById('current-shoes-matches');
+            if (currentShoesMatchesEl) {
+                currentShoesMatchesEl.innerText = `${currentShoesMatchCount} match${currentShoesMatchCount > 1 ? 's' : ''} joué${currentShoesMatchCount > 1 ? 's' : ''}`;
             }
 
-            renderPlayersStats();
-            renderStatsSummary();
-        }
-
-        function renderStatsSummary() {
-            const summaryGrid = document.getElementById('stats-summary-grid');
-            if (!summaryGrid) return;
-
-            const filtered = getFilteredMatches();
-            const locationCounts = {};
-            const locationWins = {};
-            const partnerCounts = {};
-            const partnerWins = {};
-
-            filtered.forEach(m => {
-                if (m.location) {
-                    locationCounts[m.location] = (locationCounts[m.location] || 0) + 1;
-                    if (m.result === 'VICTOIRE') locationWins[m.location] = (locationWins[m.location] || 0) + 1;
-                }
-                if (m.partner) {
-                    partnerCounts[m.partner] = (partnerCounts[m.partner] || 0) + 1;
-                    if (m.result === 'VICTOIRE') partnerWins[m.partner] = (partnerWins[m.partner] || 0) + 1;
-                }
-            });
-
-            let topLoc = 'Aucun club';
-            let topLocCount = 0;
-            Object.keys(locationCounts).forEach(loc => {
-                if (locationCounts[loc] > topLocCount) {
-                    topLocCount = locationCounts[loc];
-                    topLoc = loc;
-                }
-            });
-            const topLocWinRate = topLocCount ? Math.round(((locationWins[topLoc] || 0) / topLocCount) * 100) : 0;
-
-            let topPartner = 'Aucun';
-            let topPartnerCount = 0;
-            Object.keys(partnerCounts).forEach(p => {
-                if (partnerCounts[p] > topPartnerCount) {
-                    topPartnerCount = partnerCounts[p];
-                    topPartner = p;
-                }
-            });
-            const topPartnerWinRate = topPartnerCount ? Math.round(((partnerWins[topPartner] || 0) / topPartnerCount) * 100) : 0;
-
-            summaryGrid.innerHTML = `
-                <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 space-y-1">
-                    <span class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider block flex items-center gap-1">
-                        <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i> Club le + Joué
-                    </span>
-                    <p class="text-xs font-bold text-slate-100 truncate">${topLoc}</p>
-                    <div class="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
-                        <span>${topLocCount} partie${topLocCount > 1 ? 's' : ''}</span>
-                        <span class="text-lime-400 font-extrabold">${topLocWinRate}% V</span>
-                    </div>
-                </div>
-                <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 space-y-1">
-                    <span class="text-[9px] font-semibold text-slate-400 uppercase tracking-wider block flex items-center gap-1">
-                        <i data-lucide="heart" class="w-3 h-3 text-rose-400"></i> Coéquipier Favori
-                    </span>
-                    <p class="text-xs font-bold text-slate-100 truncate">${topPartner}</p>
-                    <div class="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
-                        <span>${topPartnerCount} partie${topPartnerCount > 1 ? 's' : ''}</span>
-                        <span class="text-lime-400 font-extrabold">${topPartnerWinRate}% V</span>
-                    </div>
-                </div>
-            `;
             if (window.lucide) lucide.createIcons();
         }
 
@@ -2005,12 +2009,258 @@
             renderLessons();
         }
 
+        function updateStats() {
+            const filtered = getFilteredMatches();
+            const total = filtered.length;
+            
+            // Total Matchs
+            const totalEl = document.getElementById('stat-total-matches');
+            if (totalEl) totalEl.innerText = total.toString();
+
+            // Win Rate
+            const wins = filtered.filter(m => m.result === 'VICTOIRE').length;
+            const winRate = total > 0 ? Math.round((wins / total) * 100) : 0;
+            const winRateEl = document.getElementById('stat-win-rate');
+            if (winRateEl) winRateEl.innerText = `${winRate}%`;
+
+            // Forme / Note Moyenne
+            const avgRatingEl = document.getElementById('stat-avg-feeling');
+            if (avgRatingEl) {
+                if (total > 0) {
+                    const sumRating = filtered.reduce((acc, m) => acc + (parseFloat(m.rating) || 4), 0);
+                    const avg = (sumRating / total).toFixed(1);
+                    avgRatingEl.innerHTML = `${avg}<span class="text-xs text-slate-500 font-normal">/5</span>`;
+                } else {
+                    avgRatingEl.innerHTML = `-<span class="text-xs text-slate-500 font-normal">/5</span>`;
+                }
+            }
+
+            // Récapitulatif Général & Fréquentation
+            const summaryGrid = document.getElementById('stats-summary-grid');
+            if (summaryGrid) {
+                const locations = {};
+                const partners = {};
+
+                filtered.forEach(m => {
+                    if (m.location && m.location.trim()) {
+                        const loc = m.location.trim();
+                        if (!locations[loc]) locations[loc] = { total: 0, wins: 0 };
+                        locations[loc].total++;
+                        if (m.result === 'VICTOIRE') locations[loc].wins++;
+                    }
+                    if (m.partner && m.partner.trim()) {
+                        const part = m.partner.trim();
+                        if (!partners[part]) partners[part] = { total: 0, wins: 0 };
+                        partners[part].total++;
+                        if (m.result === 'VICTOIRE') partners[part].wins++;
+                    }
+                });
+
+                let topLocName = 'Aucun club';
+                let topLocDetails = '0 partie';
+                let topLocWinRate = '0%';
+                let maxLocCount = 0;
+
+                Object.keys(locations).forEach(loc => {
+                    if (locations[loc].total > maxLocCount) {
+                        maxLocCount = locations[loc].total;
+                        topLocName = loc;
+                        const locWins = locations[loc].wins;
+                        const locRate = Math.round((locWins / maxLocCount) * 100);
+                        topLocDetails = `${maxLocCount} partie${maxLocCount > 1 ? 's' : ''}`;
+                        topLocWinRate = `${locRate}% V`;
+                    }
+                });
+
+                let topPartnerName = 'Aucun';
+                let topPartnerDetails = '0 partie';
+                let topPartnerWinRate = '0%';
+                let maxPartCount = 0;
+
+                Object.keys(partners).forEach(part => {
+                    if (partners[part].total > maxPartCount) {
+                        maxPartCount = partners[part].total;
+                        topPartnerName = part;
+                        const partWins = partners[part].wins;
+                        const partRate = Math.round((partWins / maxPartCount) * 100);
+                        topPartnerDetails = `${maxPartCount} partie${maxPartCount > 1 ? 's' : ''}`;
+                        topPartnerWinRate = `${partRate}% V`;
+                    }
+                });
+
+                summaryGrid.innerHTML = `
+                    <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1">
+                            <i data-lucide="map-pin" class="w-3 h-3 text-amber-400"></i> Club le + Joué
+                        </span>
+                        <p class="font-extrabold text-xs text-slate-100 truncate">${topLocName}</p>
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 pt-0.5">
+                            <span>${topLocDetails}</span>
+                            <span class="text-lime-400 font-bold">${topLocWinRate}</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1">
+                            <i data-lucide="heart" class="w-3 h-3 text-rose-400"></i> Coéquipier Favori
+                        </span>
+                        <p class="font-extrabold text-xs text-slate-100 truncate">${topPartnerName}</p>
+                        <div class="flex justify-between items-center text-[10px] text-slate-400 pt-0.5">
+                            <span>${topPartnerDetails}</span>
+                            <span class="text-lime-400 font-bold">${topPartnerWinRate}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderPlayersStats();
+        }
+
         function renderSurgrips() {
             const currentNameEl = document.getElementById('current-surgrip-name');
             const currentDateEl = document.getElementById('current-surgrip-date');
             if (currentNameEl) currentNameEl.innerText = currentSurgrip.name;
             if (currentDateEl) currentDateEl.innerText = currentSurgrip.date;
             renderSurgripsHistory();
+        }
+
+        // --- GESTION DES CHAUSSURES ---
+        function renderShoes() {
+            const currentNameEl = document.getElementById('current-shoes-name');
+            const currentDateEl = document.getElementById('current-shoes-date');
+            if (currentNameEl) currentNameEl.innerText = currentShoes.name;
+            if (currentDateEl) currentDateEl.innerText = currentShoes.date;
+            renderShoesHistory();
+        }
+
+        function openShoesModal() {
+            editingShoesTarget = null;
+            if (document.getElementById('shoes-input-name')) document.getElementById('shoes-input-name').value = '';
+            if (document.getElementById('shoes-input-date')) document.getElementById('shoes-input-date').value = '';
+            const modal = document.getElementById('modal-shoes');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeShoesModal() {
+            const modal = document.getElementById('modal-shoes');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function openEditShoesModal(target) {
+            editingShoesTarget = target;
+            let currentData = { name: '', date: '' };
+
+            if (target === 'current') currentData = currentShoes;
+            else if (typeof target === 'number' && shoesHistory[target]) {
+                currentData = { name: shoesHistory[target].name, date: shoesHistory[target].date };
+            }
+
+            if (document.getElementById('shoes-input-name')) document.getElementById('shoes-input-name').value = currentData.name || '';
+            if (document.getElementById('shoes-input-date')) document.getElementById('shoes-input-date').value = currentData.date || '';
+
+            const modal = document.getElementById('modal-shoes');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function deleteShoes(target) {
+            if (target === 'current') {
+                currentShoes = { name: 'Aucune paire enregistrée', date: '-' };
+                currentShoesMatchCount = 0;
+            } else if (typeof target === 'number') {
+                shoesHistory.splice(target, 1);
+            }
+
+            saveAllData();
+            renderShoes();
+            renderMatches();
+        }
+
+        function submitShoes() {
+            const name = document.getElementById('shoes-input-name')?.value.trim();
+            const date = document.getElementById('shoes-input-date')?.value.trim() || 'Aujourd\'hui';
+            if (!name) return;
+
+            if (editingShoesTarget !== null) {
+                if (editingShoesTarget === 'current') {
+                    currentShoes = { name: name, date: date };
+                } else if (typeof editingShoesTarget === 'number' && shoesHistory[editingShoesTarget]) {
+                    shoesHistory[editingShoesTarget].name = name;
+                    shoesHistory[editingShoesTarget].date = date;
+                }
+            } else {
+                if (currentShoes.name && currentShoes.name !== 'Aucune paire enregistrée') {
+                    shoesHistory.unshift({
+                        name: currentShoes.name,
+                        date: 'Acquises le ' + currentShoes.date,
+                        matches: currentShoesMatchCount + ' matchs'
+                    });
+                }
+                currentShoes = { name: name, date: date };
+                currentShoesMatchCount = 0;
+            }
+
+            editingShoesTarget = null;
+            saveAllData();
+            renderMatches();
+            renderShoes();
+            closeShoesModal();
+        }
+
+        function archiveCurrentShoes() {
+            if (currentShoes.name && currentShoes.name !== 'Aucune paire enregistrée') {
+                shoesHistory.unshift({
+                    name: currentShoes.name,
+                    date: 'Acquises le ' + currentShoes.date,
+                    matches: currentShoesMatchCount + ' matchs'
+                });
+                currentShoes = { name: 'Aucune paire enregistrée', date: '-' };
+                currentShoesMatchCount = 0;
+                saveAllData();
+                renderShoes();
+                renderMatches();
+            }
+        }
+
+        function toggleShoesHistory() {
+            showAllShoesHistory = !showAllShoesHistory;
+            renderShoesHistory();
+        }
+
+        function renderShoesHistory() {
+            const container = document.getElementById('shoes-history-container');
+            const toggleBtn = document.getElementById('btn-toggle-shoes');
+            if (!container) return;
+
+            if (shoesHistory.length === 0) {
+                container.innerHTML = `<p class="text-[10px] text-slate-500 text-center py-2">Aucun historique de chaussures</p>`;
+                if (toggleBtn) toggleBtn.classList.add('hidden');
+                return;
+            }
+
+            if (toggleBtn) {
+                if (shoesHistory.length > 3) {
+                    toggleBtn.classList.remove('hidden');
+                    toggleBtn.innerText = showAllShoesHistory ? 'Réduire' : `Voir plus (${shoesHistory.length})`;
+                } else {
+                    toggleBtn.classList.add('hidden');
+                }
+            }
+
+            const displayList = showAllShoesHistory ? shoesHistory : shoesHistory.slice(0, 3);
+
+            container.innerHTML = displayList.map((s, index) => `
+                <div class="flex justify-between items-center text-xs p-2 bg-slate-950/60 rounded-lg border border-slate-800/60">
+                    <div>
+                        <p class="font-bold text-slate-200 text-[11px]">${s.name}</p>
+                        <p class="text-[9px] text-slate-400">${s.date}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="openEditShoesModal(${index})" title="Modifier" class="text-slate-400 hover:text-lime-400 text-[10px]">✏️</button>
+                        <button onclick="deleteShoes(${index})" title="Supprimer" class="text-slate-400 hover:text-rose-400 text-[10px]">🗑️</button>
+                        <span class="text-[9px] text-slate-400 font-semibold bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">${s.matches}</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function openRacketModal() { 
@@ -2468,6 +2718,14 @@
         window.closeSurgripModal = closeSurgripModal;
         window.submitSurgrip = submitSurgrip;
         window.toggleSurgripsHistory = toggleSurgripsHistory;
+        window.openShoesModal = openShoesModal;
+        window.openEditShoesModal = openEditShoesModal;
+        window.deleteShoes = deleteShoes;
+        window.closeShoesModal = closeShoesModal;
+        window.submitShoes = submitShoes;
+        window.archiveCurrentShoes = archiveCurrentShoes;
+        window.toggleShoesHistory = toggleShoesHistory;
+        window.renderShoes = renderShoes;
         window.openLessonModal = openLessonModal;
         window.openEditLessonModal = openEditLessonModal;
         window.deleteLesson = deleteLesson;
@@ -2478,6 +2736,8 @@
         window.closeResultFeedbackModal = closeResultFeedbackModal;
         window.setTimePeriodFilter = setTimePeriodFilter;
         window.checkTieBreakVisibility = checkTieBreakVisibility;
+        window.updateStats = updateStats;
+        window.renderPlayersStats = renderPlayersStats;
 
         // Initialization
         window.onload = function() {
@@ -2488,6 +2748,7 @@
             renderLessons();
             renderRackets();
             renderSurgrips();
+            renderShoes();
             updateStats();
             updatePartnerDropdownOptions();
             if (window.lucide) lucide.createIcons();
