@@ -98,6 +98,13 @@
             <!-- VUE DASHBOARD (ACCUEIL) -->
             <div id="view-dashboard" class="space-y-4">
                 
+                <!-- Sélecteur de Type de Match Global (Filtre Amical / Compétition / Tous) -->
+                <div class="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-2xl border border-slate-800">
+                    <button onclick="setMatchTypeFilter('all')" id="filter-type-all" class="py-1.5 px-2 rounded-xl text-[11px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition text-center truncate">🔍 Tous</button>
+                    <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-slate-400 hover:text-white transition text-center truncate">🎾 Amicaux</button>
+                    <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-slate-400 hover:text-white transition text-center truncate">🏆 Compétitions</button>
+                </div>
+
                 <!-- Sélecteur de Période Temporelle -->
                 <div class="flex justify-between items-center bg-slate-800/40 p-2 rounded-2xl border border-slate-800">
                     <span class="text-[11px] font-bold text-slate-300 flex items-center gap-1.5 pl-1">
@@ -246,7 +253,15 @@
 
             <!-- VUE HISTORIQUE DES MATCHS -->
             <div id="view-matches" class="hidden space-y-3">
-                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider px-1">Tous mes matchs enregistrés</h2>
+                <div class="flex justify-between items-center px-1">
+                    <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tous mes matchs enregistrés</h2>
+                </div>
+                <!-- Sélecteur de Type de Match Global (Filtre Amical / Compétition / Tous) dans l'onglet Matchs -->
+                <div class="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-2xl border border-slate-800">
+                    <button onclick="setMatchTypeFilter('all')" id="filter-type-all-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition text-center truncate">🔍 Tous</button>
+                    <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-slate-400 hover:text-white transition text-center truncate">🎾 Amicaux</button>
+                    <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-slate-400 hover:text-white transition text-center truncate">🏆 Compétitions</button>
+                </div>
                 <div id="all-matches-container" class="space-y-2.5">
                     <!-- Rempli en JS -->
                 </div>
@@ -304,7 +319,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1.5 border-t border-slate-800/80">
-                                <span>Matériel actif</span>
+                                <span class="text-lime-400 font-bold bg-lime-500/10 px-2 py-0.5 rounded-md border border-lime-500/20" id="main-racket-matches">0 match joué</span>
                                 <span class="text-emerald-400 font-medium flex items-center gap-1">
                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> En service
                                 </span>
@@ -326,7 +341,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1.5 border-t border-slate-800/80">
-                                <span>Matériel de secours</span>
+                                <span class="text-sky-400 font-bold bg-sky-500/10 px-2 py-0.5 rounded-md border border-sky-500/20" id="backup-racket-matches">0 match joué</span>
                                 <span class="text-sky-400 font-medium flex items-center gap-1">
                                     <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> En réserve
                                 </span>
@@ -346,6 +361,9 @@
                                     <button onclick="deleteRacket('test')" title="Effacer" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-rose-400 px-1.5 py-0.5 rounded border border-slate-700 transition">🗑️</button>
                                     <button onclick="archiveTestRacket()" title="Archiver la raquette test" class="text-[9px] bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-amber-400 px-1.5 py-0.5 rounded border border-slate-700 transition flex items-center gap-0.5">📦 Archiver</button>
                                 </div>
+                            </div>
+                            <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1.5 border-t border-slate-800/80">
+                                <span class="text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20" id="test-racket-matches">0 match joué</span>
                             </div>
                         </div>
 
@@ -489,6 +507,28 @@
                         </div>
                     </div>
 
+                    <!-- Date du Match -->
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date du Match</label>
+                        <div class="relative">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400"></i>
+                            <input type="date" id="match-date-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
+                        </div>
+                    </div>
+
+                    <!-- Raquette Utilisée -->
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Raquette Utilisée</label>
+                        <div class="relative">
+                            <i data-lucide="shield" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400"></i>
+                            <select id="match-racket-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
+                                <option value="main">Raquette Principale</option>
+                                <option value="backup">Raquette de Réserve</option>
+                                <option value="test">Raquette Test</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Lieu / Club -->
                     <div class="min-w-0">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Lieu / Club (Optionnel)</label>
@@ -619,7 +659,7 @@
                         <div class="grid grid-cols-3 gap-1.5 mb-2.5">
                             <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-300 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
                             <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[10px] hover:border-slate-700 transition text-center leading-tight truncate">Sets en 9 jeux</button>
-                            <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[10px] hover:border-slate-700 transition text-center leading-tight truncate">Partie Libre (21pt)</button>
+                            <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[10px] hover:border-slate-700 transition text-center leading-tight truncate">Partie Libre</button>
                         </div>
 
                         <!-- Scores initialisés à 0 : 0 -->
@@ -906,7 +946,10 @@
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date</label>
-                        <input type="text" id="lesson-input-date" placeholder="Aujourd'hui" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                        <div class="relative">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400"></i>
+                            <input type="date" id="lesson-date-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
+                        </div>
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Thème Travaillé</label>
@@ -981,6 +1024,7 @@
         // Data Stores & State Variables
         let playersDatabase = JSON.parse(localStorage.getItem('padelpulse_players')) || {};
         let currentMatchType = 'amical';
+        let matchTypeFilter = 'all'; // 'all', 'amical', 'competition'
         let currentFormat = '6sets';
         let visibleSetsCount = 1;
         let currentTimePeriod = 'all';
@@ -1011,9 +1055,11 @@
         let racketsHistory = JSON.parse(localStorage.getItem('padelpulse_rackets')) || [];
         let surgripsHistory = JSON.parse(localStorage.getItem('padelpulse_surgrips')) || [];
         let shoesHistory = JSON.parse(localStorage.getItem('padelpulse_shoes')) || [];
-        let mainRacket = JSON.parse(localStorage.getItem('padelpulse_main_racket')) || { name: 'Aucune raquette enregistrée', date: '-' };
-        let backupRacket = JSON.parse(localStorage.getItem('padelpulse_backup_racket')) || { name: 'Aucune raquette de réserve', date: '-' };
-        let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-' };
+        
+        let mainRacket = JSON.parse(localStorage.getItem('padelpulse_main_racket')) || { name: 'Aucune raquette enregistrée', date: '-', matchesCount: 0 };
+        let backupRacket = JSON.parse(localStorage.getItem('padelpulse_backup_racket')) || { name: 'Aucune raquette de réserve', date: '-', matchesCount: 0 };
+        let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-', matchesCount: 0 };
+        
         let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
         let currentShoes = JSON.parse(localStorage.getItem('padelpulse_current_shoes')) || { name: 'Aucune paire enregistrée', date: '-' };
 
@@ -1058,9 +1104,9 @@
             weeklyOverrides = {};
             currentSurgripMatchCount = 0;
             currentShoesMatchCount = 0;
-            mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
-            backupRacket = { name: 'Aucune raquette de réserve', date: '-' };
-            testRacket = { name: 'Aucune raquette test', date: '-' };
+            mainRacket = { name: 'Aucune raquette enregistrée', date: '-', matchesCount: 0 };
+            backupRacket = { name: 'Aucune raquette de réserve', date: '-', matchesCount: 0 };
+            testRacket = { name: 'Aucune raquette test', date: '-', matchesCount: 0 };
             currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
             currentShoes = { name: 'Aucune paire enregistrée', date: '-' };
             
@@ -1325,7 +1371,6 @@
             const tbInput = document.getElementById(`s${setNum}-tb`);
             const wrap = document.getElementById(`s${setNum}-tb-wrap`);
             
-            // Un tie-break survient généralement sur des scores de 7-6, 6-7, 9-8, 8-9, 10-9, 9-10
             const isTieBreakScore = (us === 7 && them === 6) || (us === 6 && them === 7) ||
                                     (us === 9 && them === 8) || (us === 8 && them === 9) ||
                                     (us === 10 && them === 9) || (us === 9 && them === 10);
@@ -1353,6 +1398,22 @@
             }
         }
 
+        function setMatchTypeFilter(type) {
+            matchTypeFilter = type;
+            ['all', 'amical', 'competition'].forEach(t => {
+                const btn1 = document.getElementById('filter-type-' + t);
+                const btn2 = document.getElementById('filter-type-' + t + '-matches');
+                
+                const activeClass = "py-1.5 px-2 rounded-xl text-[11px] font-bold bg-lime-500/20 text-lime-400 border border-lime-500/30 transition text-center truncate";
+                const inactiveClass = "py-1.5 px-2 rounded-xl text-[11px] font-medium text-slate-400 hover:text-white transition text-center truncate";
+
+                if (btn1) btn1.className = (t === type) ? activeClass : inactiveClass;
+                if (btn2) btn2.className = (t === type) ? activeClass : inactiveClass;
+            });
+            updateStats();
+            renderMatches();
+        }
+
         function setFormat(formatKey) {
             currentFormat = formatKey;
             visibleSetsCount = 1;
@@ -1373,8 +1434,8 @@
 
             if (formatKey === '21pts') {
                 populateScoreDropdowns(21);
-                if (badge) badge.innerText = 'Partie Libre (21pt)';
-                if (label1) label1.innerText = 'Set Unique (21pt)';
+                if (badge) badge.innerText = 'Partie Libre';
+                if (label1) label1.innerText = 'Set Unique';
                 if (r2) r2.classList.add('hidden');
                 if (r3) r3.classList.add('hidden');
                 if (addBtn) addBtn.classList.add('hidden');
@@ -1434,7 +1495,19 @@
             editingMatchId = null;
             setMatchType('amical');
             setFormat('6sets');
+
+            const dateInput = document.getElementById('match-date-input');
+            if (dateInput) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                dateInput.value = `${yyyy}-${mm}-${dd}`;
+            }
+
+            if (document.getElementById('match-racket-select')) document.getElementById('match-racket-select').value = 'main';
             if (document.getElementById('match-location')) document.getElementById('match-location').value = '';
+            if (document.getElementById('match-partner')) document.getElementById('match-partner').value = '';
             if (document.getElementById('match-opp1-name')) document.getElementById('match-opp1-name').value = '';
             if (document.getElementById('match-opp1-rank')) document.getElementById('match-opp1-rank').value = 'P200';
             if (document.getElementById('match-opp2-name')) document.getElementById('match-opp2-name').value = '';
@@ -1474,9 +1547,18 @@
             editingMatchId = id;
 
             setMatchType(m.type || 'amical');
+            if (document.getElementById('match-racket-select')) document.getElementById('match-racket-select').value = m.racketUsed || 'main';
             if (document.getElementById('match-location')) document.getElementById('match-location').value = m.location || '';
             if (document.getElementById('match-partner')) document.getElementById('match-partner').value = m.partner || '';
             
+            const dateInput = document.getElementById('match-date-input');
+            if (dateInput && m.date) {
+                const parts = m.date.split('/');
+                if (parts.length === 3) {
+                    dateInput.value = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+            }
+
             if (m.opponents) {
                 const opps = m.opponents.split(/&|,|\set\s/).map(s => s.trim());
                 if (opps[0] && document.getElementById('match-opp1-name')) document.getElementById('match-opp1-name').value = opps[0];
@@ -1526,6 +1608,7 @@
             matches = matches.filter(m => m.id !== id);
             saveAllData();
             renderMatches();
+            renderRackets();
             renderWeeklySchedule();
             renderMonthlySchedule();
             updateStats();
@@ -1562,6 +1645,7 @@
             const location = document.getElementById('match-location')?.value || '';
             const feeling = document.getElementById('match-feeling')?.value || '⚡ En forme';
             const rating = parseInt(document.getElementById('match-rating')?.value) || 4;
+            const racketUsed = document.getElementById('match-racket-select')?.value || 'main';
 
             const activeTags = Array.from(document.querySelectorAll('#tag-container .tag-chip.active')).map(el => el.innerText.trim());
 
@@ -1589,8 +1673,18 @@
             }
 
             const result = usSetsWon >= themSetsWon ? 'VICTOIRE' : 'DÉFAITE';
-            const nowDate = new Date();
-            const dateStrFormatted = nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            
+            const dateInputVal = document.getElementById('match-date-input')?.value;
+            let dateStrFormatted = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            let timestampVal = new Date().getTime();
+
+            if (dateInputVal) {
+                const [yyyy, mm, dd] = dateInputVal.split('-');
+                if (yyyy && mm && dd) {
+                    dateStrFormatted = `${dd}/${mm}/${yyyy}`;
+                    timestampVal = new Date(yyyy, mm - 1, dd).getTime();
+                }
+            }
 
             let savedMatch = null;
 
@@ -1600,10 +1694,13 @@
                     matches[index] = {
                         ...matches[index],
                         type: currentMatchType,
+                        date: dateStrFormatted,
+                        timestamp: timestampVal,
                         partner: partnerName,
                         opponents: opponentsStr,
                         location: location,
-                        format: currentFormat === '21pts' ? 'Partie Libre (21pt)' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
+                        racketUsed: racketUsed,
+                        format: currentFormat === '21pts' ? 'Partie Libre' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
                         score: scoreStr,
                         result: result,
                         feeling: feeling,
@@ -1615,13 +1712,14 @@
             } else {
                 savedMatch = {
                     id: Date.now(),
-                    timestamp: nowDate.getTime(),
+                    timestamp: timestampVal,
                     date: dateStrFormatted,
                     type: currentMatchType,
                     partner: partnerName,
                     opponents: opponentsStr,
                     location: location,
-                    format: currentFormat === '21pts' ? 'Partie Libre (21pt)' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
+                    racketUsed: racketUsed,
+                    format: currentFormat === '21pts' ? 'Partie Libre' : (currentFormat === '9sets' ? 'Sets en 9 jeux' : 'Sets en 6 jeux'),
                     score: scoreStr,
                     result: result,
                     feeling: feeling,
@@ -1632,11 +1730,20 @@
                 matches.unshift(savedMatch);
                 currentSurgripMatchCount++;
                 currentShoesMatchCount++;
+
+                if (racketUsed === 'main') {
+                    mainRacket.matchesCount = (mainRacket.matchesCount || 0) + 1;
+                } else if (racketUsed === 'backup') {
+                    backupRacket.matchesCount = (backupRacket.matchesCount || 0) + 1;
+                } else if (racketUsed === 'test') {
+                    testRacket.matchesCount = (testRacket.matchesCount || 0) + 1;
+                }
             }
 
             editingMatchId = null;
             saveAllData();
             renderMatches();
+            renderRackets();
             renderWeeklySchedule();
             renderMonthlySchedule();
             updateStats();
@@ -1676,25 +1783,33 @@
         }
 
         function getFilteredMatches() {
-            if (currentTimePeriod === 'all') return matches;
+            let filtered = matches;
 
-            const now = new Date();
-            const currentYear = now.getFullYear();
-            const currentMonth = now.getMonth();
+            if (matchTypeFilter !== 'all') {
+                filtered = filtered.filter(m => (m.type || 'amical') === matchTypeFilter);
+            }
 
-            return matches.filter(m => {
-                const matchDate = m.timestamp ? new Date(m.timestamp) : new Date();
-                if (currentTimePeriod === 'this_month') {
-                    return matchDate.getFullYear() === currentYear && matchDate.getMonth() === currentMonth;
-                }
-                if (currentTimePeriod === 'this_year') {
-                    return matchDate.getFullYear() === currentYear;
-                }
-                if (currentTimePeriod === 'prev_year') {
-                    return matchDate.getFullYear() === currentYear - 1;
-                }
-                return true;
-            });
+            if (currentTimePeriod !== 'all') {
+                const now = new Date();
+                const currentYear = now.getFullYear();
+                const currentMonth = now.getMonth();
+
+                filtered = filtered.filter(m => {
+                    const matchDate = m.timestamp ? new Date(m.timestamp) : new Date();
+                    if (currentTimePeriod === 'this_month') {
+                        return matchDate.getFullYear() === currentYear && matchDate.getMonth() === currentMonth;
+                    }
+                    if (currentTimePeriod === 'this_year') {
+                        return matchDate.getFullYear() === currentYear;
+                    }
+                    if (currentTimePeriod === 'prev_year') {
+                        return matchDate.getFullYear() === currentYear - 1;
+                    }
+                    return true;
+                });
+            }
+
+            return filtered;
         }
 
         function showResultFeedback(match) {
@@ -2295,9 +2410,9 @@
         }
 
         function deleteRacket(target) {
-            if (target === 'main') mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
-            else if (target === 'backup') backupRacket = { name: 'Aucune raquette de réserve', date: '-' };
-            else if (target === 'test') testRacket = { name: 'Aucune raquette test', date: '-' };
+            if (target === 'main') mainRacket = { name: 'Aucune raquette enregistrée', date: '-', matchesCount: 0 };
+            else if (target === 'backup') backupRacket = { name: 'Aucune raquette de réserve', date: '-', matchesCount: 0 };
+            else if (target === 'test') testRacket = { name: 'Aucune raquette test', date: '-', matchesCount: 0 };
             else if (typeof target === 'number') racketsHistory.splice(target, 1);
             
             saveAllData();
@@ -2312,30 +2427,31 @@
             if (!name) return;
 
             if (editingRacketTarget !== null) {
-                if (editingRacketTarget === 'main') mainRacket = { name: name, date: date };
-                else if (editingRacketTarget === 'backup') backupRacket = { name: name, date: date };
-                else if (editingRacketTarget === 'test') testRacket = { name: name, date: date };
+                if (editingRacketTarget === 'main') mainRacket = { ...mainRacket, name: name, date: date };
+                else if (editingRacketTarget === 'backup') backupRacket = { ...backupRacket, name: name, date: date };
+                else if (editingRacketTarget === 'test') testRacket = { ...testRacket, name: name, date: date };
                 else if (typeof editingRacketTarget === 'number' && racketsHistory[editingRacketTarget]) {
-                    racketsHistory[editingRacketTarget] = { name: name, dates: date };
+                    racketsHistory[editingRacketTarget].name = name;
+                    racketsHistory[editingRacketTarget].dates = date;
                 }
             } else {
                 if (status === 'main') {
                     if (mainRacket.name && mainRacket.name !== 'Aucune raquette enregistrée') {
-                        racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
+                        racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date, matches: (mainRacket.matchesCount || 0) + ' matchs' });
                     }
-                    mainRacket = { name: name, date: date };
+                    mainRacket = { name: name, date: date, matchesCount: 0 };
                 } else if (status === 'backup') {
                     if (backupRacket.name && backupRacket.name !== 'Aucune raquette de réserve') {
-                        racketsHistory.unshift({ name: backupRacket.name, dates: backupRacket.date });
+                        racketsHistory.unshift({ name: backupRacket.name, dates: backupRacket.date, matches: (backupRacket.matchesCount || 0) + ' matchs' });
                     }
-                    backupRacket = { name: name, date: date };
+                    backupRacket = { name: name, date: date, matchesCount: 0 };
                 } else if (status === 'test') {
                     if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
-                        racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
+                        racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date, matches: (testRacket.matchesCount || 0) + ' matchs' });
                     }
-                    testRacket = { name: name, date: date };
+                    testRacket = { name: name, date: date, matchesCount: 0 };
                 } else {
-                    racketsHistory.unshift({ name: name, dates: date });
+                    racketsHistory.unshift({ name: name, dates: date, matches: '0 match' });
                 }
             }
 
@@ -2347,8 +2463,8 @@
 
         function archiveMainRacket() {
             if (mainRacket.name && mainRacket.name !== 'Aucune raquette enregistrée') {
-                racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date });
-                mainRacket = { name: 'Aucune raquette enregistrée', date: '-' };
+                racketsHistory.unshift({ name: mainRacket.name, dates: mainRacket.date, matches: (mainRacket.matchesCount || 0) + ' matchs' });
+                mainRacket = { name: 'Aucune raquette enregistrée', date: '-', matchesCount: 0 };
                 saveAllData();
                 renderRackets();
             }
@@ -2356,8 +2472,8 @@
 
         function archiveBackupRacket() {
             if (backupRacket.name && backupRacket.name !== 'Aucune raquette de réserve') {
-                racketsHistory.unshift({ name: backupRacket.name, dates: backupRacket.date });
-                backupRacket = { name: 'Aucune raquette de réserve', date: '-' };
+                racketsHistory.unshift({ name: backupRacket.name, dates: backupRacket.date, matches: (backupRacket.matchesCount || 0) + ' matchs' });
+                backupRacket = { name: 'Aucune raquette de réserve', date: '-', matchesCount: 0 };
                 saveAllData();
                 renderRackets();
             }
@@ -2365,8 +2481,8 @@
 
         function archiveTestRacket() {
             if (testRacket.name && testRacket.name !== 'Aucune raquette test') {
-                racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date });
-                testRacket = { name: 'Aucune raquette test', date: '-' };
+                racketsHistory.unshift({ name: testRacket.name, dates: testRacket.date, matches: (testRacket.matchesCount || 0) + ' matchs' });
+                testRacket = { name: 'Aucune raquette test', date: '-', matchesCount: 0 };
                 saveAllData();
                 renderRackets();
             }
@@ -2380,17 +2496,25 @@
         function renderRackets() {
             const mainNameEl = document.getElementById('main-racket-name');
             const mainDateEl = document.getElementById('main-racket-date');
+            const mainMatchesEl = document.getElementById('main-racket-matches');
             const backupNameEl = document.getElementById('backup-racket-name');
             const backupDateEl = document.getElementById('backup-racket-date');
+            const backupMatchesEl = document.getElementById('backup-racket-matches');
             const testNameEl = document.getElementById('test-racket-name');
             const testDateEl = document.getElementById('test-racket-date');
+            const testMatchesEl = document.getElementById('test-racket-matches');
 
             if (mainNameEl) mainNameEl.innerText = mainRacket.name;
             if (mainDateEl) mainDateEl.innerText = mainRacket.date;
+            if (mainMatchesEl) mainMatchesEl.innerText = `${mainRacket.matchesCount || 0} match${(mainRacket.matchesCount || 0) > 1 ? 's' : ''} joué${(mainRacket.matchesCount || 0) > 1 ? 's' : ''}`;
+
             if (backupNameEl) backupNameEl.innerText = backupRacket.name;
             if (backupDateEl) backupDateEl.innerText = backupRacket.date;
+            if (backupMatchesEl) backupMatchesEl.innerText = `${backupRacket.matchesCount || 0} match${(backupRacket.matchesCount || 0) > 1 ? 's' : ''} joué${(backupRacket.matchesCount || 0) > 1 ? 's' : ''}`;
+
             if (testNameEl) testNameEl.innerText = testRacket.name;
             if (testDateEl) testDateEl.innerText = testRacket.date;
+            if (testMatchesEl) testMatchesEl.innerText = `${testRacket.matchesCount || 0} match${(testRacket.matchesCount || 0) > 1 ? 's' : ''} joué${(testRacket.matchesCount || 0) > 1 ? 's' : ''}`;
 
             renderRacketsHistory();
         }
@@ -2426,7 +2550,7 @@
                     <div class="flex items-center gap-1.5">
                         <button onclick="openEditRacketModal(${index})" title="Modifier" class="text-slate-400 hover:text-lime-400 text-[10px]">✏️</button>
                         <button onclick="deleteRacket(${index})" title="Supprimer" class="text-slate-400 hover:text-rose-400 text-[10px]">🗑️</button>
-                        <span class="text-[9px] font-semibold text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">Archivée</span>
+                        <span class="text-[9px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">${r.matches || '0 match'}</span>
                     </div>
                 </div>
             `).join('');
@@ -2550,7 +2674,16 @@
             editingLessonId = null;
             if (document.getElementById('lesson-input-coach')) document.getElementById('lesson-input-coach').value = '';
             if (document.getElementById('lesson-input-location')) document.getElementById('lesson-input-location').value = '';
-            if (document.getElementById('lesson-input-date')) document.getElementById('lesson-input-date').value = '';
+            
+            const dateInput = document.getElementById('lesson-date-input');
+            if (dateInput) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                dateInput.value = `${yyyy}-${mm}-${dd}`;
+            }
+
             if (document.getElementById('lesson-input-theme')) document.getElementById('lesson-input-theme').value = '';
             if (document.getElementById('lesson-input-notes')) document.getElementById('lesson-input-notes').value = '';
             const modal = document.getElementById('modal-lesson');
@@ -2569,7 +2702,15 @@
             editingLessonId = id;
             if (document.getElementById('lesson-input-coach')) document.getElementById('lesson-input-coach').value = l.coach || '';
             if (document.getElementById('lesson-input-location')) document.getElementById('lesson-input-location').value = l.location || '';
-            if (document.getElementById('lesson-input-date')) document.getElementById('lesson-input-date').value = l.date || '';
+            
+            const dateInput = document.getElementById('lesson-date-input');
+            if (dateInput && l.date) {
+                const parts = l.date.split('/');
+                if (parts.length === 3) {
+                    dateInput.value = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+            }
+
             if (document.getElementById('lesson-input-theme')) document.getElementById('lesson-input-theme').value = l.theme || '';
             if (document.getElementById('lesson-input-notes')) document.getElementById('lesson-input-notes').value = (l.notes || []).join('\n');
 
@@ -2588,13 +2729,22 @@
         function submitLesson() {
             const coach = document.getElementById('lesson-input-coach')?.value || 'Coach Nicolas';
             const location = document.getElementById('lesson-input-location')?.value || 'Lieu non précisé';
-            const date = document.getElementById('lesson-input-date')?.value || 'Aujourd\'hui';
             const theme = document.getElementById('lesson-input-theme')?.value || 'Thème général';
             const notesRaw = document.getElementById('lesson-input-notes')?.value || '';
 
             const notes = notesRaw.split('\n').map(n => n.trim()).filter(Boolean);
-            const nowDate = new Date();
-            const dateStrFormatted = nowDate.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            
+            const dateInputVal = document.getElementById('lesson-date-input')?.value;
+            let dateStrFormatted = new Date().toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            let timestampVal = new Date().getTime();
+
+            if (dateInputVal) {
+                const [yyyy, mm, dd] = dateInputVal.split('-');
+                if (yyyy && mm && dd) {
+                    dateStrFormatted = `${dd}/${mm}/${yyyy}`;
+                    timestampVal = new Date(yyyy, mm - 1, dd).getTime();
+                }
+            }
 
             if (editingLessonId) {
                 const index = lessons.findIndex(l => l.id === editingLessonId);
@@ -2603,7 +2753,8 @@
                         ...lessons[index],
                         coach: coach,
                         location: location,
-                        date: date === "Aujourd'hui" ? dateStrFormatted : date,
+                        date: dateStrFormatted,
+                        timestamp: timestampVal,
                         theme: theme,
                         notes: notes.length ? notes : ['Remarques et consignes enregistrées.']
                     };
@@ -2611,10 +2762,10 @@
             } else {
                 lessons.unshift({
                     id: Date.now(),
-                    timestamp: nowDate.getTime(),
+                    timestamp: timestampVal,
                     coach: coach,
                     location: location,
-                    date: date === "Aujourd'hui" ? dateStrFormatted : date,
+                    date: dateStrFormatted,
                     theme: theme,
                     notes: notes.length ? notes : ['Remarques et consignes enregistrées.']
                 });
@@ -2696,6 +2847,7 @@
         window.navigateCalendarMonth = navigateCalendarMonth;
         window.setFormat = setFormat;
         window.setMatchType = setMatchType;
+        window.setMatchTypeFilter = setMatchTypeFilter;
         window.addSetField = addSetField;
         window.toggleTag = toggleTag;
         window.toggleNewPartnerInput = toggleNewPartnerInput;
@@ -2718,6 +2870,7 @@
         window.closeSurgripModal = closeSurgripModal;
         window.submitSurgrip = submitSurgrip;
         window.toggleSurgripsHistory = toggleSurgripsHistory;
+        window.renderSurgripsHistory = renderSurgripsHistory;
         window.openShoesModal = openShoesModal;
         window.openEditShoesModal = openEditShoesModal;
         window.deleteShoes = deleteShoes;
