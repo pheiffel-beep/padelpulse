@@ -34,7 +34,7 @@
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
         .tag-chip.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 600; }
         .fmt-btn.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 700; }
         .type-btn.active { background-color: rgba(132, 204, 22, 0.2); border-color: #84cc16; color: #a3e635; font-weight: 700; }
@@ -61,7 +61,7 @@
         .animate-shake { animation: shakeSoft 0.4s ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex justify-center items-start sm:items-center p-0 sm:p-4 selection:bg-lime-500 selection:text-slate-950">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex justify-center items-start sm:items-center p-0 sm:p-4 selection:bg-lime-500 selection:text-slate-950 overflow-x-hidden">
 
     <div class="w-full max-w-full sm:max-w-[410px] h-screen sm:h-[850px] sm:max-h-[96vh] bg-slate-900 sm:rounded-[45px] sm:border-[8px] sm:border-slate-800 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-700/50">
         
@@ -486,7 +486,7 @@
 
         <!-- MODAL SAISIE EXPRESS MATCH (< 30 sec) -->
         <div id="modal-match" class="absolute inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-2.5 overflow-hidden transition-all duration-300">
-            <div class="bg-slate-900 w-[92%] max-w-[350px] max-h-[85vh] rounded-3xl border border-slate-800 p-3.5 space-y-3 overflow-y-auto shadow-2xl relative my-auto shrink-0 mx-auto">
+            <div class="bg-slate-900 w-[95%] max-w-[360px] max-h-[85vh] rounded-3xl border border-slate-800 p-3.5 space-y-3 overflow-y-auto shadow-2xl relative my-auto shrink-0 mx-auto box-border">
                 
                 <div class="flex justify-between items-center border-b border-slate-800 pb-2 sticky top-0 bg-slate-900/95 z-10 pt-1">
                     <h3 class="font-bold text-xs sm:text-sm text-slate-100 flex items-center gap-1.5">
@@ -496,7 +496,7 @@
                     <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-xs transition shrink-0">✕</button>
                 </div>
 
-                <div class="space-y-2.5 text-left w-full min-w-0">
+                <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border overflow-x-hidden">
                     
                     <!-- Type de Partie -->
                     <div>
@@ -508,20 +508,20 @@
                     </div>
 
                     <!-- Date du Match -->
-                    <div>
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date du Match</label>
-                        <div class="relative">
-                            <i data-lucide="calendar" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400"></i>
-                            <input type="date" id="match-date-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
+                        <div class="relative w-full">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400 pointer-events-none"></i>
+                            <input type="date" id="match-date-input" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
                         </div>
                     </div>
 
                     <!-- Raquette Utilisée -->
-                    <div>
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Raquette Utilisée</label>
-                        <div class="relative">
-                            <i data-lucide="shield" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400"></i>
-                            <select id="match-racket-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
+                        <div class="relative w-full">
+                            <i data-lucide="shield" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400 pointer-events-none"></i>
+                            <select id="match-racket-select" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer truncate">
                                 <option value="main">Raquette Principale</option>
                                 <option value="backup">Raquette de Réserve</option>
                                 <option value="test">Raquette Test</option>
@@ -530,43 +530,43 @@
                     </div>
 
                     <!-- Lieu / Club -->
-                    <div class="min-w-0">
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Lieu / Club (Optionnel)</label>
-                        <div class="relative">
-                            <i data-lucide="map-pin" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                            <input type="text" id="match-location" placeholder="Ex: Padel Club Charleroi, Planet Padel..." class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 transition truncate">
+                        <div class="relative w-full">
+                            <i data-lucide="map-pin" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"></i>
+                            <input type="text" id="match-location" placeholder="Ex: Padel Club..." class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 transition truncate">
                         </div>
                     </div>
 
                     <!-- Coéquipier -->
-                    <div class="min-w-0">
+                    <div class="w-full max-w-full box-border">
                         <div class="flex justify-between items-center mb-1 gap-1">
                             <label class="block text-[11px] font-semibold text-slate-400 truncate">Ton Coéquipier</label>
                             <button type="button" onclick="toggleNewPartnerInput(true)" class="text-[10px] text-lime-400 font-semibold hover:underline flex items-center gap-1 shrink-0">
                                 <i data-lucide="user-plus" class="w-3 h-3"></i> + Nouveau
                             </button>
                         </div>
-                        <select id="match-partner" onchange="handlePartnerSelectChange(this.value)" class="w-full max-w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition truncate">
+                        <select id="match-partner" onchange="handlePartnerSelectChange(this.value)" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition truncate">
                             <option value="">Sélectionner un coéquipier...</option>
                             <option value="__NEW__">+ Créer un nouveau partenaire...</option>
                         </select>
 
                         <!-- Champ création rapide partenaire -->
-                        <div id="new-partner-fields" class="hidden mt-2 p-2 bg-slate-950/90 rounded-xl border border-lime-500/40 space-y-1.5 min-w-0">
+                        <div id="new-partner-fields" class="hidden mt-2 p-2 bg-slate-950/90 rounded-xl border border-lime-500/40 space-y-1.5 w-full max-w-full box-border">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-bold text-lime-400 uppercase tracking-wider flex items-center gap-1">
                                     <i data-lucide="user-plus" class="w-3 h-3"></i> Nouveau Coéquipier
                                 </span>
                                 <button type="button" onclick="toggleNewPartnerInput(false)" class="text-[10px] text-slate-400 hover:text-white">Annuler</button>
                             </div>
-                            <div class="grid grid-cols-2 gap-1.5 w-full min-w-0">
-                                <div class="min-w-0">
+                            <div class="grid grid-cols-2 gap-1.5 w-full max-w-full box-border">
+                                <div class="w-full max-w-full min-w-0">
                                     <label class="block text-[9px] text-slate-400 mb-0.5 truncate">Prénom & Nom</label>
-                                    <input type="text" id="new-partner-name" placeholder="Ex: Julien M." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 min-w-0">
+                                    <input type="text" id="new-partner-name" placeholder="Ex: Julien M." class="w-full max-w-full box-border bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                                 </div>
-                                <div class="min-w-0">
+                                <div class="w-full max-w-full min-w-0">
                                     <label class="block text-[9px] text-slate-400 mb-0.5 truncate">Classement</label>
-                                    <select id="new-partner-rank" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 focus:outline-none focus:border-lime-500 truncate min-w-0">
+                                    <select id="new-partner-rank" class="w-full max-w-full box-border bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-xs text-slate-100 focus:outline-none focus:border-lime-500 truncate">
                                         <optgroup label="Messieurs">
                                             <option value="P50">P50</option>
                                             <option value="P100">P100</option>
@@ -593,13 +593,13 @@
                     </div>
 
                     <!-- Adversaires séparés avec leurs classements AFT Padel -->
-                    <div class="space-y-1.5 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80">
+                    <div class="space-y-1.5 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80 w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400">Équipe Adverse</label>
                         
                         <!-- Adversaire 1 -->
-                        <div class="grid grid-cols-3 gap-1.5 items-center">
-                            <input type="text" id="match-opp1-name" placeholder="Adversaire 1" class="col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
-                            <select id="match-opp1-rank" class="bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none">
+                        <div class="grid grid-cols-3 gap-1.5 items-center w-full max-w-full">
+                            <input type="text" id="match-opp1-name" placeholder="Adversaire 1" class="col-span-2 w-full max-w-full box-border bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
+                            <select id="match-opp1-rank" class="w-full max-w-full box-border bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none truncate">
                                 <optgroup label="Messieurs">
                                     <option value="P50">P50</option>
                                     <option value="P100">P100</option>
@@ -623,9 +623,9 @@
                         </div>
 
                         <!-- Adversaire 2 -->
-                        <div class="grid grid-cols-3 gap-1.5 items-center">
-                            <input type="text" id="match-opp2-name" placeholder="Adversaire 2" class="col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
-                            <select id="match-opp2-rank" class="bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none">
+                        <div class="grid grid-cols-3 gap-1.5 items-center w-full max-w-full">
+                            <input type="text" id="match-opp2-name" placeholder="Adversaire 2" class="col-span-2 w-full max-w-full box-border bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 truncate">
+                            <select id="match-opp2-rank" class="w-full max-w-full box-border bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-[11px] font-semibold text-lime-400 focus:outline-none truncate">
                                 <optgroup label="Messieurs">
                                     <option value="P50">P50</option>
                                     <option value="P100">P100</option>
@@ -650,7 +650,7 @@
                     </div>
 
                     <!-- Formats & Scores -->
-                    <div class="min-w-0">
+                    <div class="w-full max-w-full box-border">
                         <div class="flex justify-between items-center mb-1.5">
                             <label class="block text-[11px] font-semibold text-slate-400">Format de jeu</label>
                             <span id="format-badge" class="text-[10px] font-medium text-lime-400 bg-lime-500/10 px-2 py-0.5 rounded-full border border-lime-500/20">Sets en 6 jeux</span>
@@ -662,10 +662,10 @@
                             <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[10px] hover:border-slate-700 transition text-center leading-tight truncate">Partie Libre</button>
                         </div>
 
-                        <!-- Scores initialisés à 0 : 0 -->
-                        <div class="space-y-2 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80" id="sets-container">
+                        <!-- Scores -->
+                        <div class="space-y-2 bg-slate-950 p-2.5 rounded-2xl border border-slate-800/80 w-full max-w-full box-border" id="sets-container">
                             <!-- Set 1 -->
-                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90" id="row-set-1">
+                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 w-full max-w-full box-border" id="row-set-1">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-slate-300 w-20 shrink-0" id="label-set-1">Set 1</span>
                                     <div class="flex items-center gap-2">
@@ -689,7 +689,7 @@
                             </div>
 
                             <!-- Set 2 -->
-                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden" id="row-set-2">
+                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden w-full max-w-full box-border" id="row-set-2">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-slate-300 w-20 shrink-0">Set 2</span>
                                     <div class="flex items-center gap-2">
@@ -713,7 +713,7 @@
                             </div>
 
                             <!-- Set 3 -->
-                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden" id="row-set-3">
+                            <div class="flex flex-col gap-1 p-2 bg-slate-900/90 rounded-xl border border-slate-800/90 hidden w-full max-w-full box-border" id="row-set-3">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-slate-300 w-20 shrink-0">Set 3</span>
                                     <div class="flex items-center gap-2">
@@ -927,37 +927,37 @@
 
         <!-- MODAL AJOUT COURS PRIVÉ -->
         <div id="modal-lesson" class="absolute inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
-            <div class="bg-slate-900 w-full max-w-[340px] rounded-3xl border border-slate-800 p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
-                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <div class="bg-slate-900 w-[95%] max-w-[360px] max-h-[85vh] rounded-3xl border border-slate-800 p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0 overflow-y-auto box-border">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2 sticky top-0 bg-slate-900/95 z-10 pt-1">
                     <h3 class="font-bold text-sm text-slate-100 flex items-center gap-1.5">
                         <i data-lucide="graduation-cap" class="w-4 h-4 text-lime-400"></i>
                         Ajouter / Modifier Cours
                     </h3>
                     <button onclick="closeLessonModal()" class="w-6 h-6 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center text-xs">✕</button>
                 </div>
-                <div class="space-y-2 text-left">
-                    <div>
+                <div class="space-y-2.5 text-left w-full max-w-full box-border overflow-x-hidden">
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Nom du Coach</label>
-                        <input type="text" id="lesson-input-coach" placeholder="Ex: Coach Nicolas" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                        <input type="text" id="lesson-input-coach" placeholder="Ex: Coach Nicolas" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                     </div>
-                    <div>
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Lieu / Club</label>
-                        <input type="text" id="lesson-input-location" placeholder="Ex: Planet Padel" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                        <input type="text" id="lesson-input-location" placeholder="Ex: Planet Padel" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                     </div>
-                    <div>
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Date</label>
-                        <div class="relative">
-                            <i data-lucide="calendar" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400"></i>
-                            <input type="date" id="lesson-date-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
+                        <div class="relative w-full">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400 pointer-events-none"></i>
+                            <input type="date" id="lesson-date-input" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
                         </div>
                     </div>
-                    <div>
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Thème Travaillé</label>
-                        <input type="text" id="lesson-input-theme" placeholder="Ex: Bandeja & Placement" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
+                        <input type="text" id="lesson-input-theme" placeholder="Ex: Bandeja & Placement" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500">
                     </div>
-                    <div>
+                    <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Notes & Consignes (1 par ligne)</label>
-                        <textarea id="lesson-input-notes" rows="3" placeholder="Insister sur la préparation précoce&#10;Fixer le regard sur la balle" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 resize-none"></textarea>
+                        <textarea id="lesson-input-notes" rows="3" placeholder="Insister sur la préparation précoce&#10;Fixer le regard sur la balle" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-lime-500 resize-none"></textarea>
                     </div>
                     <button type="button" onclick="submitLesson()" class="w-full bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-2">
                         Enregistrer le cours
