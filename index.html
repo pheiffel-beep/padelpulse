@@ -367,7 +367,7 @@
                             </div>
                         </div>
 
-                        <!-- Historique des Raquettes (Limité à 3 avec Voir plus) -->
+                        <!-- Historique des Raquettes -->
                         <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80 space-y-2">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique de Raquettes</span>
@@ -408,7 +408,7 @@
                         <p class="text-[10px] text-slate-400">Posé le <span id="current-surgrip-date">-</span></p>
                     </div>
 
-                    <!-- Historique des Surgrips (Limité à 3 avec Voir plus) -->
+                    <!-- Historique des Surgrips -->
                     <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80 space-y-2">
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique des Surgrips</span>
@@ -449,7 +449,7 @@
                         <p class="text-[10px] text-slate-400">Acquises le <span id="current-shoes-date">-</span></p>
                     </div>
 
-                    <!-- Historique des Chaussures (Limité à 3 avec Voir plus) -->
+                    <!-- Historique des Chaussures -->
                     <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80 space-y-2">
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Historique de Chaussures</span>
@@ -776,6 +776,8 @@
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">↘️ Positionnement down</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🧠 Tactique up</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">📉 Tactique down</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚡ Technique up</span>
+                            <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚠️ Technique down</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">🎾 Bons lobs</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">⚠️ Mauvais lobs</span>
                             <span onclick="toggleTag(this)" class="tag-chip px-2.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] text-slate-300 cursor-pointer hover:border-lime-500/50 transition flex items-center gap-1">❌ Erreurs retour</span>
@@ -949,6 +951,18 @@
                         <div class="relative w-full">
                             <i data-lucide="calendar" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400 pointer-events-none"></i>
                             <input type="date" id="lesson-date-input" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer">
+                        </div>
+                    </div>
+                    <!-- Raquette Utilisée pour le cours -->
+                    <div class="w-full max-w-full box-border">
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Raquette Utilisée</label>
+                        <div class="relative w-full">
+                            <i data-lucide="shield" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-lime-400 pointer-events-none"></i>
+                            <select id="lesson-racket-select" class="w-full max-w-full box-border bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-2 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-lime-500 transition cursor-pointer truncate">
+                                <option value="main">Raquette Principale</option>
+                                <option value="backup">Raquette de Réserve</option>
+                                <option value="test">Raquette Test</option>
+                            </select>
                         </div>
                     </div>
                     <div class="w-full max-w-full box-border">
@@ -1547,6 +1561,16 @@
             editingMatchId = id;
 
             setMatchType(m.type || 'amical');
+            
+            // Déterminer le format de jeu en fonction du format enregistré ou du score
+            let detectedFormat = '6sets';
+            if (m.format === 'Sets en 9 jeux') {
+                detectedFormat = '9sets';
+            } else if (m.format === 'Partie Libre') {
+                detectedFormat = '21pts';
+            }
+            setFormat(detectedFormat);
+
             if (document.getElementById('match-racket-select')) document.getElementById('match-racket-select').value = m.racketUsed || 'main';
             if (document.getElementById('match-location')) document.getElementById('match-location').value = m.location || '';
             if (document.getElementById('match-partner')) document.getElementById('match-partner').value = m.partner || '';
@@ -1578,6 +1602,15 @@
                         else row.classList.add('hidden');
                     }
                 }
+                const addBtn = document.getElementById('btn-add-set');
+                if (addBtn) {
+                    if (visibleSetsCount >= 3 || detectedFormat === '21pts') addBtn.classList.add('hidden');
+                    else {
+                        addBtn.classList.remove('hidden');
+                        addBtn.querySelector('span').innerText = `+ Ajouter le Set ${visibleSetsCount + 1}`;
+                    }
+                }
+
                 setScores.forEach((setStr, idx) => {
                     const setNum = idx + 1;
                     if (setNum > 3) return;
@@ -2684,6 +2717,7 @@
                 dateInput.value = `${yyyy}-${mm}-${dd}`;
             }
 
+            if (document.getElementById('lesson-racket-select')) document.getElementById('lesson-racket-select').value = 'main';
             if (document.getElementById('lesson-input-theme')) document.getElementById('lesson-input-theme').value = '';
             if (document.getElementById('lesson-input-notes')) document.getElementById('lesson-input-notes').value = '';
             const modal = document.getElementById('modal-lesson');
@@ -2702,6 +2736,7 @@
             editingLessonId = id;
             if (document.getElementById('lesson-input-coach')) document.getElementById('lesson-input-coach').value = l.coach || '';
             if (document.getElementById('lesson-input-location')) document.getElementById('lesson-input-location').value = l.location || '';
+            if (document.getElementById('lesson-racket-select')) document.getElementById('lesson-racket-select').value = l.racketUsed || 'main';
             
             const dateInput = document.getElementById('lesson-date-input');
             if (dateInput && l.date) {
@@ -2729,6 +2764,7 @@
         function submitLesson() {
             const coach = document.getElementById('lesson-input-coach')?.value || 'Coach Nicolas';
             const location = document.getElementById('lesson-input-location')?.value || 'Lieu non précisé';
+            const racketUsed = document.getElementById('lesson-racket-select')?.value || 'main';
             const theme = document.getElementById('lesson-input-theme')?.value || 'Thème général';
             const notesRaw = document.getElementById('lesson-input-notes')?.value || '';
 
@@ -2753,6 +2789,7 @@
                         ...lessons[index],
                         coach: coach,
                         location: location,
+                        racketUsed: racketUsed,
                         date: dateStrFormatted,
                         timestamp: timestampVal,
                         theme: theme,
@@ -2765,15 +2802,29 @@
                     timestamp: timestampVal,
                     coach: coach,
                     location: location,
+                    racketUsed: racketUsed,
                     date: dateStrFormatted,
                     theme: theme,
                     notes: notes.length ? notes : ['Remarques et consignes enregistrées.']
                 });
+
+                currentSurgripMatchCount++;
+                currentShoesMatchCount++;
+
+                if (racketUsed === 'main') {
+                    mainRacket.matchesCount = (mainRacket.matchesCount || 0) + 1;
+                } else if (racketUsed === 'backup') {
+                    backupRacket.matchesCount = (backupRacket.matchesCount || 0) + 1;
+                } else if (racketUsed === 'test') {
+                    testRacket.matchesCount = (testRacket.matchesCount || 0) + 1;
+                }
             }
 
             editingLessonId = null;
             saveAllData();
             renderLessons();
+            renderRackets();
+            renderMatches();
             renderWeeklySchedule();
             renderMonthlySchedule();
             closeLessonModal();
