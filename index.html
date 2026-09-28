@@ -737,14 +737,14 @@
                         </div>
                     </div>
 
-                    <!-- Multi-Select Tactical Tags Dropdown -->
+                    <!-- Multi-Select Tactical Tags Dropdown (Opens Upwards) -->
                     <div class="w-full max-w-full box-border relative">
                         <label class="block text-[11px] font-semibold text-slate-400 mb-1">Tags tactiques rapides (Multi-sélection)</label>
                         <div onclick="toggleTagDropdown()" id="tag-dropdown-toggle" class="w-full bg-padel-bg border border-padel-border rounded-xl px-3 py-2 text-xs text-slate-200 flex justify-between items-center cursor-pointer">
                             <span id="tag-dropdown-label" class="truncate text-slate-400">Sélectionner des tags...</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                            <i data-lucide="chevron-up" class="w-4 h-4 text-slate-400"></i>
                         </div>
-                        <div id="tag-dropdown-menu" class="hidden absolute left-0 right-0 top-full mt-1 bg-padel-card border border-padel-border rounded-xl p-2 space-y-1.5 z-50 shadow-2xl max-h-48 overflow-y-auto">
+                        <div id="tag-dropdown-menu" class="hidden absolute left-0 right-0 bottom-full mb-1 bg-padel-card border border-padel-border rounded-xl p-2 space-y-1.5 z-50 shadow-2xl max-h-48 overflow-y-auto">
                             <!-- Options générées via JS avec cases à cocher -->
                         </div>
                     </div>
@@ -1003,9 +1003,7 @@
             "Lob court",
             "Mental Carton",
             "Diesel",
-            "Hold-up",
-            "Technique up",
-            "Technique down"
+            "Hold-up"
         ];
 
         let playersDatabase = JSON.parse(localStorage.getItem('padelpulse_players')) || {};
