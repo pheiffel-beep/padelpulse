@@ -54,26 +54,26 @@
         /* Light Mode par défaut */
         body { background-color: #F8FAFC; color: #1E293B; }
         .app-bg { background-color: #F8FAFC; }
-        .card-bg { background-color: #FFFFFF; border-color: #E2E8F0; color: #1E293B; }
-        .input-bg { background-color: #F8FAFC; color: #1E293B; border-color: #E2E8F0; }
+        .card-bg { background-color: #FFFFFF !important; border-color: #E2E8F0 !important; color: #1E293B !important; }
+        .input-bg { background-color: #F8FAFC !important; color: #1E293B !important; border-color: #E2E8F0 !important; }
         .nav-bg { background-color: rgba(255, 255, 255, 0.95); border-color: #E2E8F0; }
 
-        /* Dark Mode overrides quand class 'dark' est active sur body */
+        /* Dark Mode overrides strict pour éliminer tout rectangle blanc */
         body.dark { background-color: #0B0D12 !important; color: #F1F5F9 !important; }
         body.dark .app-bg { background-color: #0B0D12 !important; }
         body.dark .card-bg { background-color: #161922 !important; color: #F1F5F9 !important; border-color: #2A2F3D !important; }
+        body.dark .input-bg { background-color: #1E222D !important; color: #F1F5F9 !important; border-color: #2A2F3D !important; }
         body.dark .border-padel-border { border-color: #2A2F3D !important; }
         body.dark .text-padel-navy { color: #F1F5F9 !important; }
         body.dark .text-padel-muted { color: #94A3B8 !important; }
-        body.dark .bg-slate-50, body.dark .bg-slate-100 { background-color: #1E222D !important; color: #F1F5F9 !important; border-color: #2A2F3D !important; }
-        body.dark input, body.dark select, body.dark textarea { background-color: #1E222D !important; color: #F1F5F9 !important; border-color: #2A2F3D !important; }
+        body.dark select, body.dark input, body.dark textarea { background-color: #1E222D !important; color: #F1F5F9 !important; border-color: #2A2F3D !important; }
         body.dark header, body.dark nav.tab-nav { background-color: rgba(22, 25, 34, 0.95) !important; border-color: #2A2F3D !important; }
         body.dark .nav-bg { background-color: rgba(22, 25, 34, 0.95) !important; border-color: #2A2F3D !important; }
 
-        .fmt-btn.active { background-color: rgba(217, 119, 87, 0.12); border-color: #D97757; color: #D97757; font-weight: 700; }
-        .type-btn.active { background-color: rgba(217, 119, 87, 0.12); border-color: #D97757; color: #D97757; font-weight: 700; }
+        .fmt-btn.active { background-color: rgba(217, 119, 87, 0.15); border-color: #D97757; color: #D97757; font-weight: 700; }
+        .type-btn.active { background-color: rgba(217, 119, 87, 0.15); border-color: #D97757; color: #D97757; font-weight: 700; }
 
-        /* Safe Area Insets pour iPhone & iOS fixing */
+        /* Safe Area Insets iOS */
         header { padding-top: calc(0.85rem + env(safe-area-inset-top, 0px)) !important; z-index: 40 !important; }
         nav.tab-nav { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px)) !important; z-index: 40 !important; }
 
@@ -93,7 +93,7 @@
 </head>
 <body class="app-bg text-padel-navy min-h-[100dvh] font-sans antialiased flex justify-center items-start sm:items-center p-0 sm:p-4 selection:bg-padel-terracotta selection:text-white overflow-x-hidden">
 
-    <div class="w-full max-w-full sm:max-w-[420px] h-[100dvh] sm:h-[860px] sm:max-h-[96vh] app-bg sm:rounded-[48px] sm:border-[6px] sm:border-slate-200 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-300 box-border" id="app-container">
+    <div class="w-full max-w-full sm:max-w-[420px] min-h-[100dvh] sm:h-[860px] sm:max-h-[96vh] app-bg sm:rounded-[48px] sm:border-[6px] sm:border-slate-200 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-300 box-border" id="app-container">
         
         <div class="hidden sm:flex absolute top-0 left-1/2 -translate-x-1/2 w-32 h-5 bg-slate-200 rounded-b-2xl z-50 justify-center items-center pointer-events-none">
             <div class="w-2.5 h-2.5 rounded-full bg-slate-400 mr-2 border border-slate-300"></div>
@@ -125,7 +125,7 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-28 box-border overflow-x-hidden" id="main-content">
+        <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-32 box-border overflow-x-hidden" id="main-content">
             
             <div id="view-dashboard" class="space-y-4">
                 
@@ -168,8 +168,8 @@
                             <i data-lucide="activity" class="w-3.5 h-3.5 text-padel-terracotta"></i> <span id="rhythm-section-title">Rythme d'Activité</span>
                         </h2>
                         
-                        <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-padel-border">
-                            <button onclick="setRhythmViewMode('week')" id="btn-rhythm-week" class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-white text-padel-terracotta shadow-xs transition">📆 Semaine</button>
+                        <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-padel-border">
+                            <button onclick="setRhythmViewMode('week')" id="btn-rhythm-week" class="px-2 py-0.5 rounded-lg text-[10px] font-bold card-bg text-padel-terracotta shadow-xs transition">📆 Semaine</button>
                             <button onclick="setRhythmViewMode('month')" id="btn-rhythm-month" class="px-2 py-0.5 rounded-lg text-[10px] font-medium text-padel-muted hover:text-padel-navy transition">📅 Mois</button>
                         </div>
                     </div>
@@ -177,10 +177,10 @@
                     <div id="wrapper-weekly-view" class="space-y-2.5">
                         <div class="flex justify-between items-center">
                             <span class="text-[9px] text-padel-muted font-medium">Semaine en cours</span>
-                            <span class="text-[10px] bg-slate-100 text-padel-muted px-2 py-0.5 rounded-full font-medium border border-padel-border" id="weekly-session-count">0 Séance</span>
+                            <span class="text-[10px] input-bg text-padel-muted px-2 py-0.5 rounded-full font-medium border border-padel-border" id="weekly-session-count">0 Séance</span>
                         </div>
                         
-                        <div class="flex items-center justify-around text-[9px] text-padel-muted px-2 py-1 bg-slate-50 rounded-lg border border-padel-border">
+                        <div class="flex items-center justify-around text-[9px] text-padel-muted px-2 py-1 input-bg rounded-lg border border-padel-border">
                             <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-padel-terracotta flex items-center justify-center text-[7px] text-white font-black">●</span> Match</span>
                             <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 flex items-center justify-center text-[7px] text-white font-black">●</span> Cours</span>
                             <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-300"></span> Repos</span>
@@ -190,13 +190,13 @@
                     </div>
 
                     <div id="wrapper-monthly-view" class="hidden space-y-2.5">
-                        <div class="flex justify-between items-center bg-slate-50 px-3 py-1.5 rounded-xl border border-padel-border">
-                            <button onclick="navigateCalendarMonth(-1)" class="w-6 h-6 rounded-lg bg-white hover:bg-slate-100 text-padel-navy flex items-center justify-center text-xs transition active:scale-95 shadow-xs">◀</button>
+                        <div class="flex justify-between items-center input-bg px-3 py-1.5 rounded-xl border border-padel-border">
+                            <button onclick="navigateCalendarMonth(-1)" class="w-6 h-6 rounded-lg card-bg hover:opacity-80 text-padel-navy flex items-center justify-center text-xs transition active:scale-95 shadow-xs">◀</button>
                             <div class="text-center">
                                 <span class="text-xs font-extrabold text-padel-terracotta capitalize" id="calendar-month-label">Septembre 2026</span>
                                 <span class="text-[9px] text-padel-muted block" id="monthly-session-count">0 séance ce mois</span>
                             </div>
-                            <button onclick="navigateCalendarMonth(1)" class="w-6 h-6 rounded-lg bg-white hover:bg-slate-100 text-padel-navy flex items-center justify-center text-xs transition active:scale-95 shadow-xs">▶</button>
+                            <button onclick="navigateCalendarMonth(1)" class="w-6 h-6 rounded-lg card-bg hover:opacity-80 text-padel-navy flex items-center justify-center text-xs transition active:scale-95 shadow-xs">▶</button>
                         </div>
 
                         <div class="grid grid-cols-7 gap-1 text-center">
@@ -218,7 +218,7 @@
                         <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
                             <i data-lucide="pie-chart" class="w-3.5 h-3.5 text-padel-terracotta"></i> Récapitulatif & Fréquentation
                         </h2>
-                        <span class="text-[10px] text-padel-muted bg-slate-100 px-2 py-0.5 rounded-full border border-padel-border font-medium">Tendances</span>
+                        <span class="text-[10px] text-padel-muted input-bg px-2 py-0.5 rounded-full border border-padel-border font-medium">Tendances</span>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2" id="stats-summary-grid"></div>
@@ -238,8 +238,8 @@
                         </div>
                         <div class="flex gap-1.5">
                             <button onclick="setPlayerFilter('all')" id="filter-btn-all" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-padel-terracotta/15 text-padel-terracotta border border-padel-terracotta/30 transition">Tous</button>
-                            <button onclick="setPlayerFilter('partner')" id="filter-btn-partner" class="px-2.5 py-1 rounded-lg text-[10px] font-medium bg-slate-100 text-padel-muted border border-padel-border transition">Partenaires</button>
-                            <button onclick="setPlayerFilter('opponent')" id="filter-btn-opponent" class="px-2.5 py-1 rounded-lg text-[10px] font-medium bg-slate-100 text-padel-muted border border-padel-border transition">Adversaires</button>
+                            <button onclick="setPlayerFilter('partner')" id="filter-btn-partner" class="px-2.5 py-1 rounded-lg text-[10px] font-medium input-bg text-padel-muted border border-padel-border transition">Partenaires</button>
+                            <button onclick="setPlayerFilter('opponent')" id="filter-btn-opponent" class="px-2.5 py-1 rounded-lg text-[10px] font-medium input-bg text-padel-muted border border-padel-border transition">Adversaires</button>
                         </div>
                     </div>
 
@@ -299,17 +299,17 @@
                     </div>
 
                     <div class="space-y-2.5">
-                        <div class="bg-slate-50 p-3 rounded-xl border border-padel-terracotta/30 space-y-1 relative box-border">
+                        <div class="input-bg p-3 rounded-xl border border-padel-terracotta/30 space-y-1 relative box-border">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <span class="text-[9px] font-bold text-padel-terracotta uppercase tracking-wider bg-padel-terracotta/10 px-2 py-0.5 rounded border border-padel-terracotta/20">Raquette Principale</span>
                                     <p class="font-extrabold text-xs text-padel-navy mt-1" id="main-racket-name">Aucune raquette enregistrée</p>
                                 </div>
                                 <div class="flex items-center gap-1.5">
-                                    <span class="text-[9px] font-semibold text-padel-muted bg-white px-2 py-0.5 rounded-md border border-padel-border" id="main-racket-date">-</span>
-                                    <button onclick="openEditRacketModal('main')" title="Modifier" class="text-[10px] bg-white hover:bg-slate-100 text-slate-600 hover:text-padel-terracotta px-1.5 py-0.5 rounded border border-padel-border transition">✏️</button>
-                                    <button onclick="deleteRacket('main')" title="Supprimer" class="text-[10px] bg-white hover:bg-slate-100 text-slate-600 hover:text-rose-500 px-1.5 py-0.5 rounded border border-padel-border transition">🗑️</button>
-                                    <button onclick="archiveMainRacket()" title="Archiver" class="text-[9px] bg-white hover:bg-slate-100 text-slate-600 hover:text-amber-600 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                                    <span class="text-[9px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-md border border-padel-border" id="main-racket-date">-</span>
+                                    <button onclick="openEditRacketModal('main')" title="Modifier" class="text-[10px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition">✏️</button>
+                                    <button onclick="deleteRacket('main')" title="Supprimer" class="text-[10px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition">🗑️</button>
+                                    <button onclick="archiveMainRacket()" title="Archiver" class="text-[9px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between text-[10px] text-padel-muted pt-1.5 border-t border-padel-border">
@@ -320,17 +320,17 @@
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 p-3 rounded-xl border border-sky-500/30 space-y-1 relative box-border">
+                        <div class="input-bg p-3 rounded-xl border border-sky-500/30 space-y-1 relative box-border">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <span class="text-[9px] font-bold text-sky-600 uppercase tracking-wider bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">Raquette de Réserve</span>
                                     <p class="font-extrabold text-xs text-padel-navy mt-1" id="backup-racket-name">Aucune raquette de réserve</p>
                                 </div>
                                 <div class="flex items-center gap-1.5">
-                                    <span class="text-[9px] font-semibold text-padel-muted bg-white px-2 py-0.5 rounded-md border border-padel-border" id="backup-racket-date">-</span>
-                                    <button onclick="openEditRacketModal('backup')" title="Modifier" class="text-[10px] bg-white hover:bg-slate-100 text-slate-600 hover:text-padel-terracotta px-1.5 py-0.5 rounded border border-padel-border transition">✏️</button>
-                                    <button onclick="deleteRacket('backup')" title="Supprimer" class="text-[10px] bg-white hover:bg-slate-100 text-slate-600 hover:text-rose-500 px-1.5 py-0.5 rounded border border-padel-border transition">🗑️</button>
-                                    <button onclick="archiveBackupRacket()" title="Archiver" class="text-[9px] bg-white hover:bg-slate-100 text-slate-600 hover:text-amber-600 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                                    <span class="text-[9px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-md border border-padel-border" id="backup-racket-date">-</span>
+                                    <button onclick="openEditRacketModal('backup')" title="Modifier" class="text-[10px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition">✏</button>
+                                    <button onclick="deleteRacket('backup')" title="Supprimer" class="text-[10px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition">🗑️</button>
+                                    <button onclick="archiveBackupRacket()" title="Archiver" class="text-[9px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between text-[10px] text-padel-muted pt-1.5 border-t border-padel-border">
@@ -341,17 +341,17 @@
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 p-3 rounded-xl border border-amber-500/30 space-y-1 box-border">
+                        <div class="input-bg p-3 rounded-xl border border-amber-500/30 space-y-1 box-border">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <span class="text-[9px] font-bold text-amber-600 uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Raquette Test</span>
                                     <p class="font-bold text-xs text-padel-navy mt-1" id="test-racket-name">Aucune raquette test</p>
                                 </div>
                                 <div class="flex items-center gap-1.5">
-                                    <span class="text-[9px] font-semibold text-padel-muted bg-white px-2 py-0.5 rounded-md border border-padel-border" id="test-racket-date">-</span>
-                                    <button onclick="openEditRacketModal('test')" title="Modifier" class="text-[10px] bg-white hover:bg-slate-100 text-slate-600 hover:text-padel-terracotta px-1.5 py-0.5 rounded border border-padel-border transition">✏️</button>
-                                    <button onclick="deleteRacket('test')" title="Supprimer" class="text-[10px] bg-white hover:bg-slate-100 text-slate-600 hover:text-rose-500 px-1.5 py-0.5 rounded border border-padel-border transition">🗑️</button>
-                                    <button onclick="archiveTestRacket()" title="Archiver" class="text-[9px] bg-white hover:bg-slate-100 text-slate-600 hover:text-amber-600 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                                    <span class="text-[9px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-md border border-padel-border" id="test-racket-date">-</span>
+                                    <button onclick="openEditRacketModal('test')" title="Modifier" class="text-[10px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition">✏️</button>
+                                    <button onclick="deleteRacket('test')" title="Supprimer" class="text-[10px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition">🗑️</button>
+                                    <button onclick="archiveTestRacket()" title="Archiver" class="text-[9px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
                                 </div>
                             </div>
                             <div class="flex items-center justify-between text-[10px] text-padel-muted pt-1.5 border-t border-padel-border">
@@ -359,7 +359,7 @@
                             </div>
                         </div>
 
-                        <div class="bg-slate-50 p-3 rounded-xl border border-padel-border space-y-2 box-border">
+                        <div class="input-bg p-3 rounded-xl border border-padel-border space-y-2 box-border">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-bold text-padel-muted uppercase tracking-wider block">Historique de Raquettes</span>
                                 <button onclick="toggleRacketsHistory()" id="btn-toggle-rackets" class="text-[10px] text-padel-terracotta hover:underline font-semibold hidden">Voir plus</button>
@@ -380,7 +380,7 @@
                         </button>
                     </div>
 
-                    <div class="bg-slate-50 p-3 rounded-xl border border-padel-border space-y-1 box-border">
+                    <div class="input-bg p-3 rounded-xl border border-padel-border space-y-1 box-border">
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-[9px] text-padel-muted font-semibold uppercase block">Surgrip Actuel</span>
@@ -395,7 +395,7 @@
                         <p class="text-[10px] text-padel-muted">Posé le <span id="current-surgrip-date">-</span></p>
                     </div>
 
-                    <div class="bg-slate-50 p-3 rounded-xl border border-padel-border space-y-2 box-border">
+                    <div class="input-bg p-3 rounded-xl border border-padel-border space-y-2 box-border">
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] font-bold text-padel-muted uppercase tracking-wider block">Historique des Surgrips</span>
                             <button onclick="toggleSurgripsHistory()" id="btn-toggle-surgrips" class="text-[10px] text-padel-terracotta hover:underline font-semibold hidden">Voir plus</button>
@@ -415,23 +415,23 @@
                         </button>
                     </div>
 
-                    <div class="bg-slate-50 p-3 rounded-xl border border-padel-border space-y-1 box-border">
+                    <div class="input-bg p-3 rounded-xl border border-padel-border space-y-1 box-border">
                         <div class="flex justify-between items-start">
                             <div>
                                 <span class="text-[9px] text-padel-muted font-semibold uppercase block">Paire Actuelle</span>
                                 <p class="font-bold text-padel-navy text-xs mt-0.5" id="current-shoes-name">Aucune paire enregistrée</p>
                             </div>
                             <div class="flex items-center gap-1.5">
-                                <button onclick="openEditShoesModal('current')" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs">✏️️</button>
+                                <button onclick="openEditShoesModal('current')" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs">✏</button>
                                 <button onclick="deleteShoes('current')" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs">🗑️</button>
-                                <button onclick="archiveCurrentShoes()" title="Archiver" class="text-[9px] bg-white hover:bg-slate-100 text-slate-600 hover:text-amber-600 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                                <button onclick="archiveCurrentShoes()" title="Archiver" class="text-[9px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
                                 <span class="text-[10px] text-padel-terracotta font-bold bg-padel-terracotta/10 px-2 py-0.5 rounded-md border border-padel-terracotta/20" id="current-shoes-matches">0 match joué</span>
                             </div>
                         </div>
                         <p class="text-[10px] text-padel-muted">Acquises le <span id="current-shoes-date">-</span></p>
                     </div>
 
-                    <div class="bg-slate-50 p-3 rounded-xl border border-padel-border space-y-2 box-border">
+                    <div class="input-bg p-3 rounded-xl border border-padel-border space-y-2 box-border">
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] font-bold text-padel-muted uppercase tracking-wider block">Historique de Chaussures</span>
                             <button onclick="toggleShoesHistory()" id="btn-toggle-shoes" class="text-[10px] text-padel-terracotta hover:underline font-semibold hidden">Voir plus</button>
@@ -462,18 +462,19 @@
             </button>
         </nav>
 
-        <div id="modal-match" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-3 overflow-y-auto box-border">
-            <div class="card-bg w-full max-w-[360px] max-h-[90vh] my-auto rounded-3xl border border-padel-border p-3.5 space-y-3 shadow-2xl relative shrink-0 box-border overflow-y-auto" style="-webkit-overflow-scrolling: touch;">
+        <!-- MODAL MATCH FIXE PLEIN ÉCRAN POUR iOS -->
+        <div id="modal-match" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-3 overflow-y-auto box-border" style="-webkit-overflow-scrolling: touch;">
+            <div class="card-bg w-full max-w-[360px] max-h-[85vh] my-auto rounded-3xl border border-padel-border p-3.5 space-y-3 shadow-2xl relative shrink-0 box-border overflow-y-auto" style="-webkit-overflow-scrolling: touch;">
                 
                 <div class="flex justify-between items-center border-b border-padel-border pb-2 sticky top-0 card-bg z-20 pt-1 box-border">
                     <h3 class="font-bold text-xs sm:text-sm text-padel-navy flex items-center gap-1.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-padel-terracotta animate-pulse shrink-0"></span>
                         <span class="truncate">Saisie Express Match</span>
                     </h3>
-                    <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-padel-muted hover:text-padel-navy flex items-center justify-center text-xs transition shrink-0">✕</button>
+                    <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full input-bg hover:opacity-80 text-padel-muted hover:text-padel-navy flex items-center justify-center text-xs transition shrink-0">✕</button>
                 </div>
 
-                <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border pb-4">
+                <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border pb-6">
                     
                     <div>
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Type de Partie</label>
@@ -635,10 +636,10 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-1.5 mb-2.5">
-                            <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1 py-1.5 input-bg border border-padel-border text-slate-700 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
-                            <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">🏆 En 6 jeux Compétition</button>
-                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">Sets en 9 jeux</button>
-                            <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">Partie libre</button>
+                            <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1 py-1.5 input-bg border border-padel-border text-slate-700 dark:text-slate-300 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
+                            <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">🏆 En 6 jeux Compétition</button>
+                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Sets en 9 jeux</button>
+                            <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Partie libre</button>
                         </div>
 
                         <div class="space-y-2 input-bg p-2.5 rounded-2xl border border-padel-border w-full max-w-full box-border" id="sets-container">
@@ -704,7 +705,7 @@
                                 </div>
                             </div>
 
-                            <button type="button" id="btn-add-set" onclick="addSetField()" class="w-full py-1.5 card-bg hover:bg-slate-50 border border-dashed border-padel-terracotta/40 text-padel-terracotta font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition active:scale-98 shadow-xs">
+                            <button type="button" id="btn-add-set" onclick="addSetField()" class="w-full py-1.5 card-bg hover:opacity-80 border border-dashed border-padel-terracotta/40 text-padel-terracotta font-semibold rounded-xl text-xs flex items-center justify-center gap-1.5 transition active:scale-98 shadow-xs">
                                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                                 <span>+ Ajouter le Set 2</span>
                             </button>
@@ -762,7 +763,7 @@
                         <i data-lucide="edit" class="w-4 h-4 text-padel-terracotta"></i>
                         Modifier le Classement
                     </h3>
-                    <button onclick="closeEditPlayerModal()" class="w-6 h-6 rounded-full bg-slate-100 text-padel-muted flex items-center justify-center text-xs">✕</button>
+                    <button onclick="closeEditPlayerModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
                 </div>
                 <div class="space-y-2.5 text-left">
                     <p class="text-xs font-bold text-padel-navy" id="edit-player-name-title">-</p>
@@ -804,7 +805,7 @@
                         <i data-lucide="shield" class="w-4 h-4 text-padel-terracotta"></i>
                         Ajouter / Modifier Raquette
                     </h3>
-                    <button onclick="closeRacketModal()" class="w-6 h-6 rounded-full bg-slate-100 text-padel-muted flex items-center justify-center text-xs">✕</button>
+                    <button onclick="closeRacketModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
                 </div>
                 <div class="space-y-2 text-left">
                     <div>
@@ -838,7 +839,7 @@
                         <i data-lucide="wrench" class="w-4 h-4 text-padel-terracotta"></i>
                         Poser / Modifier Surgrip
                     </h3>
-                    <button onclick="closeSurgripModal()" class="w-6 h-6 rounded-full bg-slate-100 text-padel-muted flex items-center justify-center text-xs">✕</button>
+                    <button onclick="closeSurgripModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
                 </div>
                 <div class="space-y-2.5 text-left">
                     <div>
@@ -863,7 +864,7 @@
                         <i data-lucide="footprints" class="w-4 h-4 text-padel-terracotta"></i>
                         Ajouter / Modifier Chaussures
                     </h3>
-                    <button onclick="closeShoesModal()" class="w-6 h-6 rounded-full bg-slate-100 text-padel-muted flex items-center justify-center text-xs">✕</button>
+                    <button onclick="closeShoesModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
                 </div>
                 <div class="space-y-2.5 text-left">
                     <div>
@@ -888,7 +889,7 @@
                         <i data-lucide="graduation-cap" class="w-4 h-4 text-padel-terracotta"></i>
                         Ajouter / Modifier Cours
                     </h3>
-                    <button onclick="closeLessonModal()" class="w-6 h-6 rounded-full bg-slate-100 text-padel-muted flex items-center justify-center text-xs">✕</button>
+                    <button onclick="closeLessonModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
                 </div>
                 <div class="space-y-2.5 text-left w-full max-w-full box-border overflow-x-hidden">
                     <div class="w-full max-w-full box-border">
@@ -942,7 +943,7 @@
                     <p class="text-[11px] text-padel-muted mt-1 leading-snug">Effacera tous les matchs et données matérielles.</p>
                 </div>
                 <div class="grid grid-cols-2 gap-2 pt-1">
-                    <button type="button" onclick="closeResetModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-padel-navy font-bold py-2 rounded-xl text-xs transition">Annuler</button>
+                    <button type="button" onclick="closeResetModal()" class="w-full input-bg hover:opacity-80 text-padel-navy font-bold py-2 rounded-xl text-xs transition">Annuler</button>
                     <button type="button" onclick="confirmResetData()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-2 rounded-xl text-xs transition shadow-lg shadow-rose-500/20">Tout effacer</button>
                 </div>
             </div>
@@ -1191,7 +1192,7 @@
 
             container.innerHTML = weekDays.map(d => {
                 const status = getDayStatus(d.dateStr);
-                let badgeStyle = 'bg-slate-50 border-slate-200 text-slate-400';
+                let badgeStyle = 'input-bg border-padel-border text-slate-400';
                 
                 if (status.type === 'match') {
                     badgeStyle = 'bg-padel-terracotta/15 border-padel-terracotta/30 text-padel-terracotta font-bold';
@@ -1226,13 +1227,13 @@
             const wrapMonth = document.getElementById('wrapper-monthly-view');
 
             if (mode === 'month') {
-                if (btnMonth) btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-white text-padel-terracotta shadow-xs transition";
+                if (btnMonth) btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold card-bg text-padel-terracotta shadow-xs transition";
                 if (btnWeek) btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-padel-muted hover:text-padel-navy transition";
                 if (wrapWeek) wrapWeek.classList.add('hidden');
                 if (wrapMonth) wrapMonth.classList.remove('hidden');
                 renderMonthlySchedule();
             } else {
-                if (btnWeek) btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold bg-white text-padel-terracotta shadow-xs transition";
+                if (btnWeek) btnWeek.className = "px-2 py-0.5 rounded-lg text-[10px] font-bold card-bg text-padel-terracotta shadow-xs transition";
                 if (btnMonth) btnMonth.className = "px-2 py-0.5 rounded-lg text-[10px] font-medium text-padel-muted hover:text-padel-navy transition";
                 if (wrapMonth) wrapMonth.classList.add('hidden');
                 if (wrapWeek) wrapWeek.classList.remove('hidden');
@@ -1277,7 +1278,7 @@
                 const status = getDayStatus(dateStr);
                 const isToday = dateStr === todayStr;
 
-                let cellStyle = 'bg-slate-50 border-padel-border text-padel-muted';
+                let cellStyle = 'input-bg border-padel-border text-padel-muted';
                 let dotIcon = '';
 
                 if (status.type === 'match') {
@@ -1359,10 +1360,10 @@
 
             if (type === 'competition') {
                 if (btnComp) btnComp.className = "type-btn active py-1.5 px-2 input-bg border border-padel-terracotta/50 text-padel-terracotta font-bold rounded-xl text-[10px] text-center transition truncate";
-                if (btnAmical) btnAmical.className = "type-btn py-1.5 px-2 input-bg border border-padel-border text-padel-muted font-medium rounded-xl text-[10px] hover:border-slate-300 text-center transition truncate";
+                if (btnAmical) btnAmical.className = "type-btn py-1.5 px-2 input-bg border border-padel-border text-padel-muted font-medium rounded-xl text-[10px] hover:opacity-80 text-center transition truncate";
             } else {
                 if (btnAmical) btnAmical.className = "type-btn active py-1.5 px-2 input-bg border border-padel-terracotta/50 text-padel-terracotta font-bold rounded-xl text-[10px] text-center transition truncate";
-                if (btnComp) btnComp.className = "type-btn py-1.5 px-2 input-bg border border-padel-border text-padel-muted font-medium rounded-xl text-[10px] hover:border-slate-300 text-center transition truncate";
+                if (btnComp) btnComp.className = "type-btn py-1.5 px-2 input-bg border border-padel-border text-padel-muted font-medium rounded-xl text-[10px] hover:opacity-80 text-center transition truncate";
             }
         }
 
@@ -1389,7 +1390,7 @@
                 const btn = document.getElementById('btn-fmt-' + k);
                 if (btn) {
                     if (k === formatKey) btn.className = "fmt-btn active px-1 py-1.5 input-bg border border-padel-border text-padel-navy rounded-xl text-[10px] transition text-center leading-tight truncate";
-                    else btn.className = "fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate";
+                    else btn.className = "fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate";
                 }
             });
 
@@ -1474,7 +1475,7 @@
             menu.innerHTML = TACTICAL_TAGS_LIST.map(tag => {
                 const isChecked = selectedTags.includes(tag) ? 'checked' : '';
                 return `
-                    <label class="flex items-center gap-2 p-1.5 hover:bg-slate-100 rounded-lg cursor-pointer text-xs text-padel-navy">
+                    <label class="flex items-center gap-2 p-1.5 hover:opacity-80 rounded-lg cursor-pointer text-xs text-padel-navy">
                         <input type="checkbox" value="${tag}" ${isChecked} onchange="updateTagSelection()" class="rounded input-bg border-padel-border text-padel-terracotta focus:ring-0">
                         <span>${tag}</span>
                     </label>
@@ -1880,7 +1881,7 @@
 
             const typeTag = m.type === 'competition' 
                 ? `<span class="text-[9px] font-bold text-amber-600 bg-amber-500/10 px-1.5 py-0.2 rounded border border-amber-500/30">🏆 Compétition</span>`
-                : `<span class="text-[9px] text-padel-muted bg-slate-100 px-1.5 py-0.2 rounded border border-padel-border">🎾 Amical</span>`;
+                : `<span class="text-[9px] text-padel-muted input-bg px-1.5 py-0.2 rounded border border-padel-border">🎾 Amical</span>`;
 
             const locationTag = m.location 
                 ? `<span class="text-[9px] text-padel-muted font-medium flex items-center gap-0.5"><i data-lucide="map-pin" class="w-3 h-3 text-amber-600"></i> ${m.location}</span>` 
@@ -1904,7 +1905,7 @@
                         </div>
                         <div class="text-right flex flex-col items-end gap-1">
                             <div class="flex items-center gap-1">
-                                <button onclick="openEditMatchModal(${m.id})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs p-0.5">✏️️</button>
+                                <button onclick="openEditMatchModal(${m.id})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs p-0.5">✏</button>
                                 <button onclick="deleteMatch(${m.id})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs p-0.5">🗑️</button>
                             </div>
                             <span class="text-xs font-black tracking-wide text-padel-terracotta block">${m.score}</span>
@@ -1912,7 +1913,7 @@
                         </div>
                     </div>
                     
-                    ${m.comments ? `<div class="input-bg p-2 rounded-xl border border-padel-border text-[10px] text-slate-600 italic">💬 "${m.comments}"</div>` : ''}
+                    ${m.comments ? `<div class="input-bg p-2 rounded-xl border border-padel-border text-[10px] text-slate-600 dark:text-slate-300 italic">💬 "${m.comments}"</div>` : ''}
 
                     <div class="flex items-center justify-between border-t border-padel-border pt-2 text-[10px]">
                         <span class="text-padel-muted">${m.feeling}</span>
@@ -1940,7 +1941,7 @@
 
                 if (filtered.length > 3) {
                     html += `
-                        <button onclick="toggleAllRecentMatches()" class="w-full py-2 card-bg hover:bg-slate-50 border border-padel-border rounded-xl text-xs text-padel-terracotta font-semibold transition flex items-center justify-center gap-1 mt-1 shadow-xs">
+                        <button onclick="toggleAllRecentMatches()" class="w-full py-2 card-bg hover:opacity-80 border border-padel-border rounded-xl text-xs text-padel-terracotta font-semibold transition flex items-center justify-center gap-1 mt-1 shadow-xs">
                             <span>${showAllRecentMatches ? 'Réduire' : `Voir plus (${filtered.length - 3} de plus)`}</span>
                             <i data-lucide="${showAllRecentMatches ? 'chevron-up' : 'chevron-down'}" class="w-3.5 h-3.5"></i>
                         </button>
@@ -1997,7 +1998,7 @@
                 const btn = document.getElementById('filter-btn-' + t);
                 if (!btn) return;
                 if (t === type) btn.className = "px-2.5 py-1 rounded-lg text-[10px] font-bold bg-padel-terracotta/15 text-padel-terracotta border border-padel-terracotta/30 transition";
-                else btn.className = "px-2.5 py-1 rounded-lg text-[10px] font-medium bg-slate-100 text-padel-muted border border-padel-border transition";
+                else btn.className = "px-2.5 py-1 rounded-lg text-[10px] font-medium input-bg text-padel-muted border border-padel-border transition";
             });
             renderPlayersStats();
         }
@@ -2059,7 +2060,7 @@
                 const roleLabel = item.type === 'partner' ? 'Coéquipier' : 'Adversaire';
                 const playerInfo = playersDatabase[item.name] || { rank: 'P200', gender: 'M' };
                 const isDames = playerInfo.rank.endsWith('D') || playerInfo.gender === 'F';
-                const rankBadgeClass = isDames ? 'bg-pink-100 text-pink-700 border-pink-300' : 'bg-slate-100 text-padel-terracotta border-padel-terracotta/30';
+                const rankBadgeClass = isDames ? 'bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border-pink-300 dark:border-pink-500/30' : 'input-bg text-padel-terracotta border-padel-terracotta/30';
                 const detailText = item.type === 'partner' ? `${item.total} match${item.total > 1 ? 's' : ''} (${item.wins}V - ${item.total - item.wins}D)` : `${item.total} affrontement${item.total > 1 ? 's' : ''} (${item.wins}V - ${item.total - item.wins}D)`;
 
                 return `
@@ -2084,7 +2085,7 @@
 
             if (list.length > 3) {
                 html += `
-                    <button onclick="toggleAllPlayers()" class="w-full py-1.5 card-bg hover:bg-slate-50 border border-padel-border rounded-xl text-[10px] text-padel-terracotta font-semibold transition flex items-center justify-center gap-1 mt-1 shadow-xs">
+                    <button onclick="toggleAllPlayers()" class="w-full py-1.5 card-bg hover:opacity-80 border border-padel-border rounded-xl text-[10px] text-padel-terracotta font-semibold transition flex items-center justify-center gap-1 mt-1 shadow-xs">
                         <span>${showAllPlayers ? 'Réduire' : `Voir plus (${list.length - 3} de plus)`}</span>
                         <i data-lucide="${showAllPlayers ? 'chevron-up' : 'chevron-down'}" class="w-3 h-3"></i>
                     </button>
@@ -2279,15 +2280,15 @@
 
             const displayList = showAllShoesHistory ? shoesHistory : shoesHistory.slice(0, 3);
             container.innerHTML = displayList.map((s, index) => `
-                <div class="flex justify-between items-center text-xs p-2 card-bg rounded-lg border border-padel-border shadow-2xs">
+                <div class="flex justify-between items-center text-xs p-2 input-bg rounded-lg border border-padel-border shadow-2xs">
                     <div>
                         <p class="font-bold text-padel-navy text-[11px]">${s.name}</p>
                         <p class="text-[9px] text-padel-muted">${s.date}</p>
                     </div>
                     <div class="flex items-center gap-1.5">
                         <button onclick="openEditShoesModal(${index})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-[10px]">✏️</button>
-                        <button onclick="deleteShoes(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑️</button>
-                        <span class="text-[9px] text-padel-muted font-semibold bg-slate-100 px-2 py-0.5 rounded-full border border-padel-border">${s.matches}</span>
+                        <button onclick="deleteShoes(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑</button>
+                        <span class="text-[9px] text-padel-muted font-semibold card-bg px-2 py-0.5 rounded-full border border-padel-border">${s.matches}</span>
                     </div>
                 </div>
             `).join('');
@@ -2426,7 +2427,7 @@
 
             const displayList = showAllRacketsHistory ? racketsHistory : racketsHistory.slice(0, 3);
             container.innerHTML = displayList.map((r, index) => `
-                <div class="flex justify-between items-center text-xs p-2 card-bg rounded-lg border border-padel-border shadow-2xs">
+                <div class="flex justify-between items-center text-xs p-2 input-bg rounded-lg border border-padel-border shadow-2xs">
                     <div>
                         <p class="font-bold text-padel-navy text-[11px]">${r.name}</p>
                         <p class="text-[9px] text-padel-muted">${r.dates}</p>
@@ -2434,7 +2435,7 @@
                     <div class="flex items-center gap-1.5">
                         <button onclick="openEditRacketModal(${index})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-[10px]">✏️</button>
                         <button onclick="deleteRacket(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑️</button>
-                        <span class="text-[9px] font-semibold text-padel-muted bg-slate-100 px-2 py-0.5 rounded-full border border-padel-border">${r.matches || '0 match'}</span>
+                        <span class="text-[9px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-full border border-padel-border">${r.matches || '0 match'}</span>
                     </div>
                 </div>
             `).join('');
@@ -2513,7 +2514,7 @@
 
             const displayList = showAllSurgripsHistory ? surgripsHistory : surgripsHistory.slice(0, 3);
             container.innerHTML = displayList.map((s, index) => `
-                <div class="flex justify-between items-center text-xs p-2 card-bg rounded-lg border border-padel-border shadow-2xs">
+                <div class="flex justify-between items-center text-xs p-2 input-bg rounded-lg border border-padel-border shadow-2xs">
                     <div>
                         <p class="font-bold text-padel-navy text-[11px]">${s.name}</p>
                         <p class="text-[9px] text-padel-muted">${s.date}</p>
@@ -2521,7 +2522,7 @@
                     <div class="flex items-center gap-1.5">
                         <button onclick="openEditSurgripModal(${index})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-[10px]">✏️</button>
                         <button onclick="deleteSurgrip(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑️</button>
-                        <span class="text-[9px] text-padel-muted font-semibold bg-slate-100 px-2 py-0.5 rounded-full border border-padel-border">${s.matches}</span>
+                        <span class="text-[9px] text-padel-muted font-semibold card-bg px-2 py-0.5 rounded-full border border-padel-border">${s.matches}</span>
                     </div>
                 </div>
             `).join('');
@@ -2665,7 +2666,7 @@
                         </div>
                     </div>
                     <p class="text-xs text-padel-navy font-extrabold pt-0.5">Thème : ${l.theme}</p>
-                    <ul class="text-[11px] text-slate-600 space-y-1 list-disc list-inside">
+                    <ul class="text-[11px] text-slate-600 dark:text-slate-300 space-y-1 list-disc list-inside">
                         ${l.notes.map(n => `<li>${n}</li>`).join('')}
                     </ul>
                 </div>
