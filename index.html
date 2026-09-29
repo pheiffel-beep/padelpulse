@@ -55,8 +55,8 @@
         .type-btn.active { background-color: rgba(217, 119, 87, 0.12); border-color: #D97757; color: #D97757; font-weight: 700; }
 
         /* Safe Area Insets pour iPhone */
-        header { padding-top: calc(0.85rem + env(safe-area-inset-top, 0px)) !important; }
-        nav.tab-nav { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px)) !important; }
+        header { padding-top: calc(0.85rem + env(safe-area-inset-top, 0px)) !important; z-index: 100 !important; -webkit-transform: translateZ(0); }
+        nav.tab-nav { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px)) !important; z-index: 100 !important; -webkit-transform: translateZ(0); }
 
         @keyframes popIn {
             0% { transform: scale(0.85); opacity: 0; }
@@ -81,26 +81,26 @@
             <div class="w-1.5 h-1.5 rounded-full bg-padel-terracotta/40"></div>
         </div>
 
-        <header class="bg-white/95 backdrop-blur-md border-b border-padel-border px-4 pb-3 sticky top-0 z-40 flex justify-between items-center shrink-0 box-border shadow-sm">
-            <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 bg-gradient-to-tr from-padel-terracotta to-amber-600 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-md shadow-padel-terracotta/20">
+        <header class="bg-white/95 backdrop-blur-md border-b border-padel-border px-3 pb-3 sticky top-0 z-50 flex justify-between items-center shrink-0 box-border shadow-sm">
+            <div class="flex items-center gap-2 min-w-0">
+                <div class="w-9 h-9 bg-gradient-to-tr from-padel-terracotta to-amber-600 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-md shadow-padel-terracotta/20 shrink-0">
                     P
                 </div>
-                <div>
-                    <h1 class="text-base font-extrabold tracking-tight text-padel-navy leading-none">PadelPulse</h1>
-                    <span class="text-[10px] text-padel-terracotta font-bold tracking-wide uppercase">MON CARNET PADEL</span>
+                <div class="min-w-0">
+                    <h1 class="text-base font-extrabold tracking-tight text-padel-navy leading-none truncate">PadelPulse</h1>
+                    <span class="text-[9px] text-padel-terracotta font-bold tracking-wide uppercase truncate block">MON CARNET PADEL</span>
                 </div>
             </div>
             
-            <div class="flex items-center gap-1.5">
-                <button onclick="toggleThemeMode()" id="theme-toggle-btn" title="Changer de thème" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center border border-padel-border transition active:scale-95 text-xs font-bold">
+            <div class="flex items-center gap-1 shrink-0">
+                <button onclick="toggleThemeMode()" id="theme-toggle-btn" title="Changer de thème" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center border border-padel-border transition active:scale-95 text-xs font-bold shadow-xs">
                     🌞
                 </button>
-                <button onclick="openResetModal()" title="Réinitialiser" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-rose-500 flex items-center justify-center border border-padel-border transition active:scale-95">
+                <button onclick="openResetModal()" title="Réinitialiser" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-rose-500 flex items-center justify-center border border-padel-border transition active:scale-95 shadow-xs">
                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                 </button>
-                <button onclick="openMatchModal()" class="bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs shadow-md shadow-padel-terracotta/20 active:scale-95 transition">
-                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                <button onclick="openMatchModal()" class="bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-bold px-2.5 py-1.5 rounded-full flex items-center gap-1 text-[11px] shadow-md shadow-padel-terracotta/20 active:scale-95 transition">
+                    <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
                     <span>+ Match</span>
                 </button>
             </div>
