@@ -54,7 +54,7 @@
         .fmt-btn.active { background-color: rgba(217, 119, 87, 0.12); border-color: #D97757; color: #D97757; font-weight: 700; }
         .type-btn.active { background-color: rgba(217, 119, 87, 0.12); border-color: #D97757; color: #D97757; font-weight: 700; }
 
-        /* Safe Area Insets pour iPhone */
+        /* Safe Area Insets pour iPhone & iOS fixing */
         header { padding-top: calc(0.85rem + env(safe-area-inset-top, 0px)) !important; z-index: 100 !important; -webkit-transform: translateZ(0); }
         nav.tab-nav { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px)) !important; z-index: 100 !important; -webkit-transform: translateZ(0); }
 
@@ -110,14 +110,12 @@
             
             <div id="view-dashboard" class="space-y-4">
                 
-                <!-- Sélecteur de Type de Match Global -->
                 <div class="grid grid-cols-3 gap-1 bg-white p-1 rounded-2xl border border-padel-border box-border shadow-sm">
                     <button onclick="setMatchTypeFilter('all')" id="filter-type-all" class="py-1.5 px-2 rounded-xl text-[11px] font-bold bg-padel-terracotta/15 text-padel-terracotta border border-padel-terracotta/30 transition text-center truncate">🔍 Tous</button>
                     <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🎾 Amicaux</button>
                     <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🏆 Compétitions</button>
                 </div>
 
-                <!-- Sélecteur de Période Temporelle -->
                 <div class="flex justify-between items-center bg-white p-2 rounded-2xl border border-padel-border box-border shadow-sm">
                     <span class="text-[11px] font-bold text-padel-navy flex items-center gap-1.5 pl-1">
                         <i data-lucide="calendar" class="w-3.5 h-3.5 text-padel-terracotta"></i> Période :
@@ -130,7 +128,6 @@
                     </select>
                 </div>
 
-                <!-- Cartes de Stats Rapides Bento -->
                 <div class="grid grid-cols-3 gap-2.5">
                     <div class="bg-white p-3 rounded-2xl border border-padel-border text-center relative overflow-hidden shadow-sm">
                         <span class="text-[10px] font-semibold text-padel-muted block mb-0.5">MATCHS</span>
@@ -146,21 +143,18 @@
                     </div>
                 </div>
 
-                <!-- Charge Physique & Planning Hebdo / Mensuel -->
                 <div class="bg-white p-3.5 rounded-2xl border border-padel-border space-y-2.5 box-border shadow-sm">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
                             <i data-lucide="activity" class="w-3.5 h-3.5 text-padel-terracotta"></i> <span id="rhythm-section-title">Rythme d'Activité</span>
                         </h2>
                         
-                        <!-- Switcher Semaine / Mois -->
                         <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-padel-border">
                             <button onclick="setRhythmViewMode('week')" id="btn-rhythm-week" class="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-white text-padel-terracotta shadow-xs transition">📆 Semaine</button>
                             <button onclick="setRhythmViewMode('month')" id="btn-rhythm-month" class="px-2 py-0.5 rounded-lg text-[10px] font-medium text-padel-muted hover:text-padel-navy transition">📅 Mois</button>
                         </div>
                     </div>
                     
-                    <!-- VUE SEMAINE -->
                     <div id="wrapper-weekly-view" class="space-y-2.5">
                         <div class="flex justify-between items-center">
                             <span class="text-[9px] text-padel-muted font-medium">Semaine en cours</span>
@@ -173,12 +167,9 @@
                             <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-300"></span> Repos</span>
                         </div>
 
-                        <div class="grid grid-cols-7 gap-1 text-center" id="weekly-grid">
-                            <!-- Rempli en JS -->
-                        </div>
+                        <div class="grid grid-cols-7 gap-1 text-center" id="weekly-grid"></div>
                     </div>
 
-                    <!-- VUE MOIS -->
                     <div id="wrapper-monthly-view" class="hidden space-y-2.5">
                         <div class="flex justify-between items-center bg-slate-50 px-3 py-1.5 rounded-xl border border-padel-border">
                             <button onclick="navigateCalendarMonth(-1)" class="w-6 h-6 rounded-lg bg-white hover:bg-slate-100 text-padel-navy flex items-center justify-center text-xs transition active:scale-95 shadow-xs">◀</button>
@@ -199,14 +190,10 @@
                             <span class="text-[9px] font-bold text-padel-muted">D</span>
                         </div>
 
-                        <div class="grid grid-cols-7 gap-1 text-center" id="monthly-grid">
-                            <!-- Rempli en JS -->
-                        </div>
+                        <div class="grid grid-cols-7 gap-1 text-center" id="monthly-grid"></div>
                     </div>
-
                 </div>
 
-                <!-- Récapitulatif Général & Fréquentation -->
                 <div class="bg-white p-3.5 rounded-2xl border border-padel-border space-y-2.5 box-border shadow-sm">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
@@ -215,12 +202,9 @@
                         <span class="text-[10px] text-padel-muted bg-slate-100 px-2 py-0.5 rounded-full border border-padel-border font-medium">Tendances</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2" id="stats-summary-grid">
-                        <!-- Rempli en JS -->
-                    </div>
+                    <div class="grid grid-cols-2 gap-2" id="stats-summary-grid"></div>
                 </div>
 
-                <!-- Bilan Joueurs & Recherche -->
                 <div class="bg-white p-3.5 rounded-2xl border border-padel-border space-y-2.5 box-border shadow-sm">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
@@ -240,20 +224,15 @@
                         </div>
                     </div>
 
-                    <div class="space-y-2" id="partners-list">
-                        <!-- Rempli en JS -->
-                    </div>
+                    <div class="space-y-2" id="partners-list"></div>
                 </div>
 
-                <!-- Derniers Matchs -->
                 <div class="space-y-2">
                     <div class="flex justify-between items-center px-1">
                         <h2 class="text-xs font-bold text-padel-muted uppercase tracking-wider">Dernières parties</h2>
                         <button onclick="switchTab('tab-matches')" class="text-[11px] text-padel-terracotta hover:underline font-semibold">Voir tout</button>
                     </div>
-                    <div id="recent-matches-container" class="space-y-2">
-                        <!-- Rempli en JS -->
-                    </div>
+                    <div id="recent-matches-container" class="space-y-2"></div>
                 </div>
             </div>
 
@@ -266,9 +245,7 @@
                     <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🎾 Amicaux</button>
                     <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🏆 Compétitions</button>
                 </div>
-                <div id="all-matches-container" class="space-y-2.5">
-                    <!-- Rempli en JS -->
-                </div>
+                <div id="all-matches-container" class="space-y-2.5"></div>
             </div>
 
             <div id="view-lessons" class="hidden space-y-3">
@@ -286,14 +263,11 @@
                         </div>
                     </div>
 
-                    <div id="lessons-container" class="space-y-2.5">
-                        <!-- Rempli en JS -->
-                    </div>
+                    <div id="lessons-container" class="space-y-2.5"></div>
                 </div>
             </div>
 
             <div id="view-gear" class="hidden space-y-3">
-                <!-- Section Raquettes -->
                 <div class="bg-white p-3.5 rounded-2xl border border-padel-border space-y-3 box-border shadow-sm">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
@@ -306,7 +280,6 @@
                     </div>
 
                     <div class="space-y-2.5">
-                        <!-- Raquette Principale -->
                         <div class="bg-slate-50 p-3 rounded-xl border border-padel-terracotta/30 space-y-1 relative box-border">
                             <div class="flex justify-between items-start">
                                 <div>
@@ -328,7 +301,6 @@
                             </div>
                         </div>
 
-                        <!-- Raquette de Réserve -->
                         <div class="bg-slate-50 p-3 rounded-xl border border-sky-500/30 space-y-1 relative box-border">
                             <div class="flex justify-between items-start">
                                 <div>
@@ -350,7 +322,6 @@
                             </div>
                         </div>
 
-                        <!-- Raquette Test -->
                         <div class="bg-slate-50 p-3 rounded-xl border border-amber-500/30 space-y-1 box-border">
                             <div class="flex justify-between items-start">
                                 <div>
@@ -369,20 +340,16 @@
                             </div>
                         </div>
 
-                        <!-- Historique des Raquettes -->
                         <div class="bg-slate-50 p-3 rounded-xl border border-padel-border space-y-2 box-border">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-bold text-padel-muted uppercase tracking-wider block">Historique de Raquettes</span>
                                 <button onclick="toggleRacketsHistory()" id="btn-toggle-rackets" class="text-[10px] text-padel-terracotta hover:underline font-semibold hidden">Voir plus</button>
                             </div>
-                            <div class="space-y-1.5" id="rackets-history-container">
-                                <!-- Rempli en JS -->
-                            </div>
+                            <div class="space-y-1.5" id="rackets-history-container"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Section Surgrips -->
                 <div class="bg-white p-3.5 rounded-2xl border border-padel-border space-y-3 box-border shadow-sm">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
@@ -414,13 +381,10 @@
                             <span class="text-[10px] font-bold text-padel-muted uppercase tracking-wider block">Historique des Surgrips</span>
                             <button onclick="toggleSurgripsHistory()" id="btn-toggle-surgrips" class="text-[10px] text-padel-terracotta hover:underline font-semibold hidden">Voir plus</button>
                         </div>
-                        <div class="space-y-1.5" id="surgrip-history-container">
-                            <!-- Rempli en JS -->
-                        </div>
+                        <div class="space-y-1.5" id="surgrip-history-container"></div>
                     </div>
                 </div>
 
-                <!-- Section Chaussures -->
                 <div class="bg-white p-3.5 rounded-2xl border border-padel-border space-y-3 box-border shadow-sm">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
@@ -453,9 +417,7 @@
                             <span class="text-[10px] font-bold text-padel-muted uppercase tracking-wider block">Historique de Chaussures</span>
                             <button onclick="toggleShoesHistory()" id="btn-toggle-shoes" class="text-[10px] text-padel-terracotta hover:underline font-semibold hidden">Voir plus</button>
                         </div>
-                        <div class="space-y-1.5" id="shoes-history-container">
-                            <!-- Rempli en JS -->
-                        </div>
+                        <div class="space-y-1.5" id="shoes-history-container"></div>
                     </div>
                 </div>
             </div>
@@ -481,10 +443,11 @@
             </button>
         </nav>
 
-        <div id="modal-match" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2.5 overflow-hidden transition-all duration-300 box-border">
-            <div class="bg-white w-[95%] max-w-[360px] max-h-[85vh] rounded-3xl border border-padel-border p-3.5 space-y-3 overflow-y-auto shadow-2xl relative my-auto shrink-0 mx-auto box-border overflow-x-hidden">
+        <!-- MODAL MATCH corrigé pour iOS avec safe area insets -->
+        <div id="modal-match" class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-3 overflow-y-auto transition-all duration-300 box-border">
+            <div class="bg-white w-[98%] max-w-[360px] my-auto rounded-3xl border border-padel-border p-3.5 space-y-3 shadow-2xl relative shrink-0 box-border overflow-x-hidden" style="max-height: calc(100vh - env(safe-area-inset-top, 20px) - env(safe-area-inset-bottom, 20px)); overflow-y: auto;">
                 
-                <div class="flex justify-between items-center border-b border-padel-border pb-2 sticky top-0 bg-white z-10 pt-1 box-border">
+                <div class="flex justify-between items-center border-b border-padel-border pb-2 sticky top-0 bg-white z-20 pt-1 box-border">
                     <h3 class="font-bold text-xs sm:text-sm text-padel-navy flex items-center gap-1.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-padel-terracotta animate-pulse shrink-0"></span>
                         <span class="truncate">Saisie Express Match</span>
@@ -492,7 +455,7 @@
                     <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-padel-muted hover:text-padel-navy flex items-center justify-center text-xs transition shrink-0">✕</button>
                 </div>
 
-                <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border overflow-x-hidden">
+                <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border overflow-x-hidden pb-4">
                     
                     <div>
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Type de Partie</label>
@@ -530,11 +493,10 @@
                         </div>
                     </div>
 
-                    <!-- Position sur le terrain -->
                     <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Position sur le terrain</label>
                         <div class="relative w-full">
-                            <i data-lucide="Compass" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-padel-terracotta pointer-events-none"></i>
+                            <i data-lucide="compass" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-padel-terracotta pointer-events-none"></i>
                             <select id="match-court-position" class="w-full max-w-full box-border bg-slate-50 border border-padel-border rounded-xl pl-8 pr-2 py-1.5 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta transition cursor-pointer truncate">
                                 <option value="Droite">Position : Droite</option>
                                 <option value="Gauche">Position : Gauche</option>
@@ -655,10 +617,10 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-1.5 mb-2.5">
-                            <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1.5 py-1.5 bg-slate-50 border border-padel-border text-slate-700 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
-                            <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1.5 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">🏆 En 6 jeux Compétition</button>
-                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1.5 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">Sets en 9 jeux</button>
-                            <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">Partie libre</button>
+                            <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1 py-1.5 bg-slate-50 border border-padel-border text-slate-700 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
+                            <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">🏆 En 6 jeux Compétition</button>
+                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">Sets en 9 jeux</button>
+                            <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate">Partie libre</button>
                         </div>
 
                         <div class="space-y-2 bg-slate-50 p-2.5 rounded-2xl border border-padel-border w-full max-w-full box-border" id="sets-container">
@@ -753,19 +715,17 @@
                         </div>
                     </div>
 
-                    <!-- Multi-Select Tactical Tags Dropdown (Opens Upwards) -->
+                    <!-- Dropdown multi-sélection vers le haut -->
                     <div class="w-full max-w-full box-border relative">
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Tags tactiques rapides (Multi-sélection)</label>
                         <div onclick="toggleTagDropdown()" id="tag-dropdown-toggle" class="w-full bg-slate-50 border border-padel-border rounded-xl px-3 py-2 text-xs text-padel-navy flex justify-between items-center cursor-pointer shadow-xs">
                             <span id="tag-dropdown-label" class="truncate text-padel-muted">Sélectionner des tags...</span>
                             <i data-lucide="chevron-up" class="w-4 h-4 text-padel-muted"></i>
                         </div>
-                        <div id="tag-dropdown-menu" class="hidden absolute left-0 right-0 bottom-full mb-1 bg-white border border-padel-border rounded-xl p-2 space-y-1.5 z-50 shadow-2xl max-h-48 overflow-y-auto">
-                            <!-- Options générées via JS avec cases à cocher -->
-                        </div>
+                        <div id="tag-dropdown-menu" class="hidden absolute left-0 right-0 bottom-full mb-1 bg-white border border-padel-border rounded-xl p-2 space-y-1.5 z-50 shadow-2xl max-h-48 overflow-y-auto"></div>
                     </div>
 
-                    <!-- Commentaires Personnels (Optionnel) -->
+                    <!-- Commentaires Personnels -->
                     <div class="w-full max-w-full box-border">
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Commentaires personnels (Optionnel)</label>
                         <textarea id="match-comments" rows="2" placeholder="Notes sur le match, faits de jeu..." class="w-full max-w-full box-border bg-slate-50 border border-padel-border rounded-xl p-2 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta resize-none shadow-xs"></textarea>
@@ -779,7 +739,6 @@
             </div>
         </div>
 
-        <!-- MODAL EDIT CLASSEMENT JOUEUR -->
         <div id="modal-edit-player" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-white w-full max-w-[320px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
@@ -822,7 +781,6 @@
             </div>
         </div>
 
-        <!-- MODAL AJOUT RAQUETTE -->
         <div id="modal-racket" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-white w-full max-w-[340px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
@@ -857,7 +815,6 @@
             </div>
         </div>
 
-        <!-- MODAL AJOUT SURGRIP -->
         <div id="modal-surgrip" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-white w-full max-w-[340px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
@@ -883,7 +840,6 @@
             </div>
         </div>
 
-        <!-- MODAL AJOUT CHAUSSURES -->
         <div id="modal-shoes" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-white w-full max-w-[340px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
@@ -909,7 +865,6 @@
             </div>
         </div>
 
-        <!-- MODAL AJOUT COURS PRIVÉ -->
         <div id="modal-lesson" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-white w-[95%] max-w-[360px] max-h-[85vh] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0 overflow-y-auto box-border">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2 sticky top-0 bg-white z-10 pt-1">
@@ -961,7 +916,6 @@
             </div>
         </div>
 
-        <!-- MODAL CONFIRMATION RÉINITIALISATION -->
         <div id="modal-reset" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div class="bg-white w-full max-w-[320px] rounded-3xl border border-rose-500/30 p-4 space-y-3 shadow-2xl relative my-auto shrink-0 text-center">
                 <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20 flex items-center justify-center mx-auto">
@@ -978,7 +932,6 @@
             </div>
         </div>
 
-        <!-- MODAL ANIMATION FIN DE MATCH -->
         <div id="modal-result-feedback" class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-hidden transition-all duration-300">
             <div id="feedback-card" class="bg-white w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border">
                 <div id="feedback-icon-wrapper" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl shadow-lg transition-transform">
@@ -1419,8 +1372,8 @@
             ['6sets', '6sets_comp', '9sets', '21pts'].forEach(k => {
                 const btn = document.getElementById('btn-fmt-' + k);
                 if (btn) {
-                    if (k === formatKey) btn.className = "fmt-btn active px-1.5 py-1.5 bg-slate-50 border border-padel-border text-padel-navy rounded-xl text-[10px] transition text-center leading-tight truncate";
-                    else btn.className = "fmt-btn px-1.5 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate";
+                    if (k === formatKey) btn.className = "fmt-btn active px-1 py-1.5 bg-slate-50 border border-padel-border text-padel-navy rounded-xl text-[10px] transition text-center leading-tight truncate";
+                    else btn.className = "fmt-btn px-1 py-1.5 bg-slate-50 border border-padel-border text-padel-muted rounded-xl text-[10px] hover:border-slate-300 transition text-center leading-tight truncate";
                 }
             });
 
