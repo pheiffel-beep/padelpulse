@@ -61,7 +61,7 @@
         }
 
         /* Light Mode par défaut */
-        body { background-color: #F8FAFC; color: #1E293B; }
+        body { background-color: #F8FAFC; color: #1E293B; color-scheme: light; }
         .app-bg { background-color: #F8FAFC; }
         .card-bg { background-color: #FFFFFF !important; border-color: #E2E8F0 !important; color: #1E293B !important; }
         .input-bg { background-color: #F8FAFC !important; color: #1E293B !important; border-color: #E2E8F0 !important; }
@@ -75,7 +75,7 @@
         body.dark .border-padel-border { border-color: #2A2F3D !important; }
         body.dark .text-padel-navy { color: #F1F5F9 !important; }
         body.dark .text-padel-muted { color: #94A3B8 !important; }
-        body.dark select, body.dark input, body.dark textarea { background-color: #1E222D !important; color: #F1F5F9 !important; border-color: #2A2F3D !important; -webkit-appearance: none; }
+        body.dark select, body.dark input, body.dark textarea { background-color: #1E222D !important; color: #F1F5F9 !important; border-color: #2A2F3D !important; -webkit-appearance: none; color-scheme: dark; }
         body.dark header, body.dark nav.tab-nav { background-color: rgba(22, 25, 34, 0.95) !important; border-color: #2A2F3D !important; }
         body.dark .nav-bg { background-color: rgba(22, 25, 34, 0.95) !important; border-color: #2A2F3D !important; }
 
@@ -432,7 +432,7 @@
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <button onclick="openEditShoesModal('current')" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs">✏</button>
-                                <button onclick="deleteShoes('current')" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs">🗑️️</button>
+                                <button onclick="deleteShoes('current')" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs">🗑</button>
                                 <button onclick="archiveCurrentShoes()" title="Archiver" class="text-[9px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
                                 <span class="text-[10px] text-padel-terracotta font-bold bg-padel-terracotta/10 px-2 py-0.5 rounded-md border border-padel-terracotta/20" id="current-shoes-matches">0 match joué</span>
                             </div>
@@ -471,7 +471,6 @@
             </button>
         </nav>
 
-        <!-- MODAL MATCH FIXE PLEIN ÉCRAN POUR iOS -->
         <div id="modal-match" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-3 overflow-y-auto overflow-x-hidden box-border" style="-webkit-overflow-scrolling: touch;">
             <div class="card-bg w-full max-w-[360px] max-h-[85vh] my-auto rounded-3xl border border-padel-border p-3.5 space-y-3 shadow-2xl relative shrink-0 box-border overflow-y-auto overflow-x-hidden" style="-webkit-overflow-scrolling: touch;">
                 
@@ -539,7 +538,7 @@
                                 <i data-lucide="user-plus" class="w-3 h-3"></i> + Nouveau
                             </button>
                         </div>
-                        <select id="match-partner" onchange="handlePartnerSelectChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta transition truncate">
+                        <select id="match-partner" onchange="handlePartnerSelectChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta transition cursor-pointer truncate">
                             <option value="">Sélectionner un coéquipier...</option>
                             <option value="__NEW__">+ Créer un nouveau partenaire...</option>
                         </select>
@@ -745,11 +744,11 @@
 
                     <div class="w-full max-w-full box-border relative">
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Tags tactiques rapides (Multi-sélection)</label>
+                        <div id="tag-dropdown-menu" class="hidden absolute left-0 right-0 bottom-full mb-1 card-bg border border-padel-border rounded-xl p-2 space-y-1.5 z-50 shadow-2xl max-h-48 overflow-y-auto"></div>
                         <div onclick="toggleTagDropdown()" id="tag-dropdown-toggle" class="w-full input-bg border border-padel-border rounded-xl px-3 py-2 text-xs text-padel-navy flex justify-between items-center cursor-pointer shadow-xs">
                             <span id="tag-dropdown-label" class="truncate text-padel-muted">Sélectionner des tags...</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4 text-padel-muted"></i>
+                            <i data-lucide="chevron-up" class="w-4 h-4 text-padel-muted"></i>
                         </div>
-                        <div id="tag-dropdown-menu" class="hidden absolute left-0 right-0 bottom-full mb-1 card-bg border border-padel-border rounded-xl p-2 space-y-1.5 z-50 shadow-2xl max-h-48 overflow-y-auto"></div>
                     </div>
 
                     <div class="w-full max-w-full box-border">
@@ -983,22 +982,14 @@
 
     <script>
         const TACTICAL_TAGS_LIST = [
-            "Fautes directes",
-            "Adversaires forts",
-            "Adversaires faibles",
-            "Partenaire fort",
-            "Partenaire faible",
-            "Service gagnant",
-            "Service faible",
-            "Chiquita master",
-            "Chiquita trop haute",
-            "Vibora laser",
-            "Smash par 3",
-            "Smash dans la vitre",
-            "Lob court",
-            "Mental Carton",
-            "Diesel",
-            "Hold-up"
+            "Construction",
+            "Pression imposée",
+            "Subi / Mis en difficulté",
+            "Super cohésion",
+            "Manque de repères binôme",
+            "Point gagnant",
+            "Faute directe",
+            "Match serré / âpre"
         ];
 
         let playersDatabase = JSON.parse(localStorage.getItem('padelpulse_players')) || {};
@@ -1689,7 +1680,7 @@
             const racketUsed = document.getElementById('match-racket-select')?.value || 'main';
             const comments = document.getElementById('match-comments')?.value.trim() || '';
             const selectedTags = getSelectedTags();
-            const tagsList = selectedTags.length > 0 ? selectedTags : ['🔥 Volée solide'];
+            const tagsList = selectedTags.length > 0 ? selectedTags : ['Construction'];
 
             let scoreStr = '';
             let usSetsWon = 0;
@@ -2442,7 +2433,7 @@
                     </div>
                     <div class="flex items-center gap-1.5">
                         <button onclick="openEditRacketModal(${index})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-[10px]">✏️</button>
-                        <button onclick="deleteRacket(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑️️</button>
+                        <button onclick="deleteRacket(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑</button>
                         <span class="text-[9px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-full border border-padel-border">${r.matches || '0 match'}</span>
                     </div>
                 </div>
