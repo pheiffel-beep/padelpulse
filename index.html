@@ -44,9 +44,10 @@
         
         html, body {
             overflow-x: hidden !important;
-            width: 100%;
-            max-width: 100vw;
-            box-sizing: border-box;
+            width: 100% !important;
+            max-width: 100vw !important;
+            box-sizing: border-box !important;
+            position: relative;
         }
 
         body { 
@@ -101,7 +102,7 @@
 </head>
 <body class="app-bg text-padel-navy min-h-[100dvh] font-sans antialiased flex justify-center items-start sm:items-center p-0 sm:p-4 selection:bg-padel-terracotta selection:text-white overflow-x-hidden">
 
-    <div class="w-full max-w-full sm:max-w-[420px] min-h-[100dvh] sm:h-[860px] sm:max-h-[96vh] app-bg sm:rounded-[48px] sm:border-[6px] sm:border-slate-200 shadow-2xl overflow-hidden flex flex-col relative sm:ring-1 sm:ring-slate-300 box-border" id="app-container">
+    <div class="w-full max-w-full sm:max-w-[420px] min-h-[100dvh] sm:h-[860px] sm:max-h-[96vh] app-bg sm:rounded-[48px] sm:border-[6px] sm:border-slate-200 shadow-2xl overflow-x-hidden flex flex-col relative sm:ring-1 sm:ring-slate-300 box-border" id="app-container">
         
         <div class="hidden sm:flex absolute top-0 left-1/2 -translate-x-1/2 w-32 h-5 bg-slate-200 rounded-b-2xl z-50 justify-center items-center pointer-events-none">
             <div class="w-2.5 h-2.5 rounded-full bg-slate-400 mr-2 border border-slate-300"></div>
@@ -119,7 +120,7 @@
                 </div>
             </div>
             
-            <div class="flex items-center gap-1 shrink-0">
+            <div class="flex items-center gap-1.5 shrink-0">
                 <button onclick="toggleThemeMode()" id="theme-toggle-btn" title="Changer de thème" class="w-8 h-8 rounded-full input-bg hover:opacity-80 text-padel-navy flex items-center justify-center border border-padel-border transition active:scale-95 text-xs font-bold shadow-xs">
                     🌞
                 </button>
@@ -133,7 +134,7 @@
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-32 box-border overflow-x-hidden" id="main-content">
+        <div class="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4 pb-32 box-border" id="main-content">
             
             <div id="view-dashboard" class="space-y-4">
                 
@@ -431,7 +432,7 @@
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <button onclick="openEditShoesModal('current')" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs">✏</button>
-                                <button onclick="deleteShoes('current')" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs">🗑️</button>
+                                <button onclick="deleteShoes('current')" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs">🗑️️</button>
                                 <button onclick="archiveCurrentShoes()" title="Archiver" class="text-[9px] card-bg hover:opacity-80 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
                                 <span class="text-[10px] text-padel-terracotta font-bold bg-padel-terracotta/10 px-2 py-0.5 rounded-md border border-padel-terracotta/20" id="current-shoes-matches">0 match joué</span>
                             </div>
@@ -471,8 +472,8 @@
         </nav>
 
         <!-- MODAL MATCH FIXE PLEIN ÉCRAN POUR iOS -->
-        <div id="modal-match" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-3 overflow-y-auto box-border" style="-webkit-overflow-scrolling: touch;">
-            <div class="card-bg w-full max-w-[360px] max-h-[85vh] my-auto rounded-3xl border border-padel-border p-3.5 space-y-3 shadow-2xl relative shrink-0 box-border overflow-y-auto" style="-webkit-overflow-scrolling: touch;">
+        <div id="modal-match" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-3 overflow-y-auto overflow-x-hidden box-border" style="-webkit-overflow-scrolling: touch;">
+            <div class="card-bg w-full max-w-[360px] max-h-[85vh] my-auto rounded-3xl border border-padel-border p-3.5 space-y-3 shadow-2xl relative shrink-0 box-border overflow-y-auto overflow-x-hidden" style="-webkit-overflow-scrolling: touch;">
                 
                 <div class="flex justify-between items-center border-b border-padel-border pb-2 sticky top-0 card-bg z-20 pt-1 box-border">
                     <h3 class="font-bold text-xs sm:text-sm text-padel-navy flex items-center gap-1.5">
@@ -482,7 +483,7 @@
                     <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full input-bg hover:opacity-80 text-padel-muted hover:text-padel-navy flex items-center justify-center text-xs transition shrink-0">✕</button>
                 </div>
 
-                <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border pb-6">
+                <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border pb-6 overflow-x-hidden">
                     
                     <div>
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Type de Partie</label>
@@ -764,7 +765,7 @@
             </div>
         </div>
 
-        <div id="modal-edit-player" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+        <div id="modal-edit-player" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
             <div class="card-bg w-full max-w-[320px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
                     <h3 class="font-bold text-sm text-padel-navy flex items-center gap-1.5">
@@ -806,7 +807,7 @@
             </div>
         </div>
 
-        <div id="modal-racket" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+        <div id="modal-racket" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
             <div class="card-bg w-full max-w-[340px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
                     <h3 class="font-bold text-sm text-padel-navy flex items-center gap-1.5">
@@ -840,7 +841,7 @@
             </div>
         </div>
 
-        <div id="modal-surgrip" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+        <div id="modal-surgrip" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
             <div class="card-bg w-full max-w-[340px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
                     <h3 class="font-bold text-sm text-padel-navy flex items-center gap-1.5">
@@ -865,7 +866,7 @@
             </div>
         </div>
 
-        <div id="modal-shoes" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+        <div id="modal-shoes" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
             <div class="card-bg w-full max-w-[340px] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2">
                     <h3 class="font-bold text-sm text-padel-navy flex items-center gap-1.5">
@@ -890,8 +891,8 @@
             </div>
         </div>
 
-        <div id="modal-lesson" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
-            <div class="card-bg w-[95%] max-w-[360px] max-h-[85vh] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0 overflow-y-auto box-border">
+        <div id="modal-lesson" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
+            <div class="card-bg w-[95%] max-w-[360px] max-h-[85vh] rounded-3xl border border-padel-border p-4 space-y-3.5 shadow-2xl relative my-auto shrink-0 overflow-y-auto overflow-x-hidden box-border">
                 <div class="flex justify-between items-center border-b border-padel-border pb-2 sticky top-0 card-bg z-10 pt-1">
                     <h3 class="font-bold text-sm text-padel-navy flex items-center gap-1.5">
                         <i data-lucide="graduation-cap" class="w-4 h-4 text-padel-terracotta"></i>
@@ -941,7 +942,7 @@
             </div>
         </div>
 
-        <div id="modal-reset" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+        <div id="modal-reset" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
             <div class="card-bg w-full max-w-[320px] rounded-3xl border border-rose-500/30 p-4 space-y-3 shadow-2xl relative my-auto shrink-0 text-center">
                 <div class="w-12 h-12 rounded-full bg-rose-500/10 text-rose-500 border border-rose-500/20 flex items-center justify-center mx-auto">
                     <i data-lucide="alert-triangle" class="w-6 h-6"></i>
@@ -957,7 +958,7 @@
             </div>
         </div>
 
-        <div id="modal-result-feedback" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto">
+        <div id="modal-result-feedback" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
             <div id="feedback-card" class="card-bg w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border">
                 <div id="feedback-icon-wrapper" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl shadow-lg transition-transform">
                     <span id="feedback-emoji">🏆</span>
@@ -1396,7 +1397,7 @@
             ['6sets', '6sets_comp', '9sets', '21pts'].forEach(k => {
                 const btn = document.getElementById('btn-fmt-' + k);
                 if (btn) {
-                    if (k === formatKey) btn.className = "fmt-btn active px-1 py-1.5 input-bg border border-padel-border text-padel-navy rounded-xl text-[10px] transition text-center leading-tight truncate";
+                    if (k === formatKey) btn.className = "fmt-btn active px-1.5 py-1.5 input-bg border border-padel-border text-padel-navy rounded-xl text-[10px] transition text-center leading-tight truncate";
                     else btn.className = "fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate";
                 }
             });
@@ -1913,7 +1914,7 @@
                         <div class="text-right flex flex-col items-end gap-1">
                             <div class="flex items-center gap-1">
                                 <button onclick="openEditMatchModal(${m.id})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs p-0.5">✏</button>
-                                <button onclick="deleteMatch(${m.id})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs p-0.5">🗑️️</button>
+                                <button onclick="deleteMatch(${m.id})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs p-0.5">🗑</button>
                             </div>
                             <span class="text-xs font-black tracking-wide text-padel-terracotta block">${m.score}</span>
                             <span class="text-[9px] text-padel-muted block">${m.format}</span>
@@ -2441,7 +2442,7 @@
                     </div>
                     <div class="flex items-center gap-1.5">
                         <button onclick="openEditRacketModal(${index})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-[10px]">✏️</button>
-                        <button onclick="deleteRacket(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑️</button>
+                        <button onclick="deleteRacket(${index})" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-[10px]">🗑️️</button>
                         <span class="text-[9px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-full border border-padel-border">${r.matches || '0 match'}</span>
                     </div>
                 </div>
