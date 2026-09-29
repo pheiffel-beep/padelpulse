@@ -264,6 +264,7 @@
                 </div>
             </div>
 
+            <!-- Vue Matchs avec Pagination -->
             <div id="view-matches" class="hidden space-y-3">
                 <div class="flex justify-between items-center px-1">
                     <h2 class="text-xs font-bold text-padel-muted uppercase tracking-wider">Tous mes matchs enregistrés</h2>
@@ -274,6 +275,8 @@
                     <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🏆 Compétitions</button>
                 </div>
                 <div id="all-matches-container" class="space-y-2.5"></div>
+                <!-- Contrôles de pagination -->
+                <div id="matches-pagination-controls" class="flex justify-between items-center pt-2 px-1"></div>
             </div>
 
             <div id="view-lessons" class="hidden space-y-3">
@@ -646,7 +649,7 @@
                         <div class="grid grid-cols-2 gap-1.5 mb-2.5">
                             <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1 py-1.5 input-bg border border-padel-border text-slate-700 dark:text-slate-300 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
                             <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">🏆 Set en 6 jeux compétition</button>
-                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Sets en 9 jeux</button>
+                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Sets en 9 jeux</button>
                             <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Partie libre</button>
                         </div>
 
@@ -1010,6 +1013,10 @@
         let showAllSurgripsHistory = false;
         let showAllShoesHistory = false;
         
+        // Variables pour la pagination de la vue des matchs
+        let currentMatchesPage = 1;
+        const matchesPerPage = 5;
+
         let playerFilterType = 'all';
         let editingPlayerName = null;
 
@@ -1370,6 +1377,7 @@
 
         function setMatchTypeFilter(type) {
             matchTypeFilter = type;
+            currentMatchesPage = 1; // Retour à la première page lors d'un changement de filtre
             ['all', 'amical', 'competition'].forEach(t => {
                 const btn1 = document.getElementById('filter-type-' + t);
                 const btn2 = document.getElementById('filter-type-' + t + '-matches');
@@ -1931,9 +1939,18 @@
             renderMatches();
         }
 
+        function changeMatchesPage(direction) {
+            currentMatchesPage += direction;
+            renderMatches();
+            // Remonter légèrement en haut du conteneur des matchs pour le confort
+            const mainContent = document.getElementById('main-content');
+            if (mainContent) mainContent.scrollTop = 0;
+        }
+
         function renderMatches() {
             const recentContainer = document.getElementById('recent-matches-container');
             const allContainer = document.getElementById('all-matches-container');
+            const paginationContainer = document.getElementById('matches-pagination-controls');
             const filtered = getFilteredMatches();
 
             if (recentContainer) {
@@ -1951,7 +1968,29 @@
                 recentContainer.innerHTML = html;
             }
 
-            if (allContainer) allContainer.innerHTML = filtered.map(m => renderMatchCard(m)).join('');
+            if (allContainer) {
+                const totalPages = Math.ceil(filtered.length / matchesPerPage) || 1;
+                if (currentMatchesPage > totalPages) currentMatchesPage = totalPages;
+                if (currentMatchesPage < 1) currentMatchesPage = 1;
+
+                const startIdx = (currentMatchesPage - 1) * matchesPerPage;
+                const pageItems = filtered.slice(startIdx, startIdx + matchesPerPage);
+
+                allContainer.innerHTML = pageItems.length > 0 ? pageItems.map(m => renderMatchCard(m)).join('') : `<p class="text-[11px] text-padel-muted text-center py-6">Aucun match enregistré</p>`;
+
+                if (paginationContainer) {
+                    if (filtered.length > matchesPerPage) {
+                        paginationContainer.classList.remove('hidden');
+                        paginationContainer.innerHTML = `
+                            <button onclick="changeMatchesPage(-1)" ${currentMatchesPage === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl text-xs font-bold card-bg border border-padel-border ${currentMatchesPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:opacity-80 text-padel-terracotta'} transition shadow-xs">◀ Précédent</button>
+                            <span class="text-[11px] font-bold text-padel-muted">Page ${currentMatchesPage} / ${totalPages}</span>
+                            <button onclick="changeMatchesPage(1)" ${currentMatchesPage === totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl text-xs font-bold card-bg border border-padel-border ${currentMatchesPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:opacity-80 text-padel-terracotta'} transition shadow-xs">Suivant ▶</button>
+                        `;
+                    } else {
+                        paginationContainer.classList.add('hidden');
+                    }
+                }
+            }
 
             const currentSurgripMatchesEl = document.getElementById('current-surgrip-matches');
             if (currentSurgripMatchesEl) currentSurgripMatchesEl.innerText = `${currentSurgripMatchCount} match${currentSurgripMatchCount > 1 ? 's' : ''} joué${currentSurgripMatchCount > 1 ? 's' : ''}`;
@@ -2736,6 +2775,7 @@
         window.renderPlayersStats = renderPlayersStats;
         window.toggleThemeMode = toggleThemeMode;
         window.toggleAllRecentMatches = toggleAllRecentMatches;
+        window.changeMatchesPage = changeMatchesPage;
 
         window.onload = function() {
             initThemeMode();
