@@ -167,7 +167,7 @@
                     </div>
                     <div class="card-bg p-3 rounded-2xl border border-padel-border text-center relative overflow-hidden shadow-sm">
                         <span class="text-[10px] font-semibold text-padel-muted block mb-0.5">FORME MOY.</span>
-                        <span class="text-xl font-extrabold text-amber-600" id="stat-avg-feeling">-<span class="text-xs text-padel-muted font-normal">/5</span></span>
+                        <span class="text-xl font-extrabold text-amber-600" id="stat-avg-feeling">4.2<span class="text-xs text-padel-muted font-normal">/5</span></span>
                     </div>
                 </div>
 
@@ -264,7 +264,6 @@
                 </div>
             </div>
 
-            <!-- Vue Matchs avec Pagination -->
             <div id="view-matches" class="hidden space-y-3">
                 <div class="flex justify-between items-center px-1">
                     <h2 class="text-xs font-bold text-padel-muted uppercase tracking-wider">Tous mes matchs enregistrés</h2>
@@ -275,8 +274,6 @@
                     <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🏆 Compétitions</button>
                 </div>
                 <div id="all-matches-container" class="space-y-2.5"></div>
-                <!-- Contrôles de pagination -->
-                <div id="matches-pagination-controls" class="flex justify-between items-center pt-2 px-1"></div>
             </div>
 
             <div id="view-lessons" class="hidden space-y-3">
@@ -649,7 +646,7 @@
                         <div class="grid grid-cols-2 gap-1.5 mb-2.5">
                             <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1 py-1.5 input-bg border border-padel-border text-slate-700 dark:text-slate-300 rounded-xl text-[10px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
                             <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">🏆 Set en 6 jeux compétition</button>
-                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Sets en 9 jeux</button>
+                            <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Sets en 9 jeux</button>
                             <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[10px] hover:opacity-80 transition text-center leading-tight truncate">Partie libre</button>
                         </div>
 
@@ -698,7 +695,7 @@
 
                             <div class="flex flex-col gap-1 p-2 card-bg rounded-xl border border-padel-border hidden w-full max-w-full box-border shadow-xs" id="row-set-3">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-padel-navy w-20 shrink-0" id="label-set-3">Set 3</span>
+                                    <span class="text-xs font-bold text-padel-navy w-20 shrink-0" id="label-set-3">Super TB</span>
                                     <div class="flex items-center gap-2">
                                         <div class="flex flex-col items-center gap-0.5">
                                             <span class="text-[9px] text-padel-muted font-semibold uppercase">Nous</span>
@@ -711,9 +708,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="s3-tb-wrap" class="flex items-center justify-between pt-1 border-t border-padel-border hidden">
-                                    <span class="text-[9px] text-amber-600 font-bold uppercase flex items-center gap-1" id="s3-tb-label">⚡ Tie-Break (Points)</span>
-                                    <input type="text" id="s3-tb" placeholder="Ex: 7-5 ou 5" class="w-24 input-bg border border-padel-border rounded-lg px-2 py-0.5 text-[10px] text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
+                                <div id="s3-tb-wrap" class="hidden">
+                                    <input type="hidden" id="s3-tb" value="">
                                 </div>
                             </div>
 
@@ -996,8 +992,7 @@
             "Match serré / âpre"
         ];
 
-        // Par défaut, l'application démarre entièrement vide (zéro test en cache)
-        let playersDatabase = {};
+        let playersDatabase = JSON.parse(localStorage.getItem('padelpulse_players')) || {};
         let currentMatchType = 'amical';
         let matchTypeFilter = 'all';
         let currentFormat = '6sets';
@@ -1005,8 +1000,8 @@
         let currentTimePeriod = 'all';
         let rhythmViewMode = 'week';
         let currentCalendarDate = new Date();
-        let currentSurgripMatchCount = 0;
-        let currentShoesMatchCount = 0;
+        let currentSurgripMatchCount = parseInt(localStorage.getItem('padelpulse_surgrip_count')) || 0;
+        let currentShoesMatchCount = parseInt(localStorage.getItem('padelpulse_shoes_count')) || 0;
         
         let showAllRecentMatches = false;
         let showAllLessons = false;
@@ -1015,9 +1010,6 @@
         let showAllSurgripsHistory = false;
         let showAllShoesHistory = false;
         
-        let currentMatchesPage = 1;
-        const matchesPerPage = 5;
-
         let playerFilterType = 'all';
         let editingPlayerName = null;
 
@@ -1027,20 +1019,20 @@
         let editingSurgripTarget = null;
         let editingShoesTarget = null;
 
-        let matches = [];
-        let lessons = [];
-        let racketsHistory = [];
-        let surgripsHistory = [];
-        let shoesHistory = [];
+        let matches = JSON.parse(localStorage.getItem('padelpulse_matches')) || [];
+        let lessons = JSON.parse(localStorage.getItem('padelpulse_lessons')) || [];
+        let racketsHistory = JSON.parse(localStorage.getItem('padelpulse_rackets')) || [];
+        let surgripsHistory = JSON.parse(localStorage.getItem('padelpulse_surgrips')) || [];
+        let shoesHistory = JSON.parse(localStorage.getItem('padelpulse_shoes')) || [];
         
-        let mainRacket = { name: 'Aucune raquette enregistrée', date: '-', matchesCount: 0 };
-        let backupRacket = { name: 'Aucune raquette de réserve', date: '-', matchesCount: 0 };
-        let testRacket = { name: 'Aucune raquette test', date: '-', matchesCount: 0 };
+        let mainRacket = JSON.parse(localStorage.getItem('padelpulse_main_racket')) || { name: 'Aucune raquette enregistrée', date: '-', matchesCount: 0 };
+        let backupRacket = JSON.parse(localStorage.getItem('padelpulse_backup_racket')) || { name: 'Aucune raquette de réserve', date: '-', matchesCount: 0 };
+        let testRacket = JSON.parse(localStorage.getItem('padelpulse_test_racket')) || { name: 'Aucune raquette test', date: '-', matchesCount: 0 };
         
-        let currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
-        let currentShoes = { name: 'Aucune paire enregistrée', date: '-' };
+        let currentSurgrip = JSON.parse(localStorage.getItem('padelpulse_current_surgrip')) || { name: 'Aucun surgrip enregistré', date: '-' };
+        let currentShoes = JSON.parse(localStorage.getItem('padelpulse_current_shoes')) || { name: 'Aucune paire enregistrée', date: '-' };
 
-        let weeklyOverrides = {};
+        let weeklyOverrides = JSON.parse(localStorage.getItem('padelpulse_weekly_overrides')) || {};
 
         let isDarkTheme = localStorage.getItem('padelpulse_dark_theme') === 'true';
 
@@ -1378,7 +1370,6 @@
 
         function setMatchTypeFilter(type) {
             matchTypeFilter = type;
-            currentMatchesPage = 1;
             ['all', 'amical', 'competition'].forEach(t => {
                 const btn1 = document.getElementById('filter-type-' + t);
                 const btn2 = document.getElementById('filter-type-' + t + '-matches');
@@ -1476,7 +1467,6 @@
                 select.innerHTML += `<option value="${name}">${name} (${rank})</option>`;
             });
             select.innerHTML += '<option value="__NEW__">+ Créer un nouveau partenaire...</option>';
-            select.value = "";
         }
 
         function renderTagDropdownOptions(selectedTags = []) {
@@ -1548,13 +1538,6 @@
             if (document.getElementById('match-location')) document.getElementById('match-location').value = '';
             if (document.getElementById('match-court-position')) document.getElementById('match-court-position').value = 'Droite';
             if (document.getElementById('match-partner')) document.getElementById('match-partner').value = '';
-            
-            const newPartnerNameInput = document.getElementById('new-partner-name');
-            const newPartnerRankSelect = document.getElementById('new-partner-rank');
-            if (newPartnerNameInput) newPartnerNameInput.value = '';
-            if (newPartnerRankSelect) newPartnerRankSelect.value = 'P200';
-            toggleNewPartnerInput(false);
-
             if (document.getElementById('match-opp1-name')) document.getElementById('match-opp1-name').value = '';
             if (document.getElementById('match-opp1-rank')) document.getElementById('match-opp1-rank').value = 'P200';
             if (document.getElementById('match-opp2-name')) document.getElementById('match-opp2-name').value = '';
@@ -1570,6 +1553,7 @@
             });
 
             renderTagDropdownOptions([]);
+            toggleNewPartnerInput(false);
             updatePartnerDropdownOptions();
             populateScoreDropdowns(7);
         }
@@ -1806,11 +1790,8 @@
             const fields = document.getElementById('new-partner-fields');
             const select = document.getElementById('match-partner');
             if (fields) {
-                if (show) {
-                    fields.classList.remove('hidden');
-                    const nameInput = document.getElementById('new-partner-name');
-                    if (nameInput) nameInput.value = '';
-                } else {
+                if (show) fields.classList.remove('hidden');
+                else {
                     fields.classList.add('hidden');
                     if (select && select.value === '__NEW__') select.selectedIndex = 0;
                 }
@@ -1950,17 +1931,9 @@
             renderMatches();
         }
 
-        function changeMatchesPage(direction) {
-            currentMatchesPage += direction;
-            renderMatches();
-            const mainContent = document.getElementById('main-content');
-            if (mainContent) mainContent.scrollTop = 0;
-        }
-
         function renderMatches() {
             const recentContainer = document.getElementById('recent-matches-container');
             const allContainer = document.getElementById('all-matches-container');
-            const paginationContainer = document.getElementById('matches-pagination-controls');
             const filtered = getFilteredMatches();
 
             if (recentContainer) {
@@ -1978,29 +1951,7 @@
                 recentContainer.innerHTML = html;
             }
 
-            if (allContainer) {
-                const totalPages = Math.ceil(filtered.length / matchesPerPage) || 1;
-                if (currentMatchesPage > totalPages) currentMatchesPage = totalPages;
-                if (currentMatchesPage < 1) currentMatchesPage = 1;
-
-                const startIdx = (currentMatchesPage - 1) * matchesPerPage;
-                const pageItems = filtered.slice(startIdx, startIdx + matchesPerPage);
-
-                allContainer.innerHTML = pageItems.length > 0 ? pageItems.map(m => renderMatchCard(m)).join('') : `<p class="text-[11px] text-padel-muted text-center py-6">Aucun match enregistré</p>`;
-
-                if (paginationContainer) {
-                    if (filtered.length > matchesPerPage) {
-                        paginationContainer.classList.remove('hidden');
-                        paginationContainer.innerHTML = `
-                            <button onclick="changeMatchesPage(-1)" ${currentMatchesPage === 1 ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl text-xs font-bold card-bg border border-padel-border ${currentMatchesPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:opacity-80 text-padel-terracotta'} transition shadow-xs">◀ Précédent</button>
-                            <span class="text-[11px] font-bold text-padel-muted">Page ${currentMatchesPage} / ${totalPages}</span>
-                            <button onclick="changeMatchesPage(1)" ${currentMatchesPage === totalPages ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl text-xs font-bold card-bg border border-padel-border ${currentMatchesPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:opacity-80 text-padel-terracotta'} transition shadow-xs">Suivant ▶</button>
-                        `;
-                    } else {
-                        paginationContainer.classList.add('hidden');
-                    }
-                }
-            }
+            if (allContainer) allContainer.innerHTML = filtered.map(m => renderMatchCard(m)).join('');
 
             const currentSurgripMatchesEl = document.getElementById('current-surgrip-matches');
             if (currentSurgripMatchesEl) currentSurgripMatchesEl.innerText = `${currentSurgripMatchCount} match${currentSurgripMatchCount > 1 ? 's' : ''} joué${currentSurgripMatchCount > 1 ? 's' : ''}`;
@@ -2780,12 +2731,11 @@
         window.renderSurgrips = renderSurgrips;
         window.closeResultFeedbackModal = closeResultFeedbackModal;
         window.setTimePeriodFilter = setTimePeriodFilter;
-        window.checkTieBreakVisibility = checkTieBreakVisualility = checkTieBreakVisibility;
+        window.checkTieBreakVisibility = checkTieBreakVisibility;
         window.updateStats = updateStats;
         window.renderPlayersStats = renderPlayersStats;
         window.toggleThemeMode = toggleThemeMode;
         window.toggleAllRecentMatches = toggleAllRecentMatches;
-        window.changeMatchesPage = changeMatchesPage;
 
         window.onload = function() {
             initThemeMode();
