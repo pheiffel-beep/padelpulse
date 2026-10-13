@@ -66,7 +66,8 @@ function restoreBackup() {
 
     const keys = backupKeys(Object.keys(obj.data)).filter(function(k) { return typeof obj.data[k] === 'string'; });
     if (keys.length === 0) { backupStatus('Cette sauvegarde est vide.', false); return; }
-    try { keys.forEach(function(k) { JSON.parse(obj.data[k]); }); }
+    // Les listes et fiches ({…} ou […]) doivent être lisibles ; les réglages simples (langue « fr », thème « auto »…) sont du texte normal
+    try { keys.forEach(function(k) { const v = obj.data[k].trim(); if (v[0] === '{' || v[0] === '[') JSON.parse(v); }); }
     catch (e) { backupStatus('Sauvegarde abîmée : restauration annulée, tes données sont intactes.', false); return; }
 
     if (!restorePending) {
