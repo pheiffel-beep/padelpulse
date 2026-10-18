@@ -160,3 +160,7 @@ body.dark .icon-btn { color: #9DB0C8; }
 body.dark #main-content h2.uppercase { color: #EAF1FA !important; }
 #main-content h2.uppercase svg { width: 16px !important; height: 16px !important; color: #1B4F8C !important; }
 body.dark #main-content h2.uppercase svg { color: #8DB8EE !important; }
+
+/* iPhone : la barre du bas flotte au-dessus de la barre d'accueil, et le contenu garde assez de place en dessous */
+nav.tab-nav { padding-bottom: 0.625rem !important; bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important; }
+#main-content { padding-bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px)) !important; }
