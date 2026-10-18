@@ -164,3 +164,7 @@ body.dark #main-content h2.uppercase svg { color: #8DB8EE !important; }
 /* iPhone : la barre du bas flotte au-dessus de la barre d'accueil, et le contenu garde assez de place en dessous */
 nav.tab-nav { padding-bottom: 0.625rem !important; bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important; }
 #main-content { padding-bottom: calc(8.5rem + env(safe-area-inset-bottom, 0px)) !important; }
+/* Matériel : boutons modifier / supprimer / archiver identiques */
+.icon-btn.gear-btn { width: 32px; height: 32px; border-radius: 10px; border: 1px solid #D9E3EE; background: #FFFFFF; }
+body.dark .icon-btn.gear-btn { border-color: #22385A; background: #13233A; }
+.icon-btn.gear-btn svg { width: 15px !important; height: 15px !important; }
