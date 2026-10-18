@@ -59,3 +59,7 @@
 
 /* Lisibilité des notes de cours (mode clair) et cases à cocher (mode sombre) */
 body:not(.dark) .lesson-notes, body:not(.dark) .lesson-notes li { color: #1e293b !important; opacity: 1 !important; } body.dark input[type="checkbox"] { -webkit-appearance: none; appearance: none; width: 1.15em; height: 1.15em; border: 2px solid #cbd5e1; border-radius: 4px; background: transparent; position: relative; vertical-align: middle; flex-shrink: 0; } body.dark input[type="checkbox"]:checked { background: #D97757; border-color: #D97757; } body.dark input[type="checkbox"]:checked::after { content: ""; position: absolute; left: 30%; top: 8%; width: 30%; height: 58%; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+/* Néerlandais : « OVERWINNINGEN » est plus long, on réduit un peu les titres des 3 cases */
+html[lang="nl"] .stat-label { font-size: 10px; letter-spacing: -0.02em; }
+@media (max-width: 340px) { html[lang="nl"] .stat-label { font-size: 9px; } }
