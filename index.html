@@ -51,7 +51,7 @@
         <div id="view-dashboard" class="space-y-4">
 
             <div id="backup-reminder" style="display: none;" class="items-center gap-2 p-2.5 rounded-2xl border border-padel-terracotta/30 bg-padel-terracotta/10 shadow-sm">
-                <span class="text-lg leading-none shrink-0">💾</span>
+                <span class="icon-chip chip-terra"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></span>
                 <span class="flex-1 text-[11px] font-semibold text-padel-navy leading-snug">Pense à faire une sauvegarde de tes matchs.</span>
                 <button type="button" onclick="snoozeBackupReminder()" class="text-[11px] font-bold text-padel-muted px-1.5 py-1 shrink-0">Plus tard</button>
                 <button type="button" onclick="backupReminderOpen()" class="text-[11px] font-bold bg-padel-terracotta text-white px-2.5 py-1 rounded-full shrink-0">Sauvegarder</button>
@@ -182,9 +182,9 @@
                 <h2 class="text-xs font-bold text-padel-muted uppercase tracking-wider">Tous mes matchs enregistrés</h2>
             </div>
             <div class="grid grid-cols-3 gap-1 card-bg p-1 rounded-2xl border border-padel-border box-border shadow-sm">
-                <button onclick="setMatchTypeFilter('all')" id="filter-type-all-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-bold bg-padel-terracotta/15 text-padel-terracotta border border-padel-terracotta/30 transition text-center truncate">🔍 Tous</button>
-                <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🎾 Amicaux</button>
-                <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition-matches" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🏆 Compétitions</button>
+                <button onclick="setMatchTypeFilter('all')" id="filter-type-all-matches" class="seg-btn w-full is-active">Tous</button>
+                <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical-matches" class="seg-btn w-full">Amicaux</button>
+                <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition-matches" class="seg-btn w-full">Compétitions</button>
             </div>
             <div id="all-matches-container" class="space-y-2.5"></div>
             <!-- Contrôles de pagination -->
@@ -227,14 +227,14 @@
                     <div class="input-bg p-3 rounded-xl border border-padel-terracotta/30 space-y-1 relative box-border">
                         <div class="flex justify-between items-start">
                             <div>
-                                <span class="text-[11px] font-bold text-padel-terracotta uppercase tracking-wider bg-padel-terracotta/10 px-2 py-0.5 rounded border border-padel-terracotta/20">Raquette Principale</span>
+                                <span class="meta-chip is-comp whitespace-nowrap">Raquette Principale</span>
                                 <p class="font-extrabold text-xs text-padel-navy mt-1" id="main-racket-name">Aucune raquette enregistrée</p>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="text-[11px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-md border border-padel-border" id="main-racket-date">-</span>
                                 <button onclick="openEditRacketModal('main')" title="Modifier" class="text-[12px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button>
                                 <button onclick="deleteRacket('main')" title="Supprimer" class="text-[12px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
-                                <button onclick="archiveMainRacket()" title="Archiver" class="text-[11px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                                <button onclick="archiveMainRacket()" title="Archiver" aria-label="Archiver" class="icon-btn border border-padel-border card-bg"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none" style="width:16px;height:16px"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></button>
                             </div>
                         </div>
                         <div class="flex items-center justify-between text-[12px] text-padel-muted pt-1.5 border-t border-padel-border">
@@ -248,14 +248,14 @@
                     <div class="input-bg p-3 rounded-xl border border-sky-500/30 space-y-1 relative box-border">
                         <div class="flex justify-between items-start">
                             <div>
-                                <span class="text-[11px] font-bold text-sky-600 uppercase tracking-wider bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">Raquette de Réserve</span>
+                                <span class="meta-chip whitespace-nowrap">Raquette de Réserve</span>
                                 <p class="font-extrabold text-xs text-padel-navy mt-1" id="backup-racket-name">Aucune raquette de réserve</p>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="text-[11px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-md border border-padel-border" id="backup-racket-date">-</span>
                                 <button onclick="openEditRacketModal('backup')" title="Modifier" class="text-[12px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button>
                                 <button onclick="deleteRacket('backup')" title="Supprimer" class="text-[12px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
-                                <button onclick="archiveBackupRacket()" title="Archiver" class="text-[11px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                                <button onclick="archiveBackupRacket()" title="Archiver" aria-label="Archiver" class="icon-btn border border-padel-border card-bg"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none" style="width:16px;height:16px"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></button>
                             </div>
                         </div>
                         <div class="flex items-center justify-between text-[12px] text-padel-muted pt-1.5 border-t border-padel-border">
@@ -269,14 +269,14 @@
                     <div class="input-bg p-3 rounded-xl border border-amber-500/30 space-y-1 box-border">
                         <div class="flex justify-between items-start">
                             <div>
-                                <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Raquette Test</span>
+                                <span class="meta-chip whitespace-nowrap">Raquette Test</span>
                                 <p class="font-bold text-xs text-padel-navy mt-1" id="test-racket-name">Aucune raquette test</p>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="text-[11px] font-semibold text-padel-muted card-bg px-2 py-0.5 rounded-md border border-padel-border" id="test-racket-date">-</span>
                                 <button onclick="openEditRacketModal('test')" title="Modifier" class="text-[12px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button>
                                 <button onclick="deleteRacket('test')" title="Supprimer" class="text-[12px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
-                                <button onclick="archiveTestRacket()" title="Archiver" class="text-[11px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                                <button onclick="archiveTestRacket()" title="Archiver" aria-label="Archiver" class="icon-btn border border-padel-border card-bg"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none" style="width:16px;height:16px"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></button>
                             </div>
                         </div>
                         <div class="flex items-center justify-between text-[12px] text-padel-muted pt-1.5 border-t border-padel-border">
@@ -351,7 +351,7 @@
                         <div class="flex items-center gap-1.5">
                             <button onclick="openEditShoesModal('current')" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button>
                             <button onclick="deleteShoes('current')" title="Supprimer" class="text-padel-muted hover:text-rose-500 text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
-                            <button onclick="archiveCurrentShoes()" title="Archiver" class="text-[11px] card-bg hover:opacity-80 text-padel-muted px-1.5 py-0.5 rounded border border-padel-border transition flex items-center gap-0.5">📦 Archiver</button>
+                            <button onclick="archiveCurrentShoes()" title="Archiver" aria-label="Archiver" class="icon-btn border border-padel-border card-bg"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none" style="width:16px;height:16px"><rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg></button>
                             <span class="text-[12px] text-padel-terracotta font-bold bg-padel-terracotta/10 px-2 py-0.5 rounded-md border border-padel-terracotta/20" id="current-shoes-matches">0 match joué</span>
                         </div>
                     </div>
@@ -397,7 +397,7 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-padel-terracotta animate-pulse shrink-0"></span>
                     <span class="truncate">Saisie Express Match</span>
                 </h3>
-                <button onclick="closeMatchModal()" class="w-6 h-6 rounded-full input-bg hover:opacity-80 text-padel-muted hover:text-padel-navy flex items-center justify-center text-xs transition shrink-0">✕</button>
+                <button onclick="closeMatchModal()" class="w-9 h-9 shrink-0 rounded-full input-bg hover:opacity-80 text-padel-muted hover:text-padel-navy flex items-center justify-center  transition shrink-0" aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
 
             <div class="space-y-2.5 text-left w-full max-w-full min-w-0 box-border pb-12 overflow-x-hidden">
@@ -405,8 +405,8 @@
                 <div>
                     <label class="block text-[11px] font-semibold text-padel-muted mb-1">Type de Partie</label>
                     <div class="grid grid-cols-2 gap-1.5">
-                        <button type="button" onclick="setMatchType('amical')" id="btn-type-amical" class="type-btn active py-1.5 px-2 input-bg border border-padel-terracotta/50 text-padel-terracotta font-bold rounded-xl text-[12px] text-center transition truncate">🎾 Amical</button>
-                        <button type="button" onclick="setMatchType('competition')" id="btn-type-competition" class="type-btn py-1.5 px-2 input-bg border border-padel-border text-padel-muted font-medium rounded-xl text-[12px] hover:border-slate-300 text-center transition truncate">🏆 Compétition</button>
+                        <button type="button" onclick="setMatchType('amical')" id="btn-type-amical" class="type-btn active py-1.5 px-2 input-bg border border-padel-terracotta/50 text-padel-terracotta font-bold rounded-xl text-[12px] text-center transition truncate"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><circle cx="12" cy="12" r="10"/><path d="M5.6 5.6c3.3 3.3 3.3 9.5 0 12.8M18.4 5.6c-3.3 3.3-3.3 9.5 0 12.8"/></svg> <span>Amical</span></button>
+                        <button type="button" onclick="setMatchType('competition')" id="btn-type-competition" class="type-btn py-1.5 px-2 input-bg border border-padel-border text-padel-muted font-medium rounded-xl text-[12px] hover:border-slate-300 text-center transition truncate"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> <span>Compétition</span></button>
                     </div>
                 </div>
 
@@ -434,7 +434,7 @@
                     <label class="block text-[11px] font-semibold text-padel-muted mb-1">Lieu / Club (Optionnel)</label>
                     <div class="relative w-full">
                         <i data-lucide="map-pin" class="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-padel-muted pointer-events-none"></i>
-                        <select id="match-location-select" onchange="handleLocationSelectChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl pl-8 pr-2 py-1.5 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta transition cursor-pointer truncate"><option value="">Sélectionner un club...</option></select></div><div class="relative w-full"><button type="button" id="btn-remove-club" onclick="removeSelectedClub()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1">🗑 Retirer ce club de la liste</button><input type="text" id="match-location" style="display: none; margin-top: 6px;" placeholder="Nom du nouveau club" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl pl-8 pr-2 py-1.5 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta transition truncate">
+                        <select id="match-location-select" onchange="handleLocationSelectChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl pl-8 pr-2 py-1.5 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta transition cursor-pointer truncate"><option value="">Sélectionner un club...</option></select></div><div class="relative w-full"><button type="button" id="btn-remove-club" onclick="removeSelectedClub()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> <span>Retirer ce club de la liste</span></button><input type="text" id="match-location" style="display: none; margin-top: 6px;" placeholder="Nom du nouveau club" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl pl-8 pr-2 py-1.5 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta transition truncate">
                     </div>
                 </div>
 
@@ -456,14 +456,14 @@
                             <i data-lucide="user-plus" class="w-3 h-3"></i> + Nouveau
                         </button>
                     </div>
-                    <input type="text" id="partner-search" oninput="filterPartnerOptions()" autocomplete="off" placeholder="🔍 Tape les premières lettres..." style="display: none;" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 mb-1.5 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
+                    <input type="text" id="partner-search" oninput="filterPartnerOptions()" autocomplete="off" placeholder="Tape les premières lettres..." style="display: none;" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 mb-1.5 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
                     <select id="match-partner" onchange="handlePartnerSelectChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta transition cursor-pointer truncate">
                         <option value="">Sélectionner un coéquipier...</option>
                         <option value="__NEW__">+ Créer un nouveau partenaire...</option>
                     </select>
 
                     <!-- Honor Fix : display: none inline -->
-                    <button type="button" id="btn-remove-partner" onclick="removeSelectedPartner()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1">🗑 Retirer ce coéquipier de la liste</button><div id="new-partner-fields" style="display: none;" class="mt-2 p-2 input-bg rounded-xl border border-padel-terracotta/40 space-y-1.5 w-full max-w-full box-border">
+                    <button type="button" id="btn-remove-partner" onclick="removeSelectedPartner()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> <span>Retirer ce coéquipier de la liste</span></button><div id="new-partner-fields" style="display: none;" class="mt-2 p-2 input-bg rounded-xl border border-padel-terracotta/40 space-y-1.5 w-full max-w-full box-border">
                         <div class="flex justify-between items-center">
                                 <span class="text-[12px] font-bold text-padel-terracotta uppercase tracking-wider flex items-center gap-1">
                                     <i data-lucide="user-plus" class="w-3 h-3"></i> Nouveau Coéquipier
@@ -559,12 +559,12 @@
                 <div class="w-full max-w-full box-border">
                     <div class="flex justify-between items-center mb-1.5">
                         <label class="block text-[11px] font-semibold text-padel-muted">Format de jeu</label>
-                        <span id="format-badge" class="text-[12px] font-medium text-padel-terracotta bg-padel-terracotta/10 px-2 py-0.5 rounded-full border border-padel-terracotta/20">Sets en 6 jeux</span>
+                        <span id="format-badge" class="meta-chip is-comp">Sets en 6 jeux</span>
                     </div>
 
                     <div class="grid grid-cols-2 gap-1.5 mb-2.5">
                         <button type="button" onclick="setFormat('6sets')" id="btn-fmt-6sets" class="fmt-btn active px-1.5 py-1.5 input-bg border border-padel-border text-slate-700 dark:text-slate-300 rounded-xl text-[12px] transition text-center leading-tight truncate">Sets en 6 jeux</button>
-                        <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[12px] hover:opacity-80 transition text-center leading-tight truncate">🏆 Set en 6 jeux compétition</button>
+                        <button type="button" onclick="setFormat('6sets_comp')" id="btn-fmt-6sets_comp" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[12px] hover:opacity-80 transition text-center leading-tight truncate">Set en 6 jeux compétition</button>
                         <button type="button" onclick="setFormat('9sets')" id="btn-fmt-9sets" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[12px] hover:opacity-80 transition text-center leading-tight truncate">Sets en 9 jeux</button>
                         <button type="button" onclick="setFormat('21pts')" id="btn-fmt-21pts" class="fmt-btn px-1.5 py-1.5 input-bg border border-padel-border text-padel-muted rounded-xl text-[12px] hover:opacity-80 transition text-center leading-tight truncate">Partie libre</button>
                     </div>
@@ -588,7 +588,7 @@
                                 </div>
                             </div>
                             <div id="s1-tb-wrap" class="items-center justify-between pt-1 border-t border-padel-border" style="display: none;">
-                                <span class="text-[11px] text-amber-600 font-bold uppercase flex items-center gap-1" id="s1-tb-label">⚡ Tie-Break (Points)</span>
+                                <span class="text-[11px] text-padel-court font-bold uppercase flex items-center gap-1" id="s1-tb-label"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span>Tie-Break (Points)</span></span>
                                 <input type="text" id="s1-tb" placeholder="Ex: 7-5 ou 5" class="w-24 input-bg border border-padel-border rounded-lg px-2 py-0.5 text-[12px] text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
                             </div>
                         </div>
@@ -610,7 +610,7 @@
                                 </div>
                             </div>
                             <div id="s2-tb-wrap" class="items-center justify-between pt-1 border-t border-padel-border" style="display: none;">
-                                <span class="text-[11px] text-amber-600 font-bold uppercase flex items-center gap-1" id="s2-tb-label">⚡ Tie-Break (Points)</span>
+                                <span class="text-[11px] text-padel-court font-bold uppercase flex items-center gap-1" id="s2-tb-label"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span>Tie-Break (Points)</span></span>
                                 <input type="text" id="s2-tb" placeholder="Ex: 7-5 ou 5" class="w-24 input-bg border border-padel-border rounded-lg px-2 py-0.5 text-[12px] text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
                             </div>
                         </div>
@@ -632,7 +632,7 @@
                                 </div>
                             </div>
                             <div id="s3-tb-wrap" class="items-center justify-between pt-1 border-t border-padel-border" style="display: none;">
-                                <span class="text-[11px] text-amber-600 font-bold uppercase flex items-center gap-1" id="s3-tb-label">⚡ Tie-Break (Points)</span>
+                                <span class="text-[11px] text-padel-court font-bold uppercase flex items-center gap-1" id="s3-tb-label"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span>Tie-Break (Points)</span></span>
                                 <input type="text" id="s3-tb" placeholder="Ex: 7-5 ou 5" class="w-24 input-bg border border-padel-border rounded-lg px-2 py-0.5 text-[12px] text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
                             </div>
                         </div>
@@ -648,20 +648,20 @@
                     <div>
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Énergie</label>
                         <select id="match-feeling" class="w-full input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none">
-                            <option value="⚡ En forme">⚡ En forme</option>
-                            <option value="👍 Normal">👍 Normal</option>
-                            <option value="😐 Moyen">😐 Moyen</option>
-                            <option value="🔋 Fatigué">🔋 Fatigué</option>
+                            <option value="⚡ En forme">En forme</option>
+                            <option value="👍 Normal">Normal</option>
+                            <option value="😐 Moyen">Moyen</option>
+                            <option value="🔋 Fatigué">Fatigué</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-padel-muted mb-1">Performance (/5)</label>
                         <select id="match-rating" class="w-full input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none">
-                            <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
-                            <option value="4" selected>⭐⭐⭐⭐ (4/5)</option>
-                            <option value="3">⭐⭐⭐ (3/5)</option>
-                            <option value="2">⭐⭐ (2/5)</option>
-                            <option value="1">⭐ (1/5)</option>
+                            <option value="5">5 / 5</option>
+                            <option value="4" selected>4 / 5</option>
+                            <option value="3">3 / 5</option>
+                            <option value="2">2 / 5</option>
+                            <option value="1">1 / 5</option>
                         </select>
                     </div>
                 </div>
@@ -695,7 +695,7 @@
                     <i data-lucide="edit" class="w-4 h-4 text-padel-terracotta"></i>
                     Modifier le Classement
                 </h3>
-                <button onclick="closeEditPlayerModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
+                <button onclick="closeEditPlayerModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
             <div class="space-y-2.5 text-left">
                 <div><label class="block text-[12px] font-semibold text-padel-muted mb-1">Nom du joueur</label><input type="text" id="edit-player-name-input" autocomplete="off" class="w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta"></div>
@@ -724,8 +724,8 @@
                     </select>
                 </div>
                 <button type="button" onclick="savePlayerRankEdit()" class="w-full bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-bold py-2.5 rounded-xl shadow-lg transition text-xs mt-2">
-                    Enregistrer</button><button type="button" onclick="removePlayerFromLists()" class="w-full input-bg border border-rose-500/40 text-rose-500 font-bold py-2.5 rounded-xl text-xs mt-2">🗑 Retirer ce joueur des listes
-                </button>
+                    Enregistrer</button><button type="button" onclick="removePlayerFromLists()" class="w-full input-bg border border-rose-500/40 text-rose-500 font-bold py-2.5 rounded-xl text-xs mt-2"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> <span>Retirer ce joueur des listes
+                </span></button>
             </div>
         </div>
     </div>
@@ -737,7 +737,7 @@
                     <i data-lucide="shield" class="w-4 h-4 text-padel-terracotta"></i>
                     Ajouter / Modifier Raquette
                 </h3>
-                <button onclick="closeRacketModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
+                <button onclick="closeRacketModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
             <div class="space-y-2 text-left">
                 <div>
@@ -771,7 +771,7 @@
                     <i data-lucide="wrench" class="w-4 h-4 text-padel-terracotta"></i>
                     Poser / Modifier Surgrip
                 </h3>
-                <button onclick="closeSurgripModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
+                <button onclick="closeSurgripModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
             <div class="space-y-2.5 text-left">
                 <div>
@@ -796,7 +796,7 @@
                     <i data-lucide="footprints" class="w-4 h-4 text-padel-terracotta"></i>
                     Ajouter / Modifier Chaussures
                 </h3>
-                <button onclick="closeShoesModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
+                <button onclick="closeShoesModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
             <div class="space-y-2.5 text-left">
                 <div>
@@ -821,16 +821,16 @@
                     <i data-lucide="graduation-cap" class="w-4 h-4 text-padel-terracotta"></i>
                     Ajouter / Modifier Cours
                 </h3>
-                <button onclick="closeLessonModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
+                <button onclick="closeLessonModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
             <div class="space-y-2.5 text-left w-full max-w-full box-border pb-12 overflow-x-hidden">
                 <div class="w-full max-w-full box-border">
                     <label class="block text-[11px] font-semibold text-padel-muted mb-1">Nom du Coach</label>
-                    <select id="lesson-coach-select" onchange="handleCoachSelectChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta cursor-pointer truncate"><option value="">Sélectionner un coach...</option></select><button type="button" id="btn-remove-coach" onclick="removeSelectedCoach()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1">🗑 Retirer ce coach de la liste</button><input type="text" id="lesson-input-coach" style="display: none; margin-top: 6px;" placeholder="Nom du nouveau coach" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
+                    <select id="lesson-coach-select" onchange="handleCoachSelectChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta cursor-pointer truncate"><option value="">Sélectionner un coach...</option></select><button type="button" id="btn-remove-coach" onclick="removeSelectedCoach()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> <span>Retirer ce coach de la liste</span></button><input type="text" id="lesson-input-coach" style="display: none; margin-top: 6px;" placeholder="Nom du nouveau coach" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
                 </div>
                 <div class="w-full max-w-full box-border">
                     <label class="block text-[11px] font-semibold text-padel-muted mb-1">Lieu / Club</label>
-                    <select id="lesson-location-select" onchange="handleLessonLocationChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta cursor-pointer truncate"><option value="">Sélectionner un club...</option></select><button type="button" id="btn-remove-lesson-club" onclick="removeSelectedLessonClub()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1">🗑 Retirer ce club de la liste</button><input type="text" id="lesson-input-location" style="display: none; margin-top: 6px;" placeholder="Nom du nouveau club" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
+                    <select id="lesson-location-select" onchange="handleLessonLocationChange(this.value)" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none focus:border-padel-terracotta cursor-pointer truncate"><option value="">Sélectionner un club...</option></select><button type="button" id="btn-remove-lesson-club" onclick="removeSelectedLessonClub()" style="display: none;" class="text-[12px] text-rose-500 font-semibold mt-1"><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="inline-block pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> <span>Retirer ce club de la liste</span></button><input type="text" id="lesson-input-location" style="display: none; margin-top: 6px;" placeholder="Nom du nouveau club" class="w-full max-w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy placeholder:text-slate-400 focus:outline-none focus:border-padel-terracotta">
                 </div>
                 <div class="w-full max-w-full box-border">
                     <label class="block text-[11px] font-semibold text-padel-muted mb-1">Date</label>
@@ -866,8 +866,8 @@
     </div><div id="modal-backup" style="display: none;" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
     <div class="card-bg w-full max-w-[340px] rounded-3xl border border-padel-border p-4 space-y-3 shadow-2xl relative my-auto shrink-0">
         <div class="flex justify-between items-center border-b border-padel-border pb-2">
-            <h3 class="font-bold text-sm text-padel-navy">💾 Sauvegarde des données</h3>
-            <button onclick="closeBackupModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
+            <h3 class="font-extrabold text-base text-padel-navy flex items-center gap-2"><span class="icon-chip chip-court"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></span><span>Sauvegarde des données</span></h3>
+            <button onclick="closeBackupModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
         </div>
         <p class="text-[11px] text-padel-muted leading-snug">Pour sauvegarder : copie, puis colle le texte dans une note ou un mail à toi-même. Pour restaurer : colle ce texte dans la zone ci-dessous, puis appuie sur « Restaurer ».</p>
         <button type="button" onclick="copyBackup()" class="w-full bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-bold py-2.5 rounded-xl shadow-lg transition text-xs">Copier ma sauvegarde</button>
@@ -883,7 +883,7 @@
             <div class="w-10 h-1 rounded-full bg-padel-border mx-auto shrink-0"></div>
             <div class="flex justify-between items-center gap-2 shrink-0">
                 <h3 id="player-sheet-title" class="font-extrabold text-sm text-padel-navy truncate">-</h3>
-                <button onclick="closePlayerHistory()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs shrink-0">✕</button>
+                <button onclick="closePlayerHistory()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center  shrink-0" aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
             <div id="player-sheet-content" class="space-y-4 overflow-y-auto min-h-0"></div>
         </div>
@@ -894,7 +894,7 @@
             <div class="w-10 h-1 rounded-full bg-padel-border mx-auto shrink-0"></div>
             <div class="flex justify-between items-center gap-2 shrink-0">
                 <h3 id="day-sheet-title" class="font-extrabold text-sm text-padel-navy truncate">-</h3>
-                <button onclick="closeDayDetails()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs shrink-0">✕</button>
+                <button onclick="closeDayDetails()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center  shrink-0" aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
             <div id="day-sheet-content" class="space-y-2 overflow-y-auto min-h-0"></div>
             <div class="grid grid-cols-2 gap-2 shrink-0 pt-1">
@@ -905,39 +905,46 @@
     </div>
 
     <div id="modal-settings" style="display: none;" onclick="if(event.target===this)closeSettingsModal()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-end justify-center">
-        <div class="card-bg w-full max-w-[420px] rounded-t-3xl border border-padel-border p-4 pb-6 space-y-3 shadow-2xl">
+        <div class="card-bg w-full max-w-[420px] rounded-t-3xl border border-padel-border p-4 pb-7 space-y-3.5 shadow-2xl">
             <div class="w-10 h-1 rounded-full bg-padel-border mx-auto"></div>
             <div class="flex justify-between items-center">
-                <h3 class="font-extrabold text-sm text-padel-navy">⚙️ Réglages</h3>
-                <button onclick="closeSettingsModal()" class="w-6 h-6 rounded-full input-bg text-padel-muted flex items-center justify-center text-xs">✕</button>
+                <h3 class="font-extrabold text-xl text-padel-navy">Réglages</h3>
+                <button onclick="closeSettingsModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
             </div>
-            <button type="button" onclick="settingsOpenBackup()" class="w-full flex items-center gap-3 p-3 rounded-2xl border border-padel-terracotta/30 bg-padel-terracotta/10 text-left active:scale-[0.99] transition">
-                <span class="text-xl leading-none">💾</span>
-                <span class="flex-1 min-w-0">
-                    <span class="block text-xs font-bold text-padel-navy">Sauvegarde</span>
-                    <span id="settings-backup-info" class="block text-[11px] text-padel-muted truncate">Aucune sauvegarde pour le moment</span>
-                </span>
-                <span class="text-[11px] font-bold text-padel-terracotta shrink-0">Ouvrir ›</span>
-            </button>
-            <div class="flex items-center justify-between gap-2 p-3 rounded-2xl border border-padel-border input-bg">
-                <span class="text-xs font-bold text-padel-navy">🌐 Langue</span>
-                <div class="flex gap-1">
-                    <button type="button" id="set-lang-fr" onclick="setAppLanguage('fr')" class="px-3 py-1.5 rounded-full text-xs font-bold border border-padel-border input-bg text-padel-muted transition">Français</button>
-                    <button type="button" id="set-lang-nl" onclick="setAppLanguage('nl')" class="px-3 py-1.5 rounded-full text-xs font-bold border border-padel-border input-bg text-padel-muted transition">Nederlands</button>
+            <div class="rounded-2xl border border-padel-border input-bg overflow-hidden settings-group">
+                <button type="button" onclick="settingsOpenBackup()" class="settings-row w-full text-left active:opacity-70">
+                    <span class="icon-chip chip-terra"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></span>
+                    <span class="flex-1 min-w-0">
+                        <span class="block text-[14px] font-bold text-padel-navy">Sauvegarde</span>
+                        <span id="settings-backup-info" class="block text-[12px] text-padel-muted truncate">Aucune sauvegarde pour le moment</span>
+                    </span>
+                    <span class="text-padel-muted shrink-0"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="m9 18 6-6-6-6"/></svg></span>
+                </button>
+                <div class="settings-row">
+                    <span class="icon-chip chip-court"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></svg></span>
+                    <span class="flex-1 min-w-0 text-[14px] font-bold text-padel-navy">Langue</span>
+                    <div class="seg-group">
+                        <button type="button" id="set-lang-fr" onclick="setAppLanguage('fr')" class="seg-btn">Français</button>
+                        <button type="button" id="set-lang-nl" onclick="setAppLanguage('nl')" class="seg-btn">Nederlands</button>
+                    </div>
+                </div>
+                <div class="settings-row">
+                    <span class="icon-chip chip-court"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></span>
+                    <span class="flex-1 min-w-0 text-[14px] font-bold text-padel-navy">Thème</span>
+                    <div class="seg-group">
+                        <button type="button" id="set-theme-light" onclick="setThemeMode('light')" class="seg-btn">Clair</button>
+                        <button type="button" id="set-theme-dark" onclick="setThemeMode('dark')" class="seg-btn">Sombre</button>
+                        <button type="button" id="set-theme-auto" onclick="setThemeMode('auto')" class="seg-btn">Auto</button>
+                    </div>
                 </div>
             </div>
-            <div class="flex items-center justify-between gap-2 p-3 rounded-2xl border border-padel-border input-bg">
-                <span class="text-xs font-bold text-padel-navy">🌗 Thème</span>
-                <div class="flex gap-1">
-                    <button type="button" id="set-theme-light" onclick="setThemeMode('light')" class="px-3 py-1.5 rounded-full text-xs font-bold border border-padel-border input-bg text-padel-muted transition">Clair</button>
-                    <button type="button" id="set-theme-dark" onclick="setThemeMode('dark')" class="px-3 py-1.5 rounded-full text-xs font-bold border border-padel-border input-bg text-padel-muted transition">Sombre</button>
-                    <button type="button" id="set-theme-auto" onclick="setThemeMode('auto')" class="px-3 py-1.5 rounded-full text-xs font-bold border border-padel-border input-bg text-padel-muted transition">Auto</button>
-                </div>
+            <div class="rounded-2xl border border-padel-border input-bg overflow-hidden">
+                <button type="button" onclick="settingsOpenReset()" class="settings-row w-full text-left active:opacity-70">
+                    <span class="icon-chip chip-rose"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><path d="M10 11v6M14 11v6"/></svg></span>
+                    <span class="flex-1 text-[14px] font-bold text-rose-600 settings-danger">Réinitialiser l'application</span>
+                    <span class="text-padel-muted shrink-0"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="m9 18 6-6-6-6"/></svg></span>
+                </button>
             </div>
-            <button type="button" onclick="settingsOpenReset()" class="w-full flex items-center gap-3 p-3 rounded-2xl border border-rose-500/30 bg-rose-500/5 text-left active:scale-[0.99] transition">
-                <span class="text-xl leading-none">🗑</span>
-                <span class="flex-1 text-xs font-bold text-rose-500">Réinitialiser l'application</span>
-            </button>
             <p class="text-center text-[10px] text-padel-muted pt-1">PadelPulse v4.8 · Panda Atelier</p>
         </div>
     </div>
@@ -961,12 +968,12 @@
     <div id="modal-result-feedback" style="display: none;" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-3 overflow-y-auto overflow-x-hidden">
         <div id="feedback-card" class="card-bg w-full max-w-[320px] rounded-3xl p-5 space-y-3.5 shadow-2xl relative my-auto shrink-0 text-center border">
             <div id="feedback-icon-wrapper" class="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl shadow-lg transition-transform">
-                <span id="feedback-emoji">🏆</span>
+                <span id="feedback-emoji"></span>
             </div>
             <div class="space-y-1">
                 <span id="feedback-badge" class="text-[12px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full border">Victoire</span>
                 <h3 id="feedback-title" class="font-black text-base text-padel-navy pt-1">Super Match !</h3>
-                <p id="feedback-message" class="text-[11px] text-padel-muted leading-relaxed">Le travail paye sur le terrain ! 🔥</p>
+                <p id="feedback-message" class="text-[11px] text-padel-muted leading-relaxed">Le travail paye sur le terrain !</p>
             </div>
             <div class="input-bg p-2.5 rounded-2xl border border-padel-border space-y-1 text-xs">
                 <div class="flex justify-between items-center text-padel-navy font-bold">
@@ -975,7 +982,7 @@
                 </div>
                 <div class="text-[12px] text-padel-muted text-left truncate" id="feedback-opponents-text">vs Adversaires</div>
             </div>
-            <button type="button" onclick="closeResultFeedbackModal()" class="w-full bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-extrabold py-2.5 rounded-xl shadow-lg transition text-xs mt-1">Continuer 🎾</button>
+            <button type="button" onclick="closeResultFeedbackModal()" class="w-full bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-extrabold py-2.5 rounded-xl shadow-lg transition text-xs mt-1">Continuer</button>
         </div>
     </div>
 

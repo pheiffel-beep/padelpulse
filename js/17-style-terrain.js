@@ -156,3 +156,100 @@ window.updateStats = updateStats;
 window.renderWeeklySchedule = renderWeeklySchedule;
 window.renderMonthlySchedule = renderMonthlySchedule;
 window.renderRecentMatchRow = renderRecentMatchRow;
+
+// ===== v4.8 (suite) : toutes les pages =====
+function ppSvg(paths, size, sw) {
+    return '<svg aria-hidden="true" width="' + (size || 14) + '" height="' + (size || 14) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (sw || 2.2) + '" stroke-linecap="round" stroke-linejoin="round" class="inline-block shrink-0 pointer-events-none">' + paths + '</svg>';
+}
+const ICON = {
+    trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+    ball: '<circle cx="12" cy="12" r="10"/><path d="M5.6 5.6c3.3 3.3 3.3 9.5 0 12.8M18.4 5.6c-3.3 3.3-3.3 9.5 0 12.8"/>',
+    pin: '<path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+    pos: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 12h16M12 3v18"/>',
+    cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    quote: '<path d="M3 21c3 0 7-1 7-8V5c0-1.25-.76-2-2-2H4c-1.25 0-2 .75-2 1.97V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .01-1 1.03V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.76-2-2-2h-4c-1.25 0-2 .75-2 1.97V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>',
+    bolt: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+    thumb: '<path d="M7 10v12M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>',
+    meh: '<circle cx="12" cy="12" r="10"/><path d="M8 15h8M9 9h.01M15 9h.01"/>',
+    battery: '<rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2M6 11v2"/>',
+    pencil: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
+    trash: '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>',
+    handshake: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3M3 4h8"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    cap: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
+    moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>'
+};
+window.ppSvg = ppSvg; window.PP_ICON = ICON;
+
+// Réglages : sélecteurs à onglets
+markChoice = function(id, active) {
+    const el = document.getElementById(id);
+    if (el) el.className = 'seg-btn' + (active ? ' is-active' : '');
+};
+
+// Filtres de l'onglet Matchs
+const _prevSetMatchTypeFilterMatches = setMatchTypeFilter;
+setMatchTypeFilter = function(type) {
+    _prevSetMatchTypeFilterMatches(type);
+    ['all', 'amical', 'competition'].forEach(function(t) {
+        const btn = document.getElementById('filter-type-' + t + '-matches');
+        if (btn) btn.className = 'seg-btn w-full' + (t === type ? ' is-active' : '');
+    });
+};
+window.setMatchTypeFilter = setMatchTypeFilter;
+
+// Ressenti : texte sans émoji + petite icône
+function feelingParts(f) {
+    const txt = (f || 'En forme').replace(/^[^A-Za-zÀ-ÿ]+/, '').trim();
+    const icon = /forme/i.test(txt) ? ICON.bolt : /normal/i.test(txt) ? ICON.thumb : /moyen/i.test(txt) ? ICON.meh : ICON.battery;
+    return { txt: txt, icon: icon };
+}
+
+// Carte de match (onglet Matchs et fiche du jour)
+renderMatchCard = function(m) {
+    const isComp = m.type === 'competition';
+    const typeChip = '<span class="meta-chip' + (isComp ? ' is-comp' : '') + '">' + ppSvg(isComp ? ICON.trophy : ICON.ball, 12) + '<span>' + (isComp ? 'Compétition' : 'Amical') + '</span></span>';
+    const posChip = '<span class="meta-chip">' + ppSvg(ICON.pos, 12) + '<span>Pos: ' + (m.courtPosition || 'Droite') + '</span></span>';
+    const locChip = m.location ? '<span class="meta-chip">' + ppSvg(ICON.pin, 12) + '<span>' + m.location + '</span></span>' : '';
+    const fe = feelingParts(m.feeling);
+    return '' +
+    '<div class="card-bg p-3.5 rounded-2xl border border-padel-border space-y-2.5 relative">' +
+        '<div class="flex items-center gap-3">' +
+            '<span class="res-square ' + resultClass(m) + '">' + resultLetter(m) + '</span>' +
+            '<div class="min-w-0 flex-1">' +
+                '<p class="text-[14px] font-extrabold text-padel-navy truncate">avec ' + (m.partner || '-') + '</p>' +
+                '<p class="text-[12px] text-padel-muted truncate">vs ' + (m.opponents || '-') + '</p>' +
+            '</div>' +
+            '<div class="text-right shrink-0 max-w-[42%]">' +
+                '<span class="font-num text-[22px] font-bold text-padel-navy block leading-none">' + (m.score || '') + '</span>' +
+                '<span class="text-[11px] text-padel-muted block mt-1 leading-tight">' + (m.format || '') + '</span>' +
+            '</div>' +
+        '</div>' +
+        '<div class="flex items-center gap-1.5 flex-wrap">' +
+            '<span class="meta-chip">' + ppSvg(ICON.cal, 12) + '<span>' + (m.date || '') + '</span></span>' +
+            typeChip + posChip + locChip +
+        '</div>' +
+        (m.comments ? '<div class="input-bg px-3 py-2 rounded-xl border border-padel-border text-[12px] text-padel-navy italic flex gap-2"><span class="text-padel-muted pt-0.5">' + ppSvg(ICON.quote, 12) + '</span><span class="min-w-0">' + m.comments + '</span></div>' : '') +
+        '<div class="flex items-center justify-between gap-2 border-t border-padel-border pt-2">' +
+            '<span class="flex items-center gap-1.5 text-[12px] font-semibold text-padel-muted min-w-0">' + ppSvg(fe.icon, 13) + '<span>' + fe.txt + '</span></span>' +
+            '<div class="flex items-center gap-0.5 shrink-0">' +
+                '<button onclick="openEditMatchModal(' + m.id + ')" title="Modifier" aria-label="Modifier" class="icon-btn">' + ppSvg(ICON.pencil, 16) + '</button>' +
+                '<button onclick="deleteMatch(' + m.id + ')" title="Supprimer" aria-label="Supprimer" class="icon-btn">' + ppSvg(ICON.trash, 16) + '</button>' +
+            '</div>' +
+        '</div>' +
+        ((m.tags || []).length ? '<div class="flex gap-1 flex-wrap">' + m.tags.map(function(t) { return '<span class="meta-chip">' + t + '</span>'; }).join('') + '</div>' : '') +
+    '</div>';
+};
+window.renderMatchCard = renderMatchCard;
+
+// Fenêtre après un match : icône au lieu de l'émoji
+const _prevShowResultFeedbackStyle = showResultFeedback;
+showResultFeedback = function(match) {
+    _prevShowResultFeedbackStyle(match);
+    const em = document.getElementById('feedback-emoji');
+    const icon = match && match.result === 'VICTOIRE' ? ICON.trophy : (match && match.result === 'DÉFAITE' ? ICON.target : ICON.handshake);
+    if (em) em.innerHTML = ppSvg(icon, 30, 2);
+    const msg = document.getElementById('feedback-message');
+    if (msg) msg.innerText = msg.innerText.replace(/\s*[☀-➿\uD83C-􏰀-\uDFFF️]+\s*$/, '');
+};
+window.showResultFeedback = showResultFeedback;

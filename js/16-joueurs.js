@@ -92,23 +92,17 @@ function sortByDateDesc(list) {
 }
 
 function playerMatchRow(m, asPartner) {
-    let badge = 'bg-slate-500 text-white border-slate-500';
-    if (m.result === 'VICTOIRE') badge = 'bg-emerald-600 text-white border-emerald-600';
-    if (m.result === 'DÉFAITE') badge = 'bg-rose-600 text-white border-rose-600';
     const day = matchDayStr(m);
     const label = asPartner ? 'vs ' + (m.opponents || '-') : 'avec ' + (m.partner || '-');
     return `
         <button type="button" onclick="openDayDetails('${day}')" class="w-full input-bg p-2.5 rounded-xl border border-padel-border text-left active:scale-[0.99] transition">
-            <div class="flex items-center gap-2">
-                <span class="text-[10px] font-bold ${badge} px-1.5 py-0.5 rounded-full border shrink-0">${m.result}</span>
-                <span class="text-[11px] text-padel-muted shrink-0">${day}</span>
-                <span class="flex-1"></span>
-                <span class="text-xs font-black text-padel-terracotta shrink-0">${m.score}</span>
-                <span class="text-padel-muted text-sm shrink-0">›</span>
-            </div>
-            <div class="flex items-center gap-2 mt-1">
-                <span class="text-[12px] text-padel-navy font-semibold truncate flex-1 min-w-0">${label}</span>
-                ${m.location ? `<span class="text-[11px] text-padel-muted truncate max-w-[40%]">📍 ${m.location}</span>` : ''}
+            <div class="flex items-center gap-2.5">
+                <span class="res-square ${resultClass(m)}" style="width:30px;height:30px;border-radius:10px;font-size:16px">${resultLetter(m)}</span>
+                <span class="flex flex-col min-w-0 flex-1">
+                    <span class="text-[12px] text-padel-navy font-bold truncate">${label}</span>
+                    <span class="text-[11px] text-padel-muted truncate">${day}${m.location ? ' · ' + m.location : ''}</span>
+                </span>
+                <span class="font-num text-[18px] font-bold text-padel-navy shrink-0">${m.score}</span>
             </div>
         </button>`;
 }
@@ -138,7 +132,7 @@ function renderPlayerHistory() {
     if (!withList.length && !againstList.length) {
         box.innerHTML = `<p class="text-xs text-padel-muted text-center py-5">Aucun match enregistré</p>`;
     } else {
-        box.innerHTML = playerSection('🤝 Ensemble', withList, true) + playerSection('⚔️ Contre', againstList, false);
+        box.innerHTML = playerSection('Ensemble', withList, true) + playerSection('Contre', againstList, false);
     }
 }
 

@@ -40,7 +40,7 @@ function renderDayLessonCard(l) {
     return `
         <div class="input-bg p-3 rounded-2xl border border-padel-border space-y-1.5">
             <div class="flex justify-between items-start gap-2">
-                <span class="text-[12px] font-bold text-padel-terracotta bg-padel-terracotta/10 px-2 py-0.5 rounded border border-padel-terracotta/20">🎓 Cours</span>
+                <span class="meta-chip is-comp">${ppSvg(PP_ICON.cap, 12)}<span>Cours</span></span>
                 <button onclick="openEditLessonModal(${l.id})" title="Modifier" class="text-padel-muted hover:text-padel-terracotta text-xs p-0.5"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button>
             </div>
             <p class="text-[12px] text-padel-muted">${l.coach || ''}${l.location ? ' • ' + l.location : ''}</p>
@@ -58,7 +58,7 @@ function renderDaySheet() {
     if (dayMatches.length === 0 && dayLessons.length === 0) {
         box.innerHTML = `
             <div class="text-center py-5 space-y-1">
-                <div class="text-2xl">💤</div>
+                <div class="text-padel-muted flex justify-center">${ppSvg(PP_ICON.moon, 26, 2)}</div>
                 <p class="text-xs font-bold text-padel-muted">Rien ce jour-là</p>
             </div>`;
     } else {

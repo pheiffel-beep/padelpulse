@@ -130,3 +130,33 @@ nav.tab-nav { padding-left: 6px !important; padding-right: 6px !important; }
 .tab-btn.text-padel-terracotta { background: #1B4F8C; color: #FFFFFF !important; }
 body.dark .text-padel-court { color: #8DB8EE !important; }
 body.dark .tab-btn.text-padel-terracotta { color: #FFFFFF !important; }
+
+/* ===== v4.8 (suite) : toutes les pages ===== */
+.seg-group { display: flex; gap: 2px; padding: 3px; border-radius: 12px; background: #E3EAF3; flex-shrink: 0; }
+body.dark .seg-group { background: #0B1626; }
+.seg-group .seg-btn { padding: 6px 10px; }
+.settings-row { display: flex; align-items: center; gap: 12px; padding: 12px 12px; box-sizing: border-box; }
+.settings-group > * + * { border-top: 1px solid #D9E3EE; }
+body.dark .settings-group > * + * { border-top-color: #22385A; }
+.chip-rose { background: #FDE4E2; color: #B42318; }
+body.dark .chip-rose { background: #3B1D22; color: #F7A29A; }
+body.dark .settings-danger { color: #F7A29A !important; }
+
+/* Boutons choisis (type de partie, format de jeu) : bleu terrain */
+.type-btn, .fmt-btn { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.type-btn.active, .fmt-btn.active { background-color: rgba(27, 79, 140, 0.10) !important; border-color: #1B4F8C !important; color: #1B4F8C !important; font-weight: 800 !important; }
+body.dark .type-btn.active, body.dark .fmt-btn.active { background-color: rgba(91, 149, 219, 0.16) !important; border-color: #5B95DB !important; color: #B5D2F5 !important; }
+
+/* Carte de match */
+.meta-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #EEF3F8; color: #52637A; border: 1px solid #D9E3EE; white-space: nowrap; }
+body.dark .meta-chip { background: #0F1E33; color: #9DB0C8; border-color: #22385A; }
+.meta-chip.is-comp { background: #E3ECF7; color: #1B4F8C; border-color: #C5D7EE; }
+body.dark .meta-chip.is-comp { background: #1C3556; color: #B5D2F5; border-color: #2A4A75; }
+.icon-btn { width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; color: #52637A; }
+body.dark .icon-btn { color: #9DB0C8; }
+.icon-btn:active { background: rgba(27, 79, 140, 0.1); }
+/* Titres de sections : plus grands, sans majuscules forcées */
+#main-content h2.uppercase { font-size: 15px !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: 0 !important; color: #0F2340 !important; }
+body.dark #main-content h2.uppercase { color: #EAF1FA !important; }
+#main-content h2.uppercase svg { width: 16px !important; height: 16px !important; color: #1B4F8C !important; }
+body.dark #main-content h2.uppercase svg { color: #8DB8EE !important; }
