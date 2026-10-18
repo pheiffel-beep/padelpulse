@@ -29,13 +29,13 @@
     // ---------- Dictionnaire français → néerlandais ----------
     const NL = {
         // En-tête et navigation
-        'PadelPulse - Carnet & Stats Padel (v2.3 - Ultra Clean)': 'PadelPulse - Padellogboek & statistieken',
-        'MON CARNET PADEL': 'MIJN PADELLOGBOEK',
+        'PadelPulse - Carnet & Stats Padel (v2.3 - Ultra Clean)': 'PadelPulse - Padelboek & statistieken',
+        'MON CARNET PADEL': 'MIJN PADELBOEK',
         'Changer de thème': 'Thema wijzigen',
         'Sauvegarde': 'Back-up',
-        'Réinitialiser': 'Alles wissen',
+        'Réinitialiser': 'Resetten',
         '+ Match': '+ Match',
-        'Accueil': 'Overzicht',
+        'Accueil': 'Home',
         'Matchs': 'Matchen',
         'Cours': 'Lessen',
         'Matériel': 'Materiaal',
@@ -54,14 +54,14 @@
 
         // Tableau de bord
         'Période :': 'Periode:',
-        "Tout l'historique": 'Volledige geschiedenis',
+        "Tout l'historique": 'Volledige historiek',
         'Ce mois-ci': 'Deze maand',
         'Année en cours': 'Dit jaar',
         'Année précédente': 'Vorig jaar',
         'MATCHS': 'MATCHEN',
-        'VICTOIRES': 'ZEGES',
+        'VICTOIRES': 'OVERWINNINGEN',
         'FORME MOY.': 'GEM. VORM',
-        "Rythme d'Activité": 'Activiteitsritme',
+        "Rythme d'Activité": 'Activiteit',
         '📆 Semaine': '📆 Week',
         '📅 Mois': '📅 Maand',
         'Semaine en cours': 'Deze week',
@@ -69,11 +69,11 @@
         'Repos': 'Rust',
         'Récapitulatif & Fréquentation': 'Samenvatting & frequentie',
         'Tendances': 'Trends',
-        'Club le + Joué': 'Meest bespeelde club',
+        'Club le + Joué': 'Favoriete club',
         'Coéquipier Favori': 'Favoriete partner',
         'Aucun club': 'Geen club',
         'Aucun': 'Geen',
-        'Bilan Joueurs & Ratios': 'Spelersbalans & ratio’s',
+        'Bilan Joueurs & Ratios': 'Spelersoverzicht',
         'Rechercher nom ou niveau...': 'Zoek naam of niveau...',
         'Tous': 'Alle',
         '🔍 Tous': '🔍 Alle',
@@ -107,13 +107,13 @@
         // Humeur, tags
         '⚡ En forme': '⚡ In vorm',
         '👍 Normal': '👍 Normaal',
-        '😐 Moyen': '😐 Matig',
+        '😐 Moyen': '😐 Gemiddeld',
         '🔋 Fatigué': '🔋 Moe',
         'Construction': 'Opbouw',
         'Pression imposée': 'Druk gezet',
         'Subi / Mis en difficulté': 'Onder druk gestaan',
         'Super cohésion': 'Topsamenwerking',
-        'Manque de repères binôme': 'Gebrek aan afstemming',
+        'Manque de repères binôme': 'Onvoldoende samenspel',
         'Point gagnant': 'Winnend punt',
         'Faute directe': 'Onnodige fout',
         'Match serré / âpre': 'Spannende / harde match',
@@ -185,7 +185,7 @@
         '🗑 Retirer ce joueur des listes': '🗑 Speler uit de lijsten verwijderen',
 
         // Cours
-        'Carnet de Cours Privés': 'Logboek privélessen',
+        'Carnet de Cours Privés': 'Cursusboek',
         '+ Cours': '+ Les',
         'Aucun cours privé enregistré': 'Nog geen privélessen opgeslagen',
         'Ajouter / Modifier Cours': 'Les toevoegen / bewerken',
@@ -252,7 +252,7 @@
         'Valider les chaussures': 'Schoenen opslaan',
 
         // Réinitialisation
-        "Réinitialiser l'application ?": 'App volledig wissen?',
+        "Réinitialiser l'application ?": 'App resetten?',
         'Effacera tous les matchs et données matérielles.': 'Alle matchen en materiaalgegevens worden gewist.',
         'Tout effacer': 'Alles wissen',
 
@@ -265,7 +265,7 @@
         'Sombre': 'Donker',
         'Auto': 'Auto',
         'Ouvrir ›': 'Openen ›',
-        "Réinitialiser l'application": 'App volledig wissen',
+        "Réinitialiser l'application": 'App resetten',
         'Aucune sauvegarde pour le moment': 'Nog geen back-up gemaakt',
         "Dernière sauvegarde : aujourd'hui": 'Laatste back-up: vandaag',
         'Dernière sauvegarde : hier': 'Laatste back-up: gisteren',
