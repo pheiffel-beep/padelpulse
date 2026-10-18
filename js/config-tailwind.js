@@ -5,16 +5,18 @@
                 extend: {
                     colors: {
                         padel: {
-                            bgLight: '#F8FAFC',
+                            bgLight: '#EEF3F8',
                             cardLight: '#FFFFFF',
-                            borderLight: '#E2E8F0',
-                            bgDark: '#0B0D12',
-                            cardDark: '#161922',
-                            borderDark: '#2A2F3D',
-                            terracotta: '#D97757',
-                            terracottaHover: '#C26545',
-                            navy: '#1E293B',
-                            muted: '#64748B'
+                            borderLight: '#D9E3EE',
+                            bgDark: '#0B1626',
+                            cardDark: '#13233A',
+                            borderDark: '#22385A',
+                            terracotta: '#C4552F',
+                            terracottaHover: '#A9472A',
+                            navy: '#0F2340',
+                            muted: '#52637A',
+                            court: '#1B4F8C',
+                            courtLight: '#E3ECF7'
                         }
                     }
                 }

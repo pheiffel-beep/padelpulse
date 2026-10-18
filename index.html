@@ -28,18 +28,18 @@
 
     <header class="nav-bg border-b border-padel-border px-3 pb-3 sticky top-0 z-40 flex justify-between items-center shrink-0 box-border shadow-sm">
         <div class="flex items-center gap-2 min-w-0">
-            <div class="w-9 h-9 bg-gradient-to-tr from-padel-terracotta to-amber-600 rounded-2xl flex items-center justify-center font-black text-white text-lg shadow-md shadow-padel-terracotta/20 shrink-0">
+            <div class="w-10 h-10 bg-padel-terracotta rounded-[13px] flex items-center justify-center font-num font-extrabold text-white text-[24px] shrink-0">
                 P
             </div>
             <div class="min-w-0">
-                <h1 class="text-base font-extrabold tracking-tight text-padel-navy leading-none truncate">PadelPulse</h1>
-                <span class="text-[9px] text-padel-terracotta font-bold tracking-wide uppercase truncate block">MON CARNET PADEL</span>
+                <h1 class="text-[17px] font-extrabold tracking-tight text-padel-navy leading-none truncate">PadelPulse</h1>
+                <span class="text-[9px] text-padel-court font-extrabold tracking-[0.1em] uppercase truncate block">MON CARNET PADEL</span>
             </div>
         </div>
 
         <div class="flex items-center gap-1.5 shrink-0">
-            <button onclick="openSettingsModal()" id="settings-btn" title="Réglages" aria-label="Réglages" class="w-8 h-8 rounded-full input-bg hover:opacity-80 text-padel-navy flex items-center justify-center border border-padel-border transition active:scale-95 text-sm shadow-xs">⚙️</button>
-            <button onclick="openMatchModal()" class="bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-bold px-2.5 py-1.5 rounded-full flex items-center gap-1 text-[12px] shadow-md shadow-padel-terracotta/20 active:scale-95 transition">
+            <button onclick="openSettingsModal()" id="settings-btn" title="Réglages" aria-label="Réglages" class="w-9 h-9 rounded-full card-bg hover:opacity-80 text-padel-muted flex items-center justify-center border border-padel-border transition active:scale-95 text-sm shadow-xs"><svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
+            <button onclick="openMatchModal()" class="bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-extrabold px-3.5 py-2 rounded-full flex items-center gap-1 text-[13px] shadow-md shadow-padel-terracotta/20 active:scale-95 transition">
                 
                 <span>+ Match</span>
             </button>
@@ -57,62 +57,55 @@
                 <button type="button" onclick="backupReminderOpen()" class="text-[11px] font-bold bg-padel-terracotta text-white px-2.5 py-1 rounded-full shrink-0">Sauvegarder</button>
             </div>
 
-            <div class="grid grid-cols-3 gap-1 card-bg p-1 rounded-2xl border border-padel-border box-border shadow-sm">
-                <button onclick="setMatchTypeFilter('all')" id="filter-type-all" class="py-1.5 px-2 rounded-xl text-[11px] font-bold bg-padel-terracotta/15 text-padel-terracotta border border-padel-terracotta/30 transition text-center truncate">🔍 Tous</button>
-                <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🎾 Amicaux</button>
-                <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition" class="py-1.5 px-2 rounded-xl text-[11px] font-medium text-padel-muted hover:text-padel-navy transition text-center truncate">🏆 Compétitions</button>
-            </div>
-
-            <div class="flex justify-between items-center card-bg p-2 rounded-2xl border border-padel-border box-border shadow-sm">
-                    <span class="text-[11px] font-bold text-padel-navy flex items-center gap-1.5 pl-1">
-                        <i data-lucide="calendar" class="w-3.5 h-3.5 text-padel-terracotta"></i> Période :
-                    </span>
-                <select id="time-period-select" onchange="setTimePeriodFilter(this.value)" class="input-bg border border-padel-border text-padel-terracotta font-bold text-xs rounded-xl px-2.5 py-1 focus:outline-none focus:border-padel-terracotta transition cursor-pointer">
-                    <option value="all">Tout l'historique</option>
-                    <option value="this_month">Ce mois-ci</option>
-                    <option value="this_year">Année en cours</option>
-                    <option value="prev_year">Année précédente</option>
-                </select>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2.5">
-                <div class="card-bg py-3 px-1.5 rounded-2xl border border-padel-border text-center relative overflow-hidden shadow-sm">
-                    <span class="stat-label text-[11px] font-semibold tracking-tight whitespace-nowrap text-padel-muted block mb-0.5">MATCHS</span>
-                    <span class="text-xl font-extrabold text-padel-navy" id="stat-total-matches">0</span>
+            <section id="hero-stats" class="hero-court relative overflow-hidden rounded-3xl px-4 py-4 space-y-3 box-border">
+                <svg aria-hidden="true" class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 360 230" preserveAspectRatio="none" fill="none" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="2"><rect x="10" y="10" width="340" height="210" rx="4"></rect><path d="M180 10v210M70 10v210M290 10v210M70 115h220"></path></svg>
+                <div class="relative flex gap-1 p-[3px] rounded-2xl bg-white/15 w-max max-w-full overflow-x-auto">
+                    <button onclick="setMatchTypeFilter('all')" id="filter-type-all" class="hero-filter is-active">Tous</button>
+                    <button onclick="setMatchTypeFilter('amical')" id="filter-type-amical" class="hero-filter">Amicaux</button>
+                    <button onclick="setMatchTypeFilter('competition')" id="filter-type-competition" class="hero-filter">Compétitions</button>
                 </div>
-                <div class="card-bg py-3 px-1.5 rounded-2xl border border-padel-border text-center relative overflow-hidden shadow-sm">
-                    <span class="stat-label text-[11px] font-semibold tracking-tight whitespace-nowrap text-padel-muted block mb-0.5">VICTOIRES</span>
-                    <span class="text-xl font-extrabold text-padel-terracotta" id="stat-win-rate">0%</span>
+                <div class="relative">
+                    <select id="time-period-select" onchange="setTimePeriodFilter(this.value)" aria-label="Période" class="hero-select">
+                        <option value="all">Tout l'historique</option>
+                        <option value="this_month">Ce mois-ci</option>
+                        <option value="this_year">Année en cours</option>
+                        <option value="prev_year">Année précédente</option>
+                    </select>
                 </div>
-                <div class="card-bg py-3 px-1.5 rounded-2xl border border-padel-border text-center relative overflow-hidden shadow-sm">
-                    <span class="stat-label text-[11px] font-semibold tracking-tight whitespace-nowrap text-padel-muted block mb-0.5">FORME MOY.</span>
-                    <span class="text-xl font-extrabold text-amber-600" id="stat-avg-feeling">-<span class="text-xs text-padel-muted font-normal">/5</span></span>
+                <div class="relative grid grid-cols-3 gap-2">
+                    <div class="flex flex-col min-w-0">
+                        <span class="stat-label text-[11px] font-bold whitespace-nowrap">MATCHS</span>
+                        <span id="stat-total-matches">0</span>
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                        <span class="stat-label text-[11px] font-bold whitespace-nowrap">VICTOIRES</span>
+                        <span id="stat-win-rate">0%</span>
+                    </div>
+                    <div class="flex flex-col min-w-0">
+                        <span class="stat-label text-[11px] font-bold whitespace-nowrap">FORME MOY.</span>
+                        <span id="stat-avg-feeling">-<span>/5</span></span>
+                    </div>
                 </div>
-            </div>
+                <div id="hero-form" class="relative flex items-center gap-2" style="display: none;"></div>
+            </section>
 
             <div class="card-bg p-3.5 rounded-2xl border border-padel-border space-y-2.5 box-border shadow-sm">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-xs font-bold text-padel-navy uppercase tracking-wider flex items-center gap-1.5">
-                        <i data-lucide="activity" class="w-3.5 h-3.5 text-padel-terracotta"></i> <span id="rhythm-section-title">Rythme d'Activité</span>
-                    </h2>
-
-                    <div class="flex items-center gap-1 input-bg p-1 rounded-xl border border-padel-border">
-                        <button onclick="setRhythmViewMode('week')" id="btn-rhythm-week" class="px-2 py-0.5 rounded-lg text-[12px] font-bold card-bg text-padel-terracotta shadow-xs transition">📆 Semaine</button>
-                        <button onclick="setRhythmViewMode('month')" id="btn-rhythm-month" class="px-2 py-0.5 rounded-lg text-[12px] font-medium text-padel-muted hover:text-padel-navy transition">📅 Mois</button>
+                <div class="flex justify-between items-center gap-2">
+                    <h2 class="text-[15px] font-extrabold text-padel-navy" id="rhythm-section-title">Cette semaine</h2>
+                    <div class="flex items-center gap-0.5 input-bg p-[3px] rounded-xl border border-padel-border">
+                        <button onclick="setRhythmViewMode('week')" id="btn-rhythm-week" class="seg-btn is-active">Semaine</button>
+                        <button onclick="setRhythmViewMode('month')" id="btn-rhythm-month" class="seg-btn">Mois</button>
                     </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-3 text-[11px] font-semibold text-padel-muted">
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-padel-terracotta"></span>Match</span>
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-padel-court"></span>Cours</span>
+                    </div>
+                    <span class="text-[12px] input-bg text-padel-muted px-2 py-0.5 rounded-full font-semibold border border-padel-border" id="weekly-session-count">0 Séance</span>
                 </div>
 
                 <div id="wrapper-weekly-view" class="space-y-2.5">
-                    <div class="flex justify-between items-center">
-                        <span class="text-[11px] text-padel-muted font-medium">Semaine en cours</span>
-                        <span class="text-[12px] input-bg text-padel-muted px-2 py-0.5 rounded-full font-medium border border-padel-border" id="weekly-session-count">0 Séance</span>
-                    </div>
-
-                    <div class="flex items-center justify-around text-[11px] text-padel-muted px-2 py-1 input-bg rounded-lg border border-padel-border">
-                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-padel-terracotta flex items-center justify-center text-[7px] text-white font-black">●</span> Match</span>
-                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 flex items-center justify-center text-[7px] text-white font-black">●</span> Cours</span>
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-slate-300"></span> Repos</span>
-                    </div>
 
                     <div class="grid grid-cols-7 gap-1 text-center" id="weekly-grid"></div>
                 </div>
@@ -945,7 +938,7 @@
                 <span class="text-xl leading-none">🗑</span>
                 <span class="flex-1 text-xs font-bold text-rose-500">Réinitialiser l'application</span>
             </button>
-            <p class="text-center text-[10px] text-padel-muted pt-1">PadelPulse v4.7 · Panda Atelier</p>
+            <p class="text-center text-[10px] text-padel-muted pt-1">PadelPulse v4.8 · Panda Atelier</p>
         </div>
     </div>
 
@@ -1006,6 +999,7 @@
 <script src="js/14-jour-calendrier.js"></script>
 <script src="js/15-accueil-compact.js"></script>
 <script src="js/16-joueurs.js"></script>
+    <script src="js/17-style-terrain.js"></script>
 <script src="js/99-demarrage.js"></script>
 </body>
 </html>
