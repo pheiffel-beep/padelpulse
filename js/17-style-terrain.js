@@ -253,3 +253,45 @@ showResultFeedback = function(match) {
     if (msg) msg.innerText = msg.innerText.replace(/\s*[☀-➿\uD83C-􏰀-\uDFFF️]+\s*$/, '');
 };
 window.showResultFeedback = showResultFeedback;
+
+// ===== Surgrips : archiver + compteur du mois et de l'année =====
+function archiveCurrentSurgrip() {
+    if (currentSurgrip.name && currentSurgrip.name !== 'Aucun surgrip enregistré') {
+        surgripsHistory.unshift({ name: currentSurgrip.name, date: 'Posé le ' + currentSurgrip.date, matches: currentSurgripMatchCount + ' matchs' });
+        currentSurgrip = { name: 'Aucun surgrip enregistré', date: '-' };
+        currentSurgripMatchCount = 0;
+        saveAllData(); renderSurgrips(); renderMatches();
+    }
+}
+
+function surgripDateOf(text) {
+    const s = String(text || '');
+    let m = s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
+    m = s.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+    if (/aujourd/i.test(s)) return new Date();
+    return null;
+}
+
+function renderSurgripUsage() {
+    const el = document.getElementById('surgrip-usage');
+    if (!el) return;
+    const dates = surgripsHistory.map(function(h) { return surgripDateOf(h.date); });
+    if (currentSurgrip.name && currentSurgrip.name !== 'Aucun surgrip enregistré') dates.push(surgripDateOf(currentSurgrip.date));
+    const now = new Date();
+    let month = 0, year = 0;
+    dates.forEach(function(d) {
+        if (!d || d.getFullYear() !== now.getFullYear()) return;
+        year++;
+        if (d.getMonth() === now.getMonth()) month++;
+    });
+    if (!dates.length) { el.style.display = 'none'; return; }
+    el.textContent = PP_NL() ? (month + ' deze maand · ' + year + ' dit jaar') : (month + ' ce mois-ci · ' + year + ' cette année');
+    el.style.display = '';
+}
+
+const _prevRenderSurgripsUsage = renderSurgrips;
+renderSurgrips = function() { _prevRenderSurgripsUsage(); renderSurgripUsage(); };
+window.renderSurgrips = renderSurgrips;
+window.archiveCurrentSurgrip = archiveCurrentSurgrip;

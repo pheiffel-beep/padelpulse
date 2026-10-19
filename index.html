@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr" class="dark notranslate" translate="no">
 <head>
     <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>PadelPulse - Carnet & Stats Padel (v2.3 - Ultra Clean)</title>
     <!-- Support PWA iOS & Android -->
@@ -305,6 +306,7 @@
                         <span>+ Surgrip</span>
                     </button>
                 </div>
+                <p id="surgrip-usage" class="text-[12px] font-semibold text-padel-muted -mt-1" style="display:none"></p>
 
                 <div class="input-bg p-3 rounded-xl border border-padel-border space-y-1 box-border">
                     <div class="flex justify-between items-start gap-2">
@@ -315,6 +317,7 @@
                         <div class="flex items-center gap-1 shrink-0">
                             <button onclick="openEditSurgripModal('current')" title="Modifier" class="icon-btn gear-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button>
                             <button onclick="deleteSurgrip('current')" title="Supprimer" class="icon-btn gear-btn"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle pointer-events-none"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
+                            <button onclick="archiveCurrentSurgrip()" title="Archiver" aria-label="Archiver" class="icon-btn gear-btn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></button>
                         </div>
                     </div>
                     <div class="flex items-center justify-between gap-2 pt-1"><p class="text-[12px] text-padel-muted whitespace-nowrap">Posé le <span id="current-surgrip-date">-</span></p><span class="text-[12px] text-padel-terracotta font-bold bg-padel-terracotta/10 px-2 py-0.5 rounded-md border border-padel-terracotta/20" id="current-surgrip-matches" style="white-space:nowrap">0 match joué</span></div>
