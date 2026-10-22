@@ -190,3 +190,12 @@ body.dark .pp-warn { color: #FDBA74; background: #3A2410; border-color: #7C3A12;
 .pp-switch:checked::after { left: 21px; border: none; transform: none; width: 20px; height: 20px; top: 3px; }
 body.dark input.pp-switch { background: #334155; width: 44px; height: 26px; border-radius: 13px; }
 body.dark input.pp-switch:checked { background: #EA580C !important; }
+
+/* Tags tactiques en pastilles */
+#tag-dropdown-menu.pp-chips { display: flex !important; flex-wrap: wrap; gap: 6px; position: static; }
+.pp-chip { display: inline-flex; align-items: center; padding: 7px 11px; border-radius: 999px; font-size: 12px; font-weight: 600; cursor: pointer; user-select: none; -webkit-user-select: none;
+  background: #F4F7FB; color: #52637A; border: 1px solid #D9E3EE; min-height: 34px; box-sizing: border-box; }
+.pp-chip input { display: none; }
+.pp-chip.is-on { background: rgba(27, 79, 140, 0.10); color: #1B4F8C; border-color: #1B4F8C; font-weight: 800; }
+body.dark .pp-chip { background: #0F1E33; color: #9DB0C8; border-color: #22385A; }
+body.dark .pp-chip.is-on { background: rgba(91, 149, 219, 0.16); color: #B5D2F5; border-color: #5B95DB; }

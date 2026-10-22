@@ -870,10 +870,18 @@
             <h3 class="font-extrabold text-base text-padel-navy flex items-center gap-2"><span class="icon-chip chip-court"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></span><span>Sauvegarde des données</span></h3>
             <button onclick="closeBackupModal()" class="w-9 h-9 shrink-0 rounded-full input-bg text-padel-muted flex items-center justify-center " aria-label="Fermer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
         </div>
-        <p class="text-[11px] text-padel-muted leading-snug">Pour sauvegarder : copie, puis colle le texte dans une note ou un mail à toi-même. Pour restaurer : colle ce texte dans la zone ci-dessous, puis appuie sur « Restaurer ».</p>
-        <button type="button" onclick="copyBackup()" class="w-full bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-bold py-2.5 rounded-xl shadow-lg transition text-xs">Copier ma sauvegarde</button>
-        <textarea id="backup-text" rows="5" placeholder="Colle ici une sauvegarde pour la restaurer..." class="w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none resize-none"></textarea>
-        <button type="button" id="btn-restore" onclick="restoreBackup()" class="w-full input-bg border border-padel-border text-padel-navy font-bold py-2.5 rounded-xl text-xs">Restaurer cette sauvegarde</button>
+        <div class="space-y-2">
+            <p class="text-[12px] font-bold text-padel-navy">Sauvegarder</p>
+            <p class="text-[11px] text-padel-muted leading-snug">Crée un fichier avec tous tes matchs et envoie-le-toi (WhatsApp, mail, Drive…).</p>
+            <button type="button" onclick="shareBackupFile()" class="w-full bg-padel-terracotta hover:bg-padel-terracottaHover text-white font-bold py-2.5 rounded-xl shadow-lg transition text-xs flex items-center justify-center gap-2"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/></svg><span>Envoyer ma sauvegarde</span></button>
+            <button type="button" onclick="copyBackup()" class="w-full input-bg border border-padel-border text-padel-navy font-bold py-2 rounded-xl text-xs">Copier le texte à la place</button>
+        </div>
+        <div class="space-y-2 border-t border-padel-border pt-3">
+            <p class="text-[12px] font-bold text-padel-navy">Restaurer</p>
+            <label class="w-full input-bg border border-padel-border text-padel-navy font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 12v6M9 15l3-3 3 3"/></svg><span>Choisir un fichier de sauvegarde</span><input type="file" id="backup-file-input" accept=".json,.txt,application/json,text/plain" class="pp-hidden" onchange="loadBackupFile(this)"></label>
+            <textarea id="backup-text" rows="3" placeholder="…ou colle ici le texte d'une sauvegarde" class="w-full box-border input-bg border border-padel-border rounded-xl p-2 text-xs text-padel-navy focus:outline-none"></textarea>
+            <button type="button" id="btn-restore" onclick="restoreBackup()" class="w-full input-bg border border-padel-border text-padel-navy font-bold py-2.5 rounded-xl text-xs">Restaurer cette sauvegarde</button>
+        </div>
         <p id="backup-status" class="text-[11px] font-semibold leading-snug"></p>
     </div>
 </div>
@@ -1009,6 +1017,7 @@
 <script src="js/16-joueurs.js"></script>
     <script src="js/17-style-terrain.js"></script>
     <script src="js/18-saisie-joueurs.js"></script>
+    <script src="js/19-sauvegarde-accueil.js"></script>
 <script src="js/99-demarrage.js"></script>
 </body>
 </html>
