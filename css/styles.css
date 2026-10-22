@@ -168,3 +168,25 @@ nav.tab-nav { padding-bottom: 0.625rem !important; bottom: calc(12px + env(safe-
 .icon-btn.gear-btn { width: 32px; height: 32px; border-radius: 10px; border: 1px solid #D9E3EE; background: #FFFFFF; }
 body.dark .icon-btn.gear-btn { border-color: #22385A; background: #13233A; }
 .icon-btn.gear-btn svg { width: 15px !important; height: 15px !important; }
+
+/* ===== v4.9 : saisie rapide des joueurs, niveau à vérifier ===== */
+.pp-hidden { display: none !important; }
+.pp-picker input { width: 100%; }
+.pp-clear { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 8px; display: none; align-items: center; justify-content: center; color: #52637A; background: transparent; }
+body.dark .pp-clear { color: #9DB0C8; }
+.pp-suggest { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 60; background: #FFFFFF; border: 1px solid #D9E3EE; border-radius: 14px; box-shadow: 0 12px 28px rgba(15, 35, 64, 0.18); overflow: hidden; }
+body.dark .pp-suggest { background: #13233A; border-color: #22385A; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5); }
+.pp-suggest-item { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; font-size: 13px; text-align: left; min-height: 44px; box-sizing: border-box; }
+.pp-suggest-item + .pp-suggest-item { border-top: 1px solid #EEF3F8; }
+body.dark .pp-suggest-item + .pp-suggest-item { border-top-color: #1C3556; }
+.pp-suggest-item:active { background: rgba(27, 79, 140, 0.08); }
+.pp-flag { color: #C2410C; display: inline-flex; align-items: center; }
+body.dark .pp-flag { color: #FDBA74; }
+.pp-warn { align-items: center; flex-wrap: wrap; gap: 4px; font-size: 11px; font-weight: 700; color: #9A3412; background: #FFEDD5; border: 1px solid #FED7AA; border-radius: 10px; padding: 5px 8px; margin-top: 4px; }
+body.dark .pp-warn { color: #FDBA74; background: #3A2410; border-color: #7C3A12; }
+.pp-switch { -webkit-appearance: none; appearance: none; width: 44px; height: 26px; border-radius: 13px; background: #CBD5E1; position: relative; cursor: pointer; flex-shrink: 0; transition: background .15s; border: none !important; }
+.pp-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 10px; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: left .15s; }
+.pp-switch:checked { background: #C2410C !important; }
+.pp-switch:checked::after { left: 21px; border: none; transform: none; width: 20px; height: 20px; top: 3px; }
+body.dark input.pp-switch { background: #334155; width: 44px; height: 26px; border-radius: 13px; }
+body.dark input.pp-switch:checked { background: #EA580C !important; }
