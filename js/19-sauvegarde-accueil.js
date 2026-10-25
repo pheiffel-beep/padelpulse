@@ -192,3 +192,93 @@ renderTagDropdownOptions = function(selectedTags) {
 toggleTagDropdown = function() {};
 window.renderTagDropdownOptions = renderTagDropdownOptions;
 window.toggleTagDropdown = toggleTagDropdown;
+
+// ===================== 4. Bilan joueurs : « Tous » montre les deux rôles =====================
+function ppPlayerBilan() {
+    const map = {};
+    const get = function(n) {
+        const k = n.toLowerCase();
+        if (!map[k]) map[k] = { name: ppFindPlayer(n) || n, p: { t: 0, w: 0, d: 0 }, o: { t: 0, w: 0, d: 0 } };
+        return map[k];
+    };
+    const count = function(rec, m) {
+        rec.t++;
+        if (m.result === 'VICTOIRE') rec.w++;
+        else if (m.result === 'MATCH NUL') rec.d++;
+    };
+    matches.forEach(function(m) {
+        const p = (m.partner || '').trim();
+        if (p && PP_GENERIC.indexOf(p.toLowerCase()) === -1) count(get(p).p, m);
+        ppOppNames(m).forEach(function(o) { if (PP_GENERIC.indexOf(o.toLowerCase()) === -1) count(get(o).o, m); });
+    });
+    return Object.values(map);
+}
+
+function ppBilanLine(icon, label, rec, isOpp) {
+    if (!rec.t) return '';
+    const rate = Math.round(rec.w / rec.t * 100);
+    let badge = 'text-emerald-600 bg-emerald-500/10 border-emerald-500/30';
+    if (rate < 50) badge = 'text-rose-500 bg-rose-500/10 border-rose-500/20';
+    else if (rate === 50) badge = 'text-slate-500 bg-slate-500/10 border-slate-500/30';
+    const l = rec.t - rec.w - rec.d;
+    const detail = rec.t + (isOpp ? ' affrontement' : ' match') + (rec.t > 1 ? 's' : '') + ' (' + rec.w + 'V - ' + (rec.d ? rec.d + 'N - ' : '') + l + 'D)';
+    return '<div class="flex items-center justify-between gap-2 mt-1">' +
+        '<span class="flex items-start gap-1 text-[12px] text-padel-muted min-w-0 leading-snug"><span class="shrink-0 pt-px">' + icon + '</span><span><span class="font-bold">' + label + '</span> <span>' + detail + '</span></span></span>' +
+        '<span class="text-[11px] font-bold ' + badge + ' px-2 py-0.5 rounded-full border shrink-0">' + rate + '% V</span></div>';
+}
+
+function ppRenderAllPlayers() {
+    const container = document.getElementById('partners-list');
+    if (!container) return;
+    const searchVal = (document.getElementById('player-search-input') ? document.getElementById('player-search-input').value : '').toLowerCase().trim();
+    let list = ppPlayerBilan().filter(function(it) { return !isPlayerHidden(it.name); });
+    if (playerFilterType === 'verify') list = list.filter(function(it) { return !!ppVerify(it.name); });
+    if (searchVal) list = list.filter(function(it) {
+        const info = ppInfo(it.name) || {};
+        return it.name.toLowerCase().indexOf(searchVal) !== -1 || (info.rank || '').toLowerCase().indexOf(searchVal) !== -1;
+    });
+    list.sort(function(a, b) { return (b.p.t + b.o.t) - (a.p.t + a.o.t) || a.name.localeCompare(b.name, 'fr'); });
+    if (!list.length) { container.innerHTML = '<p class="text-[11px] text-padel-muted text-center py-3">Aucun joueur enregistré</p>'; return; }
+    const shown = showAllPlayers ? list : list.slice(0, 3);
+    const hand = ppSvg(PP_ICON.handshake, 12), target = ppSvg(PP_ICON.target, 12);
+    let html = shown.map(function(it) {
+        const info = ppInfo(it.name) || { rank: 'P200', gender: 'M' };
+        const rank = info.rank || 'P200';
+        const dames = rank.endsWith('D') || info.gender === 'F';
+        const rankCls = dames ? 'bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border-pink-300 dark:border-pink-500/30' : 'input-bg text-padel-terracotta border-padel-terracotta/30';
+        const enc = encodeURIComponent(it.name).replace(/'/g, '%27');
+        const initials = it.name.split(' ').map(function(n) { return n[0] || ''; }).join('').substring(0, 2).toUpperCase();
+        return '<div onclick="openPlayerHistory(decodeURIComponent(\'' + enc + '\'))" class="input-bg p-2.5 rounded-xl border border-padel-border cursor-pointer active:scale-[0.99] transition">' +
+            '<div class="flex items-start gap-2.5 min-w-0">' +
+                '<div class="w-8 h-8 rounded-full card-bg border border-padel-border flex items-center justify-center font-bold text-xs text-padel-terracotta shrink-0">' + ppEsc(initials) + '</div>' +
+                '<div class="min-w-0 flex-1">' +
+                    '<div class="flex items-center gap-1.5 flex-wrap"><span class="font-extrabold text-xs text-padel-navy truncate">' + ppEsc(it.name) + '</span>' + ppFlag(it.name) +
+                    '<button onclick="event.stopPropagation();openEditPlayerModal(decodeURIComponent(\'' + enc + '\'))" title="Modifier" class="text-[11px] ' + rankCls + ' px-1.5 py-0.2 rounded font-bold border transition">' + rank + ' ' + ppSvg(PP_ICON.pencil, 11) + '</button></div>' +
+                    ppBilanLine(hand, 'Ensemble', it.p, false) +
+                    ppBilanLine(target, 'Contre', it.o, true) +
+                '</div>' +
+            '</div></div>';
+    }).join('');
+    if (list.length > 3) {
+        html += '<button onclick="toggleAllPlayers()" class="w-full py-1.5 card-bg hover:opacity-80 border border-padel-border rounded-xl text-[12px] text-padel-terracotta font-semibold transition flex items-center justify-center gap-1 mt-1">' +
+            '<span>' + (showAllPlayers ? 'Réduire' : 'Voir plus (' + (list.length - 3) + ' de plus)') + '</span></button>';
+    }
+    container.innerHTML = html;
+}
+
+const _prevRenderPlayersAll = renderPlayersStats;
+renderPlayersStats = function() {
+    if (playerFilterType === 'all' || playerFilterType === 'verify') {
+        ppSetupVerifyFilter();
+        const vb = document.getElementById('filter-btn-verify');
+        if (vb) {
+            const show = ppHasFlagged() || playerFilterType === 'verify';
+            vb.style.display = show ? '' : 'none';
+            if (!vb.className) vb.className = PP_FILTER_OFF;
+        }
+        ppRenderAllPlayers();
+    } else {
+        _prevRenderPlayersAll();
+    }
+};
+window.renderPlayersStats = renderPlayersStats;
