@@ -199,3 +199,6 @@ body.dark input.pp-switch:checked { background: #EA580C !important; }
 .pp-chip.is-on { background: rgba(27, 79, 140, 0.10); color: #1B4F8C; border-color: #1B4F8C; font-weight: 800; }
 body.dark .pp-chip { background: #0F1E33; color: #9DB0C8; border-color: #22385A; }
 body.dark .pp-chip.is-on { background: rgba(91, 149, 219, 0.16); color: #B5D2F5; border-color: #5B95DB; }
+
+/* iPhone : empêcher l'effet « élastique » qui fait glisser l'app sous la barre d'état */
+html, body { overscroll-behavior-y: none; }
