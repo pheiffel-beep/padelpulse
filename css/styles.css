@@ -201,7 +201,7 @@ body.dark .pp-chip { background: #0F1E33; color: #9DB0C8; border-color: #22385A;
 body.dark .pp-chip.is-on { background: rgba(91, 149, 219, 0.16); color: #B5D2F5; border-color: #5B95DB; }
 
 /* iPhone : empêcher l'effet « élastique » qui fait glisser l'app sous la barre d'état */
-html, body { overscroll-behavior-y: none; }
+@supports (-webkit-touch-callout: none) { html { overscroll-behavior-y: none; } }
 
 /* iPhone : le flou d'arrière-plan rendait le titre de l'en-tête flou. En-tête opaque, sans flou. */
 header.nav-bg { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; background-color: #EEF3F8 !important; }
