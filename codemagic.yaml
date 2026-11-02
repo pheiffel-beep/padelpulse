@@ -1,0 +1,67 @@
+# Compilation iOS de PadelPulse sur les Mac de Codemagic, avec envoi vers TestFlight.
+# Prérequis (à faire une fois, dans Codemagic) :
+#   1. relier ce dépôt GitHub à Codemagic ;
+#   2. ajouter une clé API App Store Connect dans Codemagic (Team settings > Integrations),
+#      avec le nom exact « codemagic_asc » ;
+#   3. créer la fiche de l'app dans App Store Connect (identifiant de bundle com.padelpulse.carnet).
+workflows:
+  ios-testflight:
+    name: PadelPulse iOS (TestFlight)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: codemagic_asc
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.padelpulse.carnet
+      vars:
+        BUNDLE_ID: com.padelpulse.carnet
+        APP_VERSION: "5.0.0"
+        XCODE_WORKSPACE: ios/App/App.xcworkspace
+        XCODE_SCHEME: App
+      node: 22
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events: []   # lancement manuel uniquement (bouton « Start new build »)
+    scripts:
+      - name: Installer les dépendances
+        script: npm install
+      - name: Préparer l'application web
+        script: npm run build
+      - name: Créer le projet iOS
+        script: |
+          if [ ! -d ios ]; then npx cap add ios; fi
+          npx cap sync ios
+      - name: Régler les paramètres iOS
+        script: bash scripts/prepare-ios.sh
+      - name: Installer les composants iOS (CocoaPods)
+        script: cd ios/App && pod install
+      - name: Récupérer les certificats de signature
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE --create
+          keychain initialize
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Numéro de build suivant
+        script: |
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" 2>/dev/null || echo 0)
+          echo "BUILD_NUMBER=$((LATEST + 1))" >> $CM_ENV
+        # APP_STORE_APPLE_ID : identifiant numérique de l'app, visible dans App Store Connect
+        # (à ajouter dans Codemagic > variables d'environnement une fois la fiche créée)
+      - name: Régler le numéro de build
+        script: bash scripts/prepare-ios.sh
+      - name: Construire le fichier IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
