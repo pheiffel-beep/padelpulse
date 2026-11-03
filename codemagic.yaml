@@ -1,0 +1,54 @@
+# PadelPulse - compilation iOS et envoi sur TestFlight
+workflows:
+  ios-testflight:
+    name: PadelPulse iOS - TestFlight
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: PadelPulse
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.padelpulse.carnet
+      vars:
+        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
+        XCODE_SCHEME: "App"
+      node: 22
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Preparer le dossier web
+        script: |
+          rm -rf www && mkdir www
+          cp -R index.html css js fonts *.js www/
+      - name: Installer les dependances
+        script: npm install
+      - name: Creer le projet iOS
+        script: |
+          if [ ! -d ios ]; then npx cap add ios; fi
+          npx cap sync ios
+      - name: Icone de l'app (si assets/icon.png existe)
+        script: |
+          if [ -f assets/icon.png ]; then npx @capacitor/assets generate --ios; fi
+      - name: Reglages Info.plist
+        script: |
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" ios/App/App/Info.plist || true
+      - name: Profils de signature
+        script: xcode-project use-profiles
+      - name: Numero de build
+        script: |
+          cd ios/App
+          agvtool new-version -all $BUILD_NUMBER
+      - name: Compiler l'IPA
+        script: |
+          if [ -d "$XCODE_WORKSPACE" ]; then
+            xcode-project build-ipa --workspace "$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
+          else
+            xcode-project build-ipa --project "ios/App/App.xcodeproj" --scheme "$XCODE_SCHEME"
+          fi
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
