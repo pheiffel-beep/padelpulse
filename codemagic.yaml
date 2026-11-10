@@ -33,6 +33,12 @@ workflows:
       - name: Reglages Info.plist
         script: |
           /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" ios/App/App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Delete :CFBundleLocalizations" ios/App/App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations array" ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations:0 string fr" ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations:1 string nl" ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c "Add :CFBundleLocalizations:2 string en" ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c "Print :CFBundleLocalizations" ios/App/App/Info.plist
       - name: iPhone uniquement (retire l'iPad)
         script: |
           sed -i '' 's/TARGETED_DEVICE_FAMILY = "1,2";/TARGETED_DEVICE_FAMILY = 1;/g' ios/App/App.xcodeproj/project.pbxproj
@@ -43,6 +49,7 @@ workflows:
         script: |
           cd ios/App
           agvtool new-version -all $BUILD_NUMBER
+          agvtool new-marketing-version 1.0.1
       - name: Compiler l'IPA
         script: |
           if [ -d "$XCODE_WORKSPACE" ]; then
