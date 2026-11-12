@@ -249,3 +249,11 @@ body.dark .pp-lp-chip.is-on { background: #C4552F; color: #FFFFFF; border-color:
 body.dark .pp-lp-tag { background: #3A2420; color: #F4A47F; border-color: #5A3328; }
 .pp-lp-help { width: 22px; height: 22px; border-radius: 11px; font-size: 12px; font-weight: 800; line-height: 1; display: inline-flex; align-items: center; justify-content: center; background: #E3ECF7; color: #1B4F8C; border: 1px solid #C9D8EA; flex-shrink: 0; }
 body.dark .pp-lp-help { background: #1C3556; color: #8DB8EE; border-color: #2A4A72; }
+
+/* v5.1 : score en un geste */
+.pp-score-chip { min-width: 52px; min-height: 36px; padding: 0 10px; border-radius: 10px; font-size: 14px; font-weight: 800; background: #F4F7FB; color: #1B4F8C; border: 1px solid #D9E3EE; }
+.pp-score-chip.is-on { background: #C4552F; color: #FFFFFF; border-color: #C4552F; }
+body.dark .pp-score-chip { background: #0F1E33; color: #B5D2F5; border-color: #22385A; }
+body.dark .pp-score-chip.is-on { background: #C4552F; color: #FFFFFF; border-color: #C4552F; }
+.pp-set-active { border-color: #1B4F8C !important; box-shadow: 0 0 0 1px #1B4F8C; }
+body.dark .pp-set-active { border-color: #5B95DB !important; box-shadow: 0 0 0 1px #5B95DB; }
