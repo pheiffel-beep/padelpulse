@@ -10,11 +10,44 @@
 (function () {
     const MODE_KEY = 'padelpulse_lostpoints_mode'; // 'defaite' (défaut) | 'tous' | 'jamais'
     const REASONS = [
-        { k: 'fautes', fr: 'Fautes directes', nl: 'Directe fouten' },
-        { k: 'facile', fr: 'Balles trop faciles', nl: 'Te makkelijke ballen' },
-        { k: 'filet', fr: 'Perte du filet', nl: 'Net verloren' },
-        { k: 'petitbras', fr: 'Coups « petit bras »', nl: 'Te voorzichtig gespeeld' }
+        { k: 'fautes', fr: 'Fautes directes', nl: 'Directe fouten',
+          dfr: 'Balle dans le filet ou dehors, sans pression adverse.', dnl: 'Bal in het net of uit, zonder druk van de tegenstander.' },
+        { k: 'facile', fr: 'Balles offertes', nl: 'Weggegeven ballen',
+          dfr: 'Lob court, balle haute au centre : l’adversaire attaque et gagne le point.', dnl: 'Korte lob, hoge bal in het midden: de tegenstander valt aan en wint het punt.' },
+        { k: 'filet', fr: 'Filet perdu', nl: 'Net verloren',
+          dfr: 'Repoussé au fond, on n’a pas su reprendre le filet.', dnl: 'Naar achteren gedrukt, het net niet kunnen terugnemen.' },
+        { k: 'petitbras', fr: 'Joué petit bras', nl: 'Te voorzichtig gespeeld',
+          dfr: 'Joué avec retenue, par peur de rater.', dnl: 'Ingehouden gespeeld, uit angst om te missen.' }
     ];
+    function helpBox() {
+        const box = document.createElement('div');
+        box.className = 'input-bg rounded-xl border border-padel-border p-2.5 text-left space-y-1';
+        box.style.display = 'none';
+        REASONS.forEach(function (r) {
+            const p = document.createElement('p');
+            p.className = 'text-[11px] text-padel-navy leading-snug';
+            const b = document.createElement('b');
+            b.textContent = ppL(r.fr, r.nl) + ' : ';
+            p.appendChild(b);
+            p.appendChild(document.createTextNode(ppL(r.dfr, r.dnl)));
+            box.appendChild(p);
+        });
+        return box;
+    }
+    function helpButton(box) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'pp-lp-help';
+        b.textContent = '?';
+        b.setAttribute('aria-label', ppL('Explications', 'Uitleg'));
+        b.setAttribute('aria-expanded', 'false');
+        b.onclick = function () {
+            const open = box.style.display === 'none';
+            box.style.display = open ? 'block' : 'none';
+            b.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+        return b;
+    }
     function label(k) {
         const r = REASONS.find(function (x) { return x.k === k; });
         return r ? ppL(r.fr, r.nl) : k;
@@ -62,13 +95,19 @@
         box = document.createElement('div');
         box.id = 'pp-lp-feedback';
         box.className = 'space-y-2 pt-1';
-        const q = document.createElement('p');
-        q.className = 'text-[12px] font-bold text-padel-navy';
-        q.textContent = ppL('Où as-tu perdu des points ?', 'Waar verloor je punten?');
+        const q = document.createElement('div');
+        q.className = 'flex items-center justify-center gap-1.5';
+        const qt = document.createElement('p');
+        qt.className = 'text-[12px] font-bold text-padel-navy';
+        qt.textContent = ppL('Où as-tu perdu des points ?', 'Waar verloor je punten?');
+        const help = helpBox();
+        q.appendChild(qt);
+        q.appendChild(helpButton(help));
         const hint = document.createElement('p');
         hint.className = 'text-[11px] text-padel-muted';
         hint.textContent = ppL('Facultatif · plusieurs choix possibles', 'Optioneel · meerdere keuzes mogelijk');
         box.appendChild(q);
+        box.appendChild(help);
         box.appendChild(hint);
         const sel = Array.isArray(match.lostPoints) ? match.lostPoints.slice() : [];
         box.appendChild(chipsRow(sel, function (k, on) {
@@ -120,10 +159,16 @@
         }
         box.style.display = 'block';
         box.innerHTML = '';
+        const head = document.createElement('div');
+        head.className = 'flex items-center gap-1.5';
         const l = document.createElement('label');
         l.className = 'block text-[11px] font-semibold text-padel-muted';
         l.textContent = ppL('Où as-tu perdu des points ? (Optionnel)', 'Waar verloor je punten? (Optioneel)');
-        box.appendChild(l);
+        const help = helpBox();
+        head.appendChild(l);
+        head.appendChild(helpButton(help));
+        box.appendChild(head);
+        box.appendChild(help);
         const row = chipsRow(editSel, function (k, on) {
             editSel = on ? editSel.concat(editSel.indexOf(k) === -1 ? [k] : []) : editSel.filter(function (x) { return x !== k; });
         });

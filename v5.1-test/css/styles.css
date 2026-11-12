@@ -247,3 +247,5 @@ body.dark .pp-lp-chip { background: #0F1E33; color: #B5D2F5; border-color: #2238
 body.dark .pp-lp-chip.is-on { background: #C4552F; color: #FFFFFF; border-color: #C4552F; }
 .pp-lp-tag { display: inline-flex; padding: 1px 8px; border-radius: 999px; font-weight: 600; background: #FBE7DF; color: #B4472A; border: 1px solid #F3CBB9; }
 body.dark .pp-lp-tag { background: #3A2420; color: #F4A47F; border-color: #5A3328; }
+.pp-lp-help { width: 22px; height: 22px; border-radius: 11px; font-size: 12px; font-weight: 800; line-height: 1; display: inline-flex; align-items: center; justify-content: center; background: #E3ECF7; color: #1B4F8C; border: 1px solid #C9D8EA; flex-shrink: 0; }
+body.dark .pp-lp-help { background: #1C3556; color: #8DB8EE; border-color: #2A4A72; }
