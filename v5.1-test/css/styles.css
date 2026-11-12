@@ -257,3 +257,12 @@ body.dark .pp-score-chip { background: #0F1E33; color: #B5D2F5; border-color: #2
 body.dark .pp-score-chip.is-on { background: #C4552F; color: #FFFFFF; border-color: #C4552F; }
 .pp-set-active { border-color: #1B4F8C !important; box-shadow: 0 0 0 1px #1B4F8C; }
 body.dark .pp-set-active { border-color: #5B95DB !important; box-shadow: 0 0 0 1px #5B95DB; }
+
+/* v5.1 : Conseils */
+.pp-tip-status { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid transparent; }
+.pp-tip-status.is-todo { background: #FBE7DF; color: #B4472A; border-color: #F3CBB9; }
+.pp-tip-status.is-doing { background: #E3ECF7; color: #1B4F8C; border-color: #C9D8EA; }
+.pp-tip-status.is-done { background: #DCF2E6; color: #1E7A4C; border-color: #BFE3CF; }
+body.dark .pp-tip-status.is-todo { background: #3A2420; color: #F4A47F; border-color: #5A3328; }
+body.dark .pp-tip-status.is-doing { background: #1C3556; color: #8DB8EE; border-color: #2A4A72; }
+body.dark .pp-tip-status.is-done { background: #12352A; color: #7FD4A8; border-color: #1E5240; }
