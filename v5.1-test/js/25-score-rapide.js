@@ -4,14 +4,13 @@
  * - Toucher une pastille remplit le set actif (surligné), puis passe au set suivant
  *   (le set 2, et le set 3 s'il y a un set partout, s'affichent tout seuls).
  * - Les listes déroulantes restent là : saisie manuelle toujours possible (tie-break, score rare).
- * - Pastilles adaptées au format : sets en 6 jeux, en 9 jeux, super tie-break en compétition.
- *   Rien en « Partie libre ».
+ * - Pastilles adaptées au format : sets en 6 jeux ou en 9 jeux.
+ *   Rien en « Partie libre » ni pour le super tie-break (listes déroulantes, comme avant).
  */
 (function () {
     const CHIPS = {
         six: [[6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [7, 5], [7, 6]],
-        nine: [[9, 0], [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7], [9, 8]],
-        stb: [[10, 4], [10, 5], [10, 6], [10, 7], [10, 8], [11, 9], [12, 10]]
+        nine: [[9, 0], [9, 1], [9, 2], [9, 3], [9, 4], [9, 5], [9, 6], [9, 7], [9, 8]]
     };
     let active = 1;
     let won = true;
@@ -19,7 +18,7 @@
     function chipsFor(setNum) {
         if (currentFormat === '21pts') return null;
         if (currentFormat === '9sets') return CHIPS.nine;
-        if (currentFormat === '6sets_comp' && setNum === 3) return CHIPS.stb;
+        if (currentFormat === '6sets_comp' && setNum === 3) return null; // super tie-break : saisie avec les listes
         return CHIPS.six;
     }
     function rowVisible(n) {
@@ -137,9 +136,9 @@
             if (w[0] === 1 && w[1] === 1) {
                 if (!rowVisible(3)) showRow(3);
                 active = 3;
-                won = true;
             }
         }
+        won = true; // le bouton revient toujours sur « Gagné »
         render();
     }
 
