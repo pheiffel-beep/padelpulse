@@ -450,7 +450,7 @@
         const racketUsed = document.getElementById('match-racket-select')?.value || 'main';
         const comments = document.getElementById('match-comments')?.value.trim() || '';
         const selectedTags = getSelectedTags();
-        const tagsList = selectedTags.length > 0 ? selectedTags : ['Construction'];
+        const tagsList = selectedTags; // v5.1 : plus de tag « Construction » ajouté d'office
 
         let scoreStr = '';
         let usSetsWon = 0;

@@ -123,7 +123,10 @@
         if (!su || !st) return;
         su.value = String(us);
         st.value = String(them);
+        const box = document.getElementById('modal-match-content');
+        const keep = box ? box.scrollTop : 0;
         checkTieBreakVisibility(n);
+        setTimeout(function () { if (box) box.scrollTop = keep; }, 70);
 
         // Set suivant
         if (n === 1) {
@@ -147,7 +150,14 @@
     window.setFormat = setFormat;
 
     const _prevOpenEdit = openEditMatchModal;
-    openEditMatchModal = function () { const r = _prevOpenEdit.apply(this, arguments); resetQuick(); return r; };
+    // v5.1 : la fenêtre « Modifier » s'ouvre en haut (avant : le tie-break la faisait descendre en bas)
+    openEditMatchModal = function () {
+        const r = _prevOpenEdit.apply(this, arguments);
+        resetQuick();
+        const box = document.getElementById('modal-match-content');
+        if (box) { box.scrollTop = 0; setTimeout(function () { box.scrollTop = 0; }, 80); }
+        return r;
+    };
     window.openEditMatchModal = openEditMatchModal;
 
     const _prevOpen = openMatchModal;
