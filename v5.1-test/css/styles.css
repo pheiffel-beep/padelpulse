@@ -239,3 +239,11 @@ body.dark .pp-keep.is-on .pp-radio { border-color: #5B95DB; }
 .pp-backup-tip { border-radius: 14px; padding: 10px 12px; background: #ECF3FB; color: #1B4F8C; border: 1px solid #C9DCF1; }
 .pp-backup-tip > * + * { margin-top: 3px; }
 body.dark .pp-backup-tip { background: #10243D; color: #B5D2F5; border-color: #22385A; }
+
+/* v5.1 : « Où as-tu perdu des points ? » */
+.pp-lp-chip { min-height: 34px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #F4F7FB; color: #1B4F8C; border: 1px solid #D9E3EE; }
+.pp-lp-chip.is-on { background: #C4552F; color: #FFFFFF; border-color: #C4552F; }
+body.dark .pp-lp-chip { background: #0F1E33; color: #B5D2F5; border-color: #22385A; }
+body.dark .pp-lp-chip.is-on { background: #C4552F; color: #FFFFFF; border-color: #C4552F; }
+.pp-lp-tag { display: inline-flex; padding: 1px 8px; border-radius: 999px; font-weight: 600; background: #FBE7DF; color: #B4472A; border: 1px solid #F3CBB9; }
+body.dark .pp-lp-tag { background: #3A2420; color: #F4A47F; border-color: #5A3328; }
