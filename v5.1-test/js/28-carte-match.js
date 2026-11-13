@@ -211,7 +211,7 @@
         if (!current) return;
         const canvas = document.getElementById('pp-share-canvas');
         draw(canvas, current);
-        const text = ppL('Match noté avec PadelPulse : padelpulse.app', 'Match bijgehouden met PadelPulse: padelpulse.app');
+        const text = ppL('Match noté avec PadelPulse 👉 https://padelpulse.app', 'Match bijgehouden met PadelPulse 👉 https://padelpulse.app');
         msg('');
         try {
             if (ppIsNative() && ppHasPlugin('Filesystem') && ppHasPlugin('Share')) {
