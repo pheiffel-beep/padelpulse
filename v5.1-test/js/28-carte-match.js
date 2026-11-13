@@ -26,7 +26,8 @@
     function myName() { try { return (localStorage.getItem(NAME_KEY) || '').trim(); } catch (e) { return ''; } }
     function setMyName(v) { try { localStorage.setItem(NAME_KEY, (v || '').trim()); } catch (e) {} }
     function realName(n) { n = (n || '').trim(); return n && !GENERIC.test(n) ? n : ''; }
-    function first(n) { return n; }
+    // Sur l'image partagée : prénom seulement (discrétion + lisibilité). Les données de l'app ne changent pas.
+    function first(n) { n = (n || '').trim(); return n ? n.split(/\s+/)[0] : ''; }
 
     function prettyDate(fr) {
         const p = (fr || '').split('/');
@@ -55,11 +56,11 @@
 
     function teamUs(m) {
         const me = myName() || ppL('Moi', 'Ik');
-        const p = realName(m.partner);
+        const p = first(realName(m.partner));
         return p ? me + ' & ' + p : me;
     }
     function teamThem(m) {
-        const parts = String(m.opponents || '').split('&').map(realName).filter(Boolean);
+        const parts = String(m.opponents || '').split('&').map(function (x) { return first(realName(x)); }).filter(Boolean);
         return parts.length ? parts.join(' & ') : ppL('Adversaires', 'Tegenstanders');
     }
 
