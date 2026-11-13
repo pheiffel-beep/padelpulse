@@ -96,66 +96,78 @@
     function draw(canvas, m) {
         canvas.width = W; canvas.height = H;
         const ctx = canvas.getContext('2d');
-        const P = 72;
-        ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+        const T = { bg: '#1B4F8C', bg2: '#163F70', line: 'rgba(255,255,255,0.16)', accent: '#FFB79A', panel: '#FFFFFF',
+                    ink: '#0F2340', dim: '#8FA6C4', box: '#1B4F8C', pill: '#C4552F', logo: '#C4552F' };
+        const X = 100, R = W - 100;              // marges intérieures (le cadre du terrain est à 60 px)
         ctx.textBaseline = 'alphabetic';
 
+        // Fond : terrain de padel vu du dessus
+        ctx.fillStyle = T.bg; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = T.bg2; ctx.fillRect(0, H / 2, W, H / 2);
+        ctx.strokeStyle = T.line; ctx.lineWidth = 6;
+        ctx.strokeRect(60, 60, W - 120, H - 120);
+        ctx.beginPath(); ctx.moveTo(60, H / 2); ctx.lineTo(W - 60, H / 2); ctx.stroke();
+        ctx.lineWidth = 4;
+        [H / 2 - 360, H / 2 + 360].forEach(function (y) { ctx.beginPath(); ctx.moveTo(60, y); ctx.lineTo(W - 60, y); ctx.stroke(); });
+        ctx.beginPath(); ctx.moveTo(W / 2, H / 2 - 360); ctx.lineTo(W / 2, H / 2 + 360); ctx.stroke();
+
         // En-tête : logo + date
-        ctx.fillStyle = C.logo; roundRect(ctx, P, P, 72, 72, 18); ctx.fill();
-        ctx.fillStyle = C.white; ctx.font = '800 56px ' + FB; ctx.textAlign = 'center'; ctx.fillText('P', P + 36, P + 56);
-        ctx.textAlign = 'left'; ctx.font = '800 46px ' + FB; ctx.fillText('PadelPulse', P + 90, P + 52);
-        ctx.textAlign = 'right'; ctx.fillStyle = C.soft; ctx.font = '600 28px ' + FM; ctx.fillText(prettyDate(m.date), W - P, P + 48);
+        ctx.fillStyle = T.logo; roundRect(ctx, X, 100, 76, 76, 20); ctx.fill();
+        ctx.fillStyle = '#FFFFFF'; ctx.font = '800 58px ' + FB; ctx.textAlign = 'center'; ctx.fillText('P', X + 38, 160);
+        ctx.textAlign = 'left'; ctx.font = '800 48px ' + FB; ctx.fillText('PadelPulse', X + 96, 156);
+        ctx.textAlign = 'right'; ctx.font = '700 30px ' + FM; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillText(prettyDate(m.date), R, 150);
 
         // Résultat + club
-        const res = m.result === 'VICTOIRE' ? ppL('VICTOIRE', 'OVERWINNING') : m.result === 'DÉFAITE' ? ppL('DÉFAITE', 'NEDERLAAG') : ppL('MATCH NUL', 'GELIJKSPEL');
-        ctx.textAlign = 'left'; ctx.fillStyle = C.terra; ctx.font = '700 46px ' + FB;
-        if (ctx.letterSpacing !== undefined) ctx.letterSpacing = '4px';
-        ctx.fillText(res, P, 268);
-        if (ctx.letterSpacing !== undefined) ctx.letterSpacing = '0px';
-        let y = 268;
+        const won = m.result === 'VICTOIRE', lost = m.result === 'DÉFAITE';
+        const title = won ? ppL('VICTOIRE !', 'GEWONNEN!') : lost ? ppL('DÉFAITE', 'VERLOREN') : ppL('MATCH NUL', 'GELIJKSPEL');
+        ctx.textAlign = 'left'; ctx.fillStyle = '#FFFFFF';
+        ctx.fillText(fit(ctx, title, FB, 150, R - X, 800), X, 360);
         if (m.location) {
-            y += 54;
-            ctx.fillStyle = C.soft;
-            ctx.fillText(fit(ctx, m.location, FM, 34, W - 2 * P, 600), P, y);
+            ctx.fillStyle = T.accent;
+            ctx.fillText(fit(ctx, '📍 ' + m.location, FM, 36, R - X, 700), X, 420);
         }
 
-        // Tableau des scores
+        // Panneau des scores
         const sets = parseSets(m.score);
-        const top = y + 70, rowH = 210;
-        const cellW = sets.length > 3 ? 110 : 130;
-        const scoresW = cellW * Math.max(1, sets.length);
-        const won = m.result === 'VICTOIRE', lost = m.result === 'DÉFAITE';
-        ctx.strokeStyle = C.line; ctx.lineWidth = 2;
-        [top, top + rowH, top + 2 * rowH].forEach(function (yy) { ctx.beginPath(); ctx.moveTo(P, yy); ctx.lineTo(W - P, yy); ctx.stroke(); });
-        [[teamUs(m), 0, !lost], [teamThem(m), 1, lost]].forEach(function (r) {
-            const cy = top + r[1] * rowH + rowH / 2;
+        const px = X, py = 480, pw = R - X, ph = 420;
+        ctx.fillStyle = T.panel; roundRect(ctx, px, py, pw, ph, 36); ctx.fill();
+        ctx.strokeStyle = 'rgba(15,35,64,0.12)'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(px + 50, py + ph / 2); ctx.lineTo(px + pw - 50, py + ph / 2); ctx.stroke();
+        const twoDigits = sets.some(function (s) { return s[0] > 9 || s[1] > 9; });
+        const cell = twoDigits ? 150 : 120, boxW = twoDigits ? 136 : 100;
+        const scoresW = cell * Math.max(1, sets.length);
+        [[teamUs(m), 0, won], [teamThem(m), 1, lost]].forEach(function (r) {
+            const cy = py + 110 + r[1] * 200;
             const strong = r[2];
-            ctx.fillStyle = strong ? C.white : C.dim;
+            const label = (strong ? '🏆 ' : '') + r[0];
             ctx.textAlign = 'left';
-            ctx.fillText(fit(ctx, r[0], FM, 44, W - 2 * P - scoresW - 30, 700), P, cy + 15);
-            sets.forEach(function (s, i) {
+            ctx.fillStyle = strong ? T.ink : '#7D8CA3';
+            ctx.fillText(fit(ctx, label, FM, 46, pw - 100 - scoresW - 20, strong ? 800 : 700), px + 50, cy + 16);
+            sets.forEach(function (s, k) {
                 const v = s[r[1]], o = s[1 - r[1]];
-                ctx.fillStyle = v > o ? C.white : C.dim;
-                ctx.font = '800 120px ' + FB; ctx.textAlign = 'center';
-                ctx.fillText(String(v), W - P - scoresW + cellW * i + cellW / 2, cy + 42);
+                const cx = px + pw - 50 - (sets.length - k) * cell + cell / 2;
+                if (v > o) { ctx.fillStyle = T.box; roundRect(ctx, cx - boxW / 2, cy - 70, boxW, 120, 20); ctx.fill(); ctx.fillStyle = '#FFFFFF'; }
+                else ctx.fillStyle = '#9AA8BC';
+                ctx.font = '800 100px ' + FB; ctx.textAlign = 'center';
+                ctx.fillText(String(v), cx, cy + 32);
             });
         });
 
         // Série de victoires
         const st = winStreak(m);
         if (st >= 2) {
-            const t = streakText(st);
-            ctx.font = '800 30px ' + FM;
-            const w = ctx.measureText(t).width + 64;
-            const py = top + 2 * rowH + 44;
-            ctx.fillStyle = C.terraFill; roundRect(ctx, P, py, w, 66, 33); ctx.fill();
-            ctx.fillStyle = C.bg; ctx.textAlign = 'left'; ctx.fillText(t, P + 32, py + 44);
+            const t = '🔥 ' + streakText(st);
+            ctx.font = '800 36px ' + FM;
+            const tw = ctx.measureText(t).width + 72;
+            ctx.fillStyle = T.pill; roundRect(ctx, X, 950, tw, 80, 40); ctx.fill();
+            ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'left'; ctx.fillText(t, X + 36, 1004);
         }
 
-        // Pied de carte
-        ctx.textAlign = 'left'; ctx.fillStyle = C.terra; ctx.font = '800 54px ' + FB; ctx.fillText('padelpulse.app', P, H - 64);
-        ctx.textAlign = 'right'; ctx.fillStyle = C.dim; ctx.font = '600 26px ' + FM;
-        ctx.fillText(ppL('Match noté avec PadelPulse', 'Match bijgehouden met PadelPulse'), W - P, H - 74);
+        // Pied de carte : bien à l'intérieur du cadre (dernière zone du terrain : 1035 → 1290)
+        ctx.textAlign = 'left'; ctx.fillStyle = T.accent;
+        ctx.font = '800 58px ' + FB; ctx.fillText('padelpulse.app', X, 1190);
+        ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        ctx.font = '700 28px ' + FM; ctx.fillText(ppL('Match noté avec PadelPulse', 'Match bijgehouden met PadelPulse'), R, 1180);
     }
 
     // ----- Aperçu -----
