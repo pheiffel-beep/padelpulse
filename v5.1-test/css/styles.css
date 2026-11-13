@@ -266,3 +266,11 @@ body.dark .pp-set-active { border-color: #5B95DB !important; box-shadow: 0 0 0 1
 body.dark .pp-tip-status.is-todo { background: #3A2420; color: #F4A47F; border-color: #5A3328; }
 body.dark .pp-tip-status.is-doing { background: #1C3556; color: #8DB8EE; border-color: #2A4A72; }
 body.dark .pp-tip-status.is-done { background: #12352A; color: #7FD4A8; border-color: #1E5240; }
+
+/* v5.1 : fiche joueur enrichie */
+.pp-sheet-block { padding: 12px; border-radius: 16px; border: 1px solid #D9E3EE; background: #FFFFFF; }
+body.dark .pp-sheet-block { border-color: #22385A; background: #0F1E33; }
+.pp-sheet-block.pp-why { border-color: #F3CBB9; background: #FFF7F3; }
+body.dark .pp-sheet-block.pp-why { border-color: #5A3328; background: #2A1B18; }
+.pp-bar { height: 6px; border-radius: 3px; background: rgba(27,79,140,0.12); overflow: hidden; }
+.pp-bar span { display: block; height: 100%; border-radius: 3px; background: #C4552F; }
