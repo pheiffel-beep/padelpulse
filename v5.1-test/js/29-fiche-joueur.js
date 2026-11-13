@@ -2,8 +2,8 @@
  *
  * La fiche existante (Bilan joueurs → toucher un joueur) montrait les matchs « Ensemble » et « Contre ».
  * On ajoute, au-dessus :
- * 1. « Commentaires des matchs » : tous les commentaires des matchs avec ou contre lui, d'un coup (retour de Lala).
- * 2. « Pourquoi je perds contre lui » : sur les défaites contre lui, les points perdus notés
+ * 1. « Commentaires des matchs » : tous les commentaires des matchs avec ou contre lui/elle, d'un coup (retour de Lala).
+ * 2. « Pourquoi je perds contre lui/elle » : sur les défaites contre ce joueur, les points perdus notés
  *    (« Où as-tu perdu des points ? »), les tags les plus fréquents et ses partenaires contre toi.
  * 3. « Ses conseils » : les conseils dont il est l'auteur.
  * Tout est calculé dans l'app, hors ligne.
@@ -13,6 +13,14 @@
     let showAllComments = false;
     let lastName = null;
 
+    // Genre du joueur, d'après sa fiche (Dames : genre F ou classement en D, ex. P400D)
+    let fem = false;
+    function isFemale(name) {
+        const info = (typeof playersDatabase !== 'undefined' && playersDatabase[name]) || {};
+        return info.gender === 'F' || /D$/i.test(info.rank || '');
+    }
+    function him() { return fem ? ppL('elle', 'haar') : ppL('lui', 'hem'); }
+    function his() { return fem ? ppL('Ses', 'Haar') : ppL('Ses', 'Zijn'); }
     function esc(s) { return ppEsc(String(s == null ? '' : s)); }
     function dateKey(m) {
         if (m.timestamp) return m.timestamp;
@@ -47,7 +55,7 @@
         const shown = showAllComments ? all : all.slice(0, SHOW_COMMENTS);
         let html = '<div class="space-y-1.5">' + shown.map(function (x) {
             const m = x[0];
-            const ctx = x[1] ? ppL('avec lui', 'met hem') : ppL('contre lui', 'tegen hem');
+            const ctx = x[1] ? ppL('avec ', 'met ') + him() : ppL('contre ', 'tegen ') + him();
             return '<div class="input-bg rounded-xl border border-padel-border p-2.5 space-y-1">' +
                 '<div class="flex items-center gap-2">' + badge(m) +
                 '<span class="text-[11px] text-padel-muted truncate">' + esc(matchDayStr(m)) + ' · ' + ctx + ' · ' + esc(m.score || '') + '</span></div>' +
@@ -64,8 +72,8 @@
         const lost = againstList.filter(function (m) { return m.result === 'DÉFAITE'; });
         if (!lost.length) return '';
         const head = '<p class="text-[13px] text-padel-navy font-bold mb-2">' +
-            ppL(lost.length + ' défaite' + (lost.length > 1 ? 's' : '') + ' sur ' + againstList.length + ' match' + (againstList.length > 1 ? 's' : '') + ' contre lui',
-                lost.length + ' ' + (lost.length > 1 ? 'nederlagen' : 'nederlaag') + ' op ' + againstList.length + ' ' + (againstList.length > 1 ? 'matchen' : 'match') + ' tegen hem') + '</p>';
+            ppL(lost.length + ' défaite' + (lost.length > 1 ? 's' : '') + ' sur ' + againstList.length + ' match' + (againstList.length > 1 ? 's' : '') + ' contre ' + him(),
+                lost.length + ' ' + (lost.length > 1 ? 'nederlagen' : 'nederlaag') + ' op ' + againstList.length + ' ' + (againstList.length > 1 ? 'matchen' : 'match') + ' tegen ' + him()) + '</p>';
         let inner = head;
 
         const lp = {};
@@ -82,8 +90,8 @@
                 '<div class="space-y-1.5 mb-2.5">' + bars(countsList(lp), withLp, function (k) { return window.ppLostLabel ? ppLostLabel(k) : k; }) + '</div>';
         } else {
             inner += '<p class="text-[12px] text-padel-muted mb-2.5 leading-snug">' + ppL(
-                'Réponds à « Où as-tu perdu des points ? » après tes défaites : cet encadré te montrera ce qui revient contre lui.',
-                'Beantwoord « Waar verloor je punten? » na je nederlagen: dit vak toont dan wat tegen hem terugkomt.') + '</p>';
+                'Réponds à « Où as-tu perdu des points ? » après tes défaites : cet encadré te montrera ce qui revient contre ' + him() + '.',
+                'Beantwoord « Waar verloor je punten? » na je nederlagen: dit vak toont dan wat tegen ' + him() + ' terugkomt.') + '</p>';
         }
 
         const tags = {};
@@ -108,13 +116,13 @@
         });
         const pairList = Object.keys(pairs).sort(function (a, b) { return pairs[b].length - pairs[a].length; }).slice(0, 4);
         if (pairList.length) {
-            inner += '<p class="text-[11px] font-semibold text-padel-muted mb-1">' + ppL('Ses partenaires contre toi', 'Zijn partners tegen jou') + '</p>' +
+            inner += '<p class="text-[11px] font-semibold text-padel-muted mb-1">' + (his() + ppL(' partenaires contre toi', ' partners tegen jou')) + '</p>' +
                 '<div class="space-y-1">' + pairList.map(function (p) {
                     return '<div class="flex justify-between gap-2 text-[12px]"><span class="text-padel-navy font-semibold truncate">' + esc(name) + ' & ' + esc(p) + '</span>' +
                         '<span class="text-padel-muted font-bold shrink-0">' + esc(summaryText(pairs[p])) + '</span></div>';
                 }).join('') + '</div>';
         }
-        return block(ppL('Pourquoi je perds contre lui', 'Waarom ik van hem verlies'), inner, 'pp-why');
+        return block(ppL('Pourquoi je perds contre ', 'Waarom ik verlies van ') + him(), inner, 'pp-why');
     }
 
     function tipsBlock(name) {
@@ -129,7 +137,7 @@
                 '<span class="text-[11px] text-padel-muted">' + esc(t.date) + '</span></div>' +
                 '<p class="text-[13px] text-padel-navy leading-snug break-words">' + esc(t.text) + '</p></div>';
         }).join('') + '</div>';
-        return block(ppL('Ses conseils', 'Zijn tips') + ' (' + tips.length + ')', html);
+        return block(his() + ppL(' conseils', ' tips') + ' (' + tips.length + ')', html);
     }
 
     const _prevRender = renderPlayerHistory;
@@ -137,6 +145,7 @@
         _prevRender.apply(this, arguments);
         if (!openPlayerName) return;
         if (lastName !== openPlayerName) { showAllComments = false; lastName = openPlayerName; }
+        fem = isFemale(openPlayerName);
         const key = normName(openPlayerName);
         const withList = matches.filter(function (m) { return normName(m.partner) === key; });
         const againstList = matches.filter(function (m) { return oppNamesOf(m).some(function (o) { return normName(o) === key; }); });
