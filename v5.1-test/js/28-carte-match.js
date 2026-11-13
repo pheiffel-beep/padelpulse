@@ -1,7 +1,7 @@
 /* PadelPulse v5.1 : carte de match à partager (WhatsApp…)
  *
  * - Image 1080 × 1350 dessinée dans l'app (hors ligne), d'après la maquette validée :
- *   date, Victoire/Défaite, club, tableau des scores par set, série de victoires,
+ *   date, Victoire/Défaite, club, tableau des scores par set (sans commentaire),
  *   pied de carte « padelpulse.app · Match noté avec PadelPulse ».
  * - Aperçu avant envoi, avec le prénom à afficher (mémorisé), puis partage du téléphone.
  * - Accès : bouton « Partager » dans la fenêtre après un match et sur chaque carte de match.
@@ -153,15 +153,7 @@
             });
         });
 
-        // Série de victoires
-        const st = winStreak(m);
-        if (st >= 2) {
-            const t = '🔥 ' + streakText(st);
-            ctx.font = '800 36px ' + FM;
-            const tw = ctx.measureText(t).width + 72;
-            ctx.fillStyle = T.pill; roundRect(ctx, X, 950, tw, 80, 40); ctx.fill();
-            ctx.fillStyle = '#FFFFFF'; ctx.textAlign = 'left'; ctx.fillText(t, X + 36, 1004);
-        }
+        // (pas de commentaire sur la carte, à la demande de Phil : ni série de victoires, ni autre mention)
 
         // Pied de carte : bien à l'intérieur du cadre (dernière zone du terrain : 1035 → 1290)
         ctx.textAlign = 'left'; ctx.fillStyle = T.accent;
